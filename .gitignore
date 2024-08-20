@@ -1,1 +1,4 @@
-/.metadata/
+/.metadata
+/bsm-backend\src\main\resources.properties
+/
+
