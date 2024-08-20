@@ -8,6 +8,7 @@ public class BsmBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BsmBackendApplication.class, args);
+		System.out.println("Server Up and Running!!!");
 	}
 
 }
