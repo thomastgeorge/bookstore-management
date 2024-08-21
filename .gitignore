@@ -1,5 +1,7 @@
 /.metadata
 /bsm-backend/src/main/resources/application.properties
+/bsm-frontend/node_modules
+bsm-frontend/.env
 /
 
 
