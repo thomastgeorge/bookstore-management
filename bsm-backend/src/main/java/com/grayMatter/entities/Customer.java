@@ -30,7 +30,7 @@ public class Customer {
 	private String mobile;
 	private Date registeredOn;
 	
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="addressId",referencedColumnName = "addressId")
 	private Address address;
 	
@@ -43,5 +43,8 @@ public class Customer {
 	
 	@OneToMany(mappedBy = "reviewId", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Review> review;
+	
+	@OneToMany(mappedBy = "cartId", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<Cart> cart;
 
 }
