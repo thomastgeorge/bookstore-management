@@ -17,16 +17,6 @@ const books = [
   { title: 'Book 8', img: '/book/book8.jpg' },
 ];
 
-const Arrow = ({ className, style, onClick, direction }) => (
-  <div
-    className={className}
-    style={{ ...style, display: 'block', background: 'transparent', border: 'none', zIndex: 1 }}
-    onClick={onClick}
-  >
-    {direction === 'left' ? <FaChevronLeft size={30} /> : <FaChevronRight size={30} />}
-  </div>
-);
-
 const settings = {
   dots: false,
   infinite: false, // Disable infinite looping
@@ -53,7 +43,7 @@ const settings = {
   ],
 };
 
-const HomePage = () => {
+const Home = () => {
   // Create separate refs for each slider
   const newArrivalsRef = useRef(null);
   const bestSellingRef = useRef(null);
@@ -73,7 +63,7 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div style={{ overflowX: 'hidden' }}>
       <Row>
         <Col xs={12}>
           <div style={{ position: 'relative' }}>
@@ -91,7 +81,7 @@ const HomePage = () => {
       </Row>
 
       <Container>
-        <Row className='my-4'>
+        <Row className='my-3'>
           <Col xs={12} className='d-flex justify-content-between align-items-center'>
             <h3>New Arrivals</h3>
             <Button
@@ -317,4 +307,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;
