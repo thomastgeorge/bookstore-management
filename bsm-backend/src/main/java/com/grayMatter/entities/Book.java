@@ -33,6 +33,8 @@ public class Book {
 	private double price;
 	private Date publishedDate;
 	private Date lastUpdatedDate;
+	private float avgRating;
+	private String cover;
 	private Boolean available;	//false for not-available, true for available
 	
 	@ManyToOne
