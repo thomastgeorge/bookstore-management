@@ -7,8 +7,8 @@ const NavBar = () => {
   const nav = useNavigate();
 
   return (
-    <div style={{ overflowX: 'hidden' }}>
-      <Navbar bg="light" expand="md" className="py-3">
+    <div >
+      <Navbar bg="light" expand="md" className="py-2">
         <div className="container-fluid mx-3">
           {/* Logo */}
           <Navbar.Brand
@@ -68,7 +68,7 @@ const NavBar = () => {
               <Nav className="d-flex align-items-center justify-content-center flex-column flex-md-row">
                 <Button
                   onClick={() => nav('/login')}
-                  variant="warning"
+                  variant="success"
                   className="text-white mx-3 px-4 my-2 my-md-0"
                 >
                   Login

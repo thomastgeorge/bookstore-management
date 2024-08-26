@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserRoutes from '../UserRoutes/UserRoutes'
-// import Login from '../../Pages/Auth/Login/Login'
-// import Signup from '../../Pages/Auth/Signup/Signup'
+import Login from '../../Pages/Auth/Login/Login'
+import Signup from '../../Pages/Auth/Signup/Signup'
 
 const AppRoutes = () => {
     return (
@@ -11,6 +11,8 @@ const AppRoutes = () => {
 
                 <Routes>
                     <Route path="/*" element={<UserRoutes />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
                 </Routes>
 
                 // user ?
