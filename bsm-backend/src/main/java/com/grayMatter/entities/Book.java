@@ -42,4 +42,6 @@ public class Book {
 	@OneToMany(mappedBy = "reviewId", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Review> review;
 
+	
+
 }
