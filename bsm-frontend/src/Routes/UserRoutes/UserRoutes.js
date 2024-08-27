@@ -14,12 +14,13 @@ const UserRoutes = () => {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/our-story" element={<OurStory />} />
-        <Route path="/account/orders" element={<Orders />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/account/cart" element={<Cart />} />
-        <Route path="/login" element={<LoginSignup/>} />
+        <Route path="/" element={<Home/>} />
+        <Route path="/our-story" element={<OurStory/>} />
+        <Route path="/account/orders" element={<Orders/>} />
+        <Route path="/account" element={<Account/>} />
+        <Route path="/account/cart" element={<Cart/>} />
+        {/* <Route path="/login" element={<LoginSignup/>} /> */}
+        
       </Routes>
       <Footer />
     </>
