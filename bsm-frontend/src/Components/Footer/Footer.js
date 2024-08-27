@@ -6,38 +6,37 @@ const Footer = () => {
   const nav = useNavigate(); // Hook for navigation
 
   return (
-    <footer className="mt-5 pt-5">
+    <footer className="mt-5 pt-5" style={{background: "#3A4553", color: "white"}}>
       {/* Dashed Line */}
-      <div className="border-top border-2 border-dashed" style={{ borderTopStyle: 'dashed' }}></div>
+      {/* <div className="border-top border-2 border-dashed" style={{ borderTopStyle: 'dashed' }}></div> */}
 
       <Container className="pt-4">
         <Row className="justify-content-center text-center">
           {/* Logo and Links Section */}
-          <Col md={4} className="mb-4 mt-4 mb-md-0">
+          <Col md={4} className="mb-4 mt-1 mb-md-0">
             <img
               src="logo.png"
               alt="Logo"
               width="80"
               height="65"
-              className="mb-2"
             />
-            <div className="mt-1">
+            <div>
               <Nav className="flex-column">
                 <Nav.Link 
                   onClick={() => nav('/')} 
-                  style={{ color: 'black', textDecoration: 'none', marginBottom: '0.25rem' }}
+                  style={{ color: 'white', textDecoration: 'none'}}
                 >
                   Home
                 </Nav.Link>
                 <Nav.Link 
                   onClick={() => nav('/our-story')} 
-                  style={{ color: 'black', textDecoration: 'none', marginBottom: '0.25rem' }}
+                  style={{ color: 'white', textDecoration: 'none' }}
                 >
                   Our Story
                 </Nav.Link>
                 <Nav.Link 
                   onClick={() => nav('/account/orders')} 
-                  style={{ color: 'black', textDecoration: 'none' }}
+                  style={{ color: 'white', textDecoration: 'none' }}
                 >
                   My Orders
                 </Nav.Link>
@@ -46,7 +45,7 @@ const Footer = () => {
           </Col>
 
           {/* Customer Service Section */}
-          <Col md={4} className='mt-5'>
+          <Col md={4} className='mt-4'>
             <h5 className="font-weight-bold">CUSTOMER SERVICE</h5>
             <p className="mb-1 mt-3">+91 12345-67890</p>
             <p className="mb-1">Bl. No 9, Bellandur</p>
@@ -56,7 +55,7 @@ const Footer = () => {
         </Row>
 
         {/* Copyright Section */}
-        <Row className="pt-3 my-4 pb-3 justify-content-center">
+        <Row className="pt-3 my-2 pb-3 justify-content-center">
           <Col className="text-center">
             <small>COPYRIGHT ©2024 Libreria</small>
           </Col>

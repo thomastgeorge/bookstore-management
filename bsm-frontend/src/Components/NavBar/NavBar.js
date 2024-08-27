@@ -8,8 +8,8 @@ const NavBar = () => {
   const nav = useNavigate();
 
   return (
-    <div style={{ overflowX: 'hidden' }}>
-      <Navbar bg="light" expand="md" className="py-3">
+    <div >
+      <Navbar bg="light" expand="md" className="py-2">
         <div className="container-fluid mx-3">
           {/* Logo */}
           <Navbar.Brand
@@ -69,7 +69,7 @@ const NavBar = () => {
               <Nav className="d-flex align-items-center justify-content-center flex-column flex-md-row">
                 <Button
                   onClick={() => nav('/login')}
-                  variant="warning"
+                  variant="success"
                   className="text-white mx-3 px-4 my-2 my-md-0"
                 >
                   Login
@@ -80,14 +80,14 @@ const NavBar = () => {
                     className="mx-2"
                     style={{ cursor: 'pointer' }}
                   >
-                    <FaShoppingCart size="1.5em" />
+                    <FaShoppingCart size="1.7em" />
                   </Nav.Link>
                   <Nav.Link
                     onClick={() => nav('/account')}
                     className="mx-2"
                     style={{ cursor: 'pointer' }}
                   >
-                    <FaRegUserCircle size="1.5em" />
+                    <FaRegUserCircle size="1.7em" />
                   </Nav.Link>
                 </div>
               </Nav>
