@@ -6,7 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,12 +21,13 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cartId;
+	private int quantity;
 	
 	@ManyToOne
 	@JoinColumn(name="customerId", referencedColumnName = "customerId")
 	private Customer customer;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="bookId", referencedColumnName = "bookId")
 	private Book book;
 

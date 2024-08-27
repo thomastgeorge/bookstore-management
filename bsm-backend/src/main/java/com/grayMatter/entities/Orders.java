@@ -21,7 +21,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Order {
+public class Orders {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +34,7 @@ public class Order {
 	@JoinColumn(name="customerId", referencedColumnName = "customerId")
 	private Customer customer;
 	
-	@OneToMany(mappedBy = "bookOrderId", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BookOrder> bookorder;
 
 }

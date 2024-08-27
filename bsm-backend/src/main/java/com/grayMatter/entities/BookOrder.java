@@ -30,7 +30,7 @@ public class BookOrder {
 	@ManyToOne
 	@JoinColumn(name="orderId", referencedColumnName = "orderId")
 	@JsonBackReference
-	private Order order;
+	private Orders order;
 	
 	@OneToOne
 	@JoinColumn(name="bookId", referencedColumnName = "bookId")
