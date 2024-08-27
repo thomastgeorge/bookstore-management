@@ -7,6 +7,7 @@ import Account from '../../Pages/User/Account/Account';
 import Cart from '../../Pages/User/Cart/Cart';
 import Orders from '../../Pages/User/Orders/Orders';
 import OurStory from '../../Pages/OurStory/OurStory';
+import LoginSignup from '../../Pages/Auth/Login/LoginSignup.js'
 
 const UserRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const UserRoutes = () => {
         <Route path="/account/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
         <Route path="/account/cart" element={<Cart />} />
+        <Route path="/login" element={<LoginSignup/>} />
       </Routes>
       <Footer />
     </>

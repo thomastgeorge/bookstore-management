@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Dropdown, Button } from 'react-bootstrap';
 import { FaSearch, FaShoppingCart, FaRegUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import LoginSignup from '../../Pages/Auth/Login/LoginSignup.js'
 
 const NavBar = () => {
   const nav = useNavigate();
