@@ -6,7 +6,7 @@ const Footer = () => {
   const nav = useNavigate(); // Hook for navigation
 
   return (
-    <footer className="mt-5 pt-5" style={{background: "#3A4553", color: "white"}}>
+    <footer className="mt-5 pt-5 "  style={{background: "#3A4553", color: "white"}}>
       {/* Dashed Line */}
       {/* <div className="border-top border-2 border-dashed" style={{ borderTopStyle: 'dashed' }}></div> */}
 

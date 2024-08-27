@@ -28,25 +28,16 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long customerId;
 	private String name;
+	
 	@Column(unique = true, nullable = false)
 	private String mobile;
 	private Date registeredOn;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name="addressId",referencedColumnName = "addressId")
-	private Address address;
-	
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="userId", referencedColumnName = "userId")
 	private User user;
-	
-	@OneToMany(mappedBy = "orderId", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Order> order;
-	
-	@OneToMany(mappedBy = "reviewId", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Review> review;
-	
-	@OneToMany(mappedBy = "cartId", cascade = CascadeType.REMOVE, orphanRemoval = true)
+
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Cart> cart;
 
 }
