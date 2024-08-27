@@ -6,9 +6,9 @@ const Footer = () => {
   const nav = useNavigate(); // Hook for navigation
 
   return (
-    <footer className="mt-5 pt-5">
+    <footer className="mt-5 pt-5 "  style={{background: "#3A4553", color: "white"}}>
       {/* Dashed Line */}
-      <div className="border-top border-2 border-dashed" style={{ borderTopStyle: 'dashed' }}></div>
+      {/* <div className="border-top border-2 border-dashed" style={{ borderTopStyle: 'dashed' }}></div> */}
 
       <Container className="pt-4">
         <Row className="justify-content-center text-center">
@@ -24,19 +24,19 @@ const Footer = () => {
               <Nav className="flex-column">
                 <Nav.Link 
                   onClick={() => nav('/')} 
-                  style={{ color: 'black', textDecoration: 'none'}}
+                  style={{ color: 'white', textDecoration: 'none'}}
                 >
                   Home
                 </Nav.Link>
                 <Nav.Link 
                   onClick={() => nav('/our-story')} 
-                  style={{ color: 'black', textDecoration: 'none' }}
+                  style={{ color: 'white', textDecoration: 'none' }}
                 >
                   Our Story
                 </Nav.Link>
                 <Nav.Link 
                   onClick={() => nav('/account/orders')} 
-                  style={{ color: 'black', textDecoration: 'none' }}
+                  style={{ color: 'white', textDecoration: 'none' }}
                 >
                   My Orders
                 </Nav.Link>

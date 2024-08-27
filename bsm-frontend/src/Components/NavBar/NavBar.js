@@ -79,14 +79,14 @@ const NavBar = () => {
                     className="mx-2"
                     style={{ cursor: 'pointer' }}
                   >
-                    <FaShoppingCart size="1.5em" />
+                    <FaShoppingCart size="1.7em" />
                   </Nav.Link>
                   <Nav.Link
                     onClick={() => nav('/account')}
                     className="mx-2"
                     style={{ cursor: 'pointer' }}
                   >
-                    <FaRegUserCircle size="1.5em" />
+                    <FaRegUserCircle size="1.7em" />
                   </Nav.Link>
                 </div>
               </Nav>
