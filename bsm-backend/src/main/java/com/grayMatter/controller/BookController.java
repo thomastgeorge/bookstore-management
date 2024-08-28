@@ -12,47 +12,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.BookDto;
-import com.grayMatter.entities.Book;
 import com.grayMatter.services.BookService;
 
 @RestController
 @RequestMapping("/api/v1/books")
 public class BookController {
-	
-@Autowired
-BookService service;
-	
-   @PostMapping("/create/{cid}")
-	public BookDto createBook(@RequestBody BookDto b, @PathVariable Long cid) {
-		return service.createBook(b,cid);
+
+	@Autowired
+	private BookService bookService;
+
+	@PostMapping("/create/{categoryId}")
+	public BookDto createBook(@RequestBody BookDto bookDto, @PathVariable("categoryId") Long categoryId) {
+		return bookService.createBook(bookDto, categoryId);
 	}
-   @GetMapping()
-   public List<BookDto> listAllBooks(){
-	   return service.listAllBooks();
-	   
-   }
-   @PutMapping("/update/{bookId}/{cid}")
-   public BookDto editBook(@PathVariable Long bookId,@RequestBody BookDto b,@PathVariable Long cid)
-   {
-	   return service.editBook(bookId,b,cid);
-   }
-   @PutMapping("/delete/{bookId}")
-   public void deleteBook(@PathVariable Long bookId) {
-	   service.deleteBook(bookId);
-   }
-   @GetMapping("/{bookId}")
-   public BookDto viewBook(@PathVariable Long bookId) {
-	   return service.viewBook(bookId);
-   }
-   @GetMapping("/category/{category}")
-   public List<BookDto> listBooksByCategory(@PathVariable String category){
-	   return service.listBooksByCategory(category);
-	   
-   }
-   @GetMapping("/best")
-   public List<BookDto> listBestSellingBook(){
-	   return service.listBestSellingBook();
-	   
-   }
- 
+
+	@GetMapping()
+	public List<BookDto> listAllBooks() {
+		return bookService.listAllBooks();
+
+	}
+
+	@PutMapping("/update/{bookId}/{categoryId}")
+	public BookDto editBook(@PathVariable("bookId") Long bookId, @RequestBody BookDto b, @PathVariable("categoryId") Long categoryId) {
+		return bookService.editBook(bookId, b, categoryId);
+	}
+
+	@PutMapping("/delete/{bookId}")
+	public void deleteBook(@PathVariable("bookId") Long bookId) {
+		bookService.deleteBook(bookId);
+	}
+
+	@GetMapping("/{bookId}")
+	public BookDto viewBook(@PathVariable("bookId") Long bookId) {
+		return bookService.viewBook(bookId);
+	}
+
+	@GetMapping("/category/{category}")
+	public List<BookDto> listBooksByCategory(@PathVariable("category") String category) {
+		return bookService.listBooksByCategory(category);
+
+	}
+
+	@GetMapping("/best-selling")
+	public List<BookDto> listBestSellingBook() {
+		return bookService.listBestSellingBook();
+
+	}
+
 }

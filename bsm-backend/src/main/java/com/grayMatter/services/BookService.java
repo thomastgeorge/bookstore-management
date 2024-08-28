@@ -10,21 +10,20 @@ import com.grayMatter.dao.BookDao;
 import com.grayMatter.dto.BookDto;
 import com.grayMatter.dto.BookMapper;
 import com.grayMatter.entities.Book;
-import com.grayMatter.repository.BookRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class BookService {
-	@Autowired 
-	BookDao bdao;
 
 	@Autowired
-	BookMapper mapper;
-	
-	public BookDto createBook(BookDto bdto, Long cid) {
-		return mapper.mapToBookDto(bdao.createBook(mapper.mapToBook(bdto),cid));
-		
+	private BookDao bookDao;
+
+	@Autowired
+	private BookMapper bookMapper;
+
+	public BookDto createBook(BookDto bookDto, Long categoryId) {
+		return bookMapper.mapToBookDto(bookDao.createBook(bookMapper.mapToBook(bookDto), categoryId));
+
 	}
 //    @Autowired
 //    private EntityManager entityManager;
@@ -48,47 +47,47 @@ public class BookService {
 //    // other methods
 
 	public List<BookDto> listAllBooks() {
-		 List<Book> bList = bdao.listAllBooks();
-	        List<BookDto> bDList = new ArrayList<>();
-	        for (Book b : bList) {
-	            BookDto bDto = mapper.mapToBookDto(b);
-	            bDList.add(bDto);
-	        }
-	        return bDList;
+		List<Book> bList = bookDao.listAllBooks();
+		List<BookDto> bDList = new ArrayList<>();
+		for (Book b : bList) {
+			BookDto bookDto = bookMapper.mapToBookDto(b);
+			bDList.add(bookDto);
+		}
+		return bDList;
 	}
 
-	public BookDto editBook(Long bookId, BookDto bdto, Long cid) {
-		Book b=bdao.editBook(bookId,mapper.mapToBook(bdto),cid);
-		return mapper.mapToBookDto(b);
+	public BookDto editBook(Long bookId, BookDto bookDto, Long cid) {
+		Book book = bookDao.editBook(bookId, bookMapper.mapToBook(bookDto), cid);
+		return bookMapper.mapToBookDto(book);
 	}
 
 	public void deleteBook(Long bookId) {
-     bdao.deleteBook(bookId);
+		bookDao.deleteBook(bookId);
 	}
 
 	public BookDto viewBook(Long bookId) {
-		return mapper.mapToBookDto( bdao.viewBook(bookId)) ;
+		return bookMapper.mapToBookDto(bookDao.viewBook(bookId));
 	}
 
 	public List<BookDto> listBooksByCategory(String category) {
-		 List<Book> bList = bdao.listBooksByCategory(category);
-	        List<BookDto> bDList = new ArrayList<>();
-	        for (Book b : bList) {
-	            BookDto bDto = mapper.mapToBookDto(b);
-	            bDList.add(bDto);
-	        }
-	        return bDList;
-		
+		List<Book> bList = bookDao.listBooksByCategory(category);
+		List<BookDto> bDList = new ArrayList<>();
+		for (Book b : bList) {
+			BookDto bookDto = bookMapper.mapToBookDto(b);
+			bDList.add(bookDto);
+		}
+		return bDList;
+
 	}
 
 	public List<BookDto> listBestSellingBook() {
-		List<Book> bList = bdao.listBestSellingBook();
-        List<BookDto> bDList = new ArrayList<>();
-        for (Book b : bList) {
-            BookDto bDto = mapper.mapToBookDto(b);
-            bDList.add(bDto);
-        }
-        return bDList;
-		
+		List<Book> bList = bookDao.listBestSellingBook();
+		List<BookDto> bDList = new ArrayList<>();
+		for (Book b : bList) {
+			BookDto bookDto = bookMapper.mapToBookDto(b);
+			bDList.add(bookDto);
+		}
+		return bDList;
+
 	}
 }

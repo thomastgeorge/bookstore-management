@@ -6,17 +6,15 @@ import java.util.List;
 import com.grayMatter.entities.Category;
 import com.grayMatter.entities.Review;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@NoArgsConstructor@AllArgsConstructor@Data
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookDto {
+	
 	private Long bookId;
 	private String title;
 	private String author;

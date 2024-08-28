@@ -6,53 +6,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.grayMatter.entities.Book;
+import com.grayMatter.entities.Category;
+import com.grayMatter.repositories.BookOrderRepository;
+import com.grayMatter.repositories.BookRepository;
+import com.grayMatter.repositories.CategoryRepository;
 
 @Repository
 public class BookDao {
-//	@Autowired
-//	BookRepository bookRepository;
-//	@Autowired
-//	CategoryRepository categoryRepository;
-//	@Autowired
-//	BookOrder bookOrderRepository;
+	
+	@Autowired
+	private BookRepository bookRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
+	@Autowired
+	private BookOrderRepository bookOrderRepository;
 
-	public Book createBook(Book b, Long cid) {
+	public Book createBook(Book book, Long categoryId) {
 		
-		Category cat=crepository.findById(cid);
-		b.setCategory(cat);
-		return brepository.save(b);
+		Category cat=categoryRepository.findById(categoryId).get();
+		book.setCategory(cat);
+		return bookRepository.save(book);
 	}
 
 	public List<Book> listAllBooks() {
-		return brepository.findAll();
+		return bookRepository.findAll();
 	}
 
-	public Book editBook(Long bookId, Book b, Long cid) {
-		Category cat=crepository.findById(cid);
-		b.setCategory(cat);
-		return brepository.save(b);
+	public Book editBook(Long bookId, Book book, Long categoryId) {
+		Category cat=crepository.findById(categoryId);
+		book.setCategory(cat);
+		return bookRepository.save(book);
 	}
 
 	public void deleteBook(Long bookId) {
-		Book b=brepository.findBy(bookId);
+		Book b=bookRepository.findById(bookId).get();
 		if(b!=null) {
-			
+
 		}
-		brepository.customDelete(bookId);
+		bookRepository.customDelete(bookId);
 		
 	}
 
 	public Book viewBook(Long bookId) {
-		return brepository.findById(bookId).get();
+		return bookRepository.findById(bookId).get();
 	}
 
 	public List<Book> listBooksByCategory(String category) {
-		return brepository.findByCategory_categoryName(category);
+		return bookRepository.findByCategoryCategoryName(category);
 	}
 
 	public List<Book> listBestSellingBook() {
 		
-		return borepsoitory.listBestSellingBook();
+		return bookOrderRepository.listBestSellingBook();
 	}
 	
 //	BOREP
