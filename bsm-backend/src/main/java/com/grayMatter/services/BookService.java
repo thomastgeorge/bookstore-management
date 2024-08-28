@@ -1,11 +1,14 @@
 package com.grayMatter.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grayMatter.dao.BookDao;
+import com.grayMatter.dto.BookDto;
+import com.grayMatter.dto.BookMapper;
 import com.grayMatter.entities.Book;
 import com.grayMatter.repository.BookRepository;
 
@@ -16,9 +19,12 @@ public class BookService {
 	@Autowired 
 	BookDao bdao;
 
-	public Book createBook(Book b) {
-		// TODO Auto-generated method stub
-		return null;
+	@Autowired
+	BookMapper mapper;
+	
+	public BookDto createBook(BookDto bdto, Long cid) {
+		return mapper.mapToBookDto(bdao.createBook(mapper.mapToBook(bdto),cid));
+		
 	}
 //    @Autowired
 //    private EntityManager entityManager;
@@ -41,33 +47,48 @@ public class BookService {
 //
 //    // other methods
 
-	public List<Book> listAllBooks() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BookDto> listAllBooks() {
+		 List<Book> bList = bdao.listAllBooks();
+	        List<BookDto> bDList = new ArrayList<>();
+	        for (Book b : bList) {
+	            BookDto bDto = mapper.mapToBookDto(b);
+	            bDList.add(bDto);
+	        }
+	        return bDList;
 	}
 
-	public Book editBook(Long bookId, Book b) {
-		// TODO Auto-generated method stub
-		return null;
+	public BookDto editBook(Long bookId, BookDto bdto, Long cid) {
+		Book b=bdao.editBook(bookId,mapper.mapToBook(bdto),cid);
+		return mapper.mapToBookDto(b);
 	}
 
 	public void deleteBook(Long bookId) {
-		// TODO Auto-generated method stub
-//		return null;
+     bdao.deleteBook(bookId);
 	}
 
-	public Book viewBook(Long bookId) {
-		// TODO Auto-generated method stub
-		return null;
+	public BookDto viewBook(Long bookId) {
+		return mapper.mapToBookDto( bdao.viewBook(bookId)) ;
 	}
 
-	public List<Book> listBooksByCategory(String category) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BookDto> listBooksByCategory(String category) {
+		 List<Book> bList = bdao.listBooksByCategory(category);
+	        List<BookDto> bDList = new ArrayList<>();
+	        for (Book b : bList) {
+	            BookDto bDto = mapper.mapToBookDto(b);
+	            bDList.add(bDto);
+	        }
+	        return bDList;
+		
 	}
 
-	public List<Book> listBestSellingBook() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BookDto> listBestSellingBook() {
+		List<Book> bList = bdao.listBestSellingBook();
+        List<BookDto> bDList = new ArrayList<>();
+        for (Book b : bList) {
+            BookDto bDto = mapper.mapToBookDto(b);
+            bDList.add(bDto);
+        }
+        return bDList;
+		
 	}
 }

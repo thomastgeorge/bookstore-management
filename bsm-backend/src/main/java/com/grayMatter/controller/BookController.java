@@ -22,18 +22,19 @@ public class BookController {
 @Autowired
 BookService service;
 	
-   @PostMapping()
-	public BookDto createBook(@RequestBody BookDto b) {
-		return service.createBook(b);
+   @PostMapping("/create/{cid}")
+	public BookDto createBook(@RequestBody BookDto b, @PathVariable Long cid) {
+		return service.createBook(b,cid);
 	}
    @GetMapping()
    public List<BookDto> listAllBooks(){
 	   return service.listAllBooks();
 	   
    }
-   @PutMapping("/update/{bookId}")
-   public BookDto editBook(@PathVariable Long bookId,@RequestBody BookDto b) {
-	   return service.editBook(bookId,b);
+   @PutMapping("/update/{bookId}/{cid}")
+   public BookDto editBook(@PathVariable Long bookId,@RequestBody BookDto b,@PathVariable Long cid)
+   {
+	   return service.editBook(bookId,b,cid);
    }
    @PutMapping("/delete/{bookId}")
    public void deleteBook(@PathVariable Long bookId) {
@@ -44,12 +45,12 @@ BookService service;
 	   return service.viewBook(bookId);
    }
    @GetMapping("/category/{category}")
-   public List<Book> listBooksByCategory(@PathVariable String category){
+   public List<BookDto> listBooksByCategory(@PathVariable String category){
 	   return service.listBooksByCategory(category);
 	   
    }
    @GetMapping("/best")
-   public List<Book> listBestSellingBook(){
+   public List<BookDto> listBestSellingBook(){
 	   return service.listBestSellingBook();
 	   
    }
