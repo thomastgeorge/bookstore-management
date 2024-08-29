@@ -33,7 +33,7 @@ public class BookDao {
 	}
 
 	public Book editBook(Long bookId, Book book, Long categoryId) {
-		Category cat=crepository.findById(categoryId);
+		Category cat=categoryRepository.findById(categoryId).get();
 		book.setCategory(cat);
 		return bookRepository.save(book);
 	}
@@ -57,13 +57,10 @@ public class BookDao {
 
 	public List<Book> listBestSellingBook() {
 		
-		return bookOrderRepository.listBestSellingBook();
+		return bookOrderRepository.findBestSellingBooks();
 	}
 	
-//	BOREP
-//	 @Query("SELECT b FROM Book b JOIN BookOrder bo ON b.bookId = bo.book.bookId " +
-//	           "GROUP BY b.bookId ORDER BY SUM(bo.quantity) DESC")
-//	    List<Book> findBestSellingBooks();
+
 	
 
 }
