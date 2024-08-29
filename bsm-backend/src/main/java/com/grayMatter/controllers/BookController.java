@@ -1,4 +1,4 @@
-package com.grayMatter.controller;
+package com.grayMatter.controllers;
 
 import java.util.List;
 
@@ -29,7 +29,6 @@ public class BookController {
 	@GetMapping()
 	public List<BookDto> listAllBooks() {
 		return bookService.listAllBooks();
-
 	}
 
 	@PutMapping("/update/{bookId}/{categoryId}")

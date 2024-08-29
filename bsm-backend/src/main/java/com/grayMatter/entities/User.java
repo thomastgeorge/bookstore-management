@@ -24,6 +24,6 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private String email;
 	private String password;
-	private String role;
+	private Boolean role;	//false for Admin,	true for Customer
 
 }
