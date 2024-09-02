@@ -23,28 +23,7 @@ public class BookService {
 
 	public BookDto createBook(BookDto bookDto, Long categoryId) {
 		return bookMapper.mapToBookDto(bookDao.createBook(bookMapper.mapToBook(bookDto), categoryId));
-
 	}
-//    @Autowired
-//    private EntityManager entityManager;
-//
-//    @Transactional
-//    public List<Book> getAllBooks() {
-//        Session session = entityManager.unwrap(Session.class);
-//        session.enableFilter("deletedFilter");
-//        return entityManager.createQuery("FROM Book", Book.class).getResultList();
-//    }
-//
-//    @Transactional
-//    public void deleteBook(Long id) {
-//        Book book = entityManager.find(Book.class, id);
-//        if (book != null) {
-//            book.setIsDeleted(true);
-//            entityManager.merge(book);
-//        }
-//    }
-//
-//    // other methods
 
 	public List<BookDto> listAllBooks() {
 		List<Book> bList = bookDao.listAllBooks();

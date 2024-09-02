@@ -15,7 +15,7 @@ import com.grayMatter.dto.BookDto;
 import com.grayMatter.services.BookService;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/api/v1/book")
 public class BookController {
 
 	@Autowired
