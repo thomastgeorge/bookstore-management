@@ -16,8 +16,10 @@ public class BookDao {
 	
 	@Autowired
 	private BookRepository bookRepository;
+	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
 	@Autowired
 	private BookOrderRepository bookOrderRepository;
 

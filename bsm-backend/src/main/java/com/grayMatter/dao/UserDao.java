@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.grayMatter.entities.Role;
 import com.grayMatter.entities.User;
 import com.grayMatter.repositories.UserRepository;
 
@@ -13,10 +14,6 @@ public class UserDao {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-	public User addUser(User user) {
-		return userRepository.save(user);
-	}
 	
 	public User getUserById(long userId) {
 		return userRepository.findById(userId).get();
@@ -32,8 +29,8 @@ public class UserDao {
 	
 	public void deleteUser(long userId) {
 		User user = userRepository.findById(userId).get();
-		if(user.getRole()==false) {
-			return;
+		if (user.getRole() == Role.ADMIN) {
+		    return;
 		}
 		userRepository.deleteById(userId);
 	}

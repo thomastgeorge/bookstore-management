@@ -1,21 +1,17 @@
 package com.grayMatter.dto;
 
-import com.grayMatter.entities.Role;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class UserDto {
-
-	private Long userId;
+public class RegUserDto {
+	
+	private String name;
 	private String email;
+	private String mobile;
 	private String password;
-	private Role role;
 
 }

@@ -11,7 +11,6 @@ import com.grayMatter.dao.UserDao;
 import com.grayMatter.dto.CustomerDto;
 import com.grayMatter.dto.CustomerMapper;
 import com.grayMatter.entities.Customer;
-import com.grayMatter.entities.User;
 
 @Service
 public class CustomerService {
@@ -24,14 +23,6 @@ public class CustomerService {
 	
 	@Autowired
 	private CustomerMapper customerMapper;
-	
-	
-	public CustomerDto addCustomer(CustomerDto customerDto) {
-		User user = userDao.addUser(customerDto.getUser());
-		customerDto.setUser(user);
-		customerDto.setRegisteredOn(new java.sql.Date(System.currentTimeMillis()));
-		return customerMapper.mapToCustomerDto(customerDao.addCustomer(customerMapper.mapToCustomer(customerDto)));
-	}
 	
 	public CustomerDto getCustomerById(long customerId) {
 		return customerMapper.mapToCustomerDto(customerDao.getCustomerById(customerId));

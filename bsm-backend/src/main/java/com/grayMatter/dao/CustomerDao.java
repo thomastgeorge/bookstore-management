@@ -14,10 +14,6 @@ public class CustomerDao {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	public Customer addCustomer(Customer customer) {
-		return customerRepository.save(customer);
-	}
-	
 	public Customer getCustomerById(long customerId) {
 		return customerRepository.findById(customerId).get();
 	}
