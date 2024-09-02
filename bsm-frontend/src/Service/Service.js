@@ -1,0 +1,29 @@
+import axios from 'axios';
+
+const Axios = axios.create({
+  baseURL: 'http://localhost:8083',
+});
+
+// Set default headers
+Axios.defaults.headers.post["Content-Type"] = "application/json";
+Axios.defaults.headers.get["Content-Type"] = "application/json";
+Axios.defaults.headers.delete["Content-Type"] = "application/json";
+Axios.defaults.headers.put["Content-Type"] = "application/json";
+
+// Interceptor to manage Authorization header conditionally
+Axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+
+  // Disable Authorization header for login and signup requests
+  if (config.url && (config.url.includes('api/v1/auth/login') || config.url.includes('api/v1//auth/signup'))) {
+    delete config.headers.Authorization; // Remove Authorization header for these requests
+  } else if (token) {
+    config.headers.Authorization = `Bearer ${token}`; // Add Authorization header for other requests
+  }
+
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+export default Axios;

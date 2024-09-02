@@ -69,10 +69,12 @@ const NavBar = () => {
                 <Button
                   onClick={() => nav('/login')}
                   variant="success"
+                  style={{ backgroundColor: '#4a1f77', borderColor: '#4a1f77' }} 
                   className="text-white mx-3 px-4 my-2 my-md-0"
                 >
                   Login
                 </Button>
+
                 <div className="d-flex">
                   <Nav.Link
                     onClick={() => nav('/account/cart')}

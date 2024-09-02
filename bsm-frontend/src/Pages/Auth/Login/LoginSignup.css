@@ -1,6 +1,6 @@
 :root{
-  --primary-color: #0e5a1f;
-  --secondary-color: #000000;
+  --primary-color: #4a1f77;
+  --secondary-color: #4a1f77;
   --black: #000000;
   --white: #ffffff;
   --gray: #efefef;
@@ -13,6 +13,32 @@
   }
 
  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+ .login-already-span{
+font-size: 14px;
+/* font-weight: 600; */
+}
+
+ .login-signup-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.login-signup-logo {
+  width: 100px; /* Adjust size as needed */
+  height: 100px;
+  margin-right: 0.5rem;
+}
+
+.login-signup-label {
+  font-size: 2rem; /* Adjust size as needed */
+  font-weight: 1000;
+  color: var(--primary-color);
+  margin-top: 0.5rem;
+}
+
 
 .login-signup-container {
   position: relative;
@@ -73,6 +99,7 @@
   width: 100%;
   padding: 1rem 3rem;
   font-size: 1rem;
+  font-weight: 600s;
   background-color: var(--gray);
   border-radius: 0.5rem;
   border: 0.125rem solid var(--white);
@@ -168,6 +195,7 @@
 
 .login-signup-pointer {
   cursor: pointer;
+  font-size: 14px;
 }
 
 .login-signup-container.sign-in .login-signup-form.sign-in,
@@ -324,4 +352,6 @@
         margin: 0.5rem;
         font-size: 2rem;
     }
+
+    
 }
