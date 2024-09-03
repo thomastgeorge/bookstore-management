@@ -60,16 +60,21 @@ const LoginSignup = () => {
               console.log(modifiedData)
 
               setUser(modifiedData);
+              console.log("modified data", modifiedData)
 
-              navigate('/');
+              const redirectUrl = localStorage.getItem('currentPageUrl') || '/';
+              // Extract the pathname from the URL
+              const pathname = new URL(redirectUrl, window.location.origin).pathname;
+              // Redirect to the stored URL or a default page if no URL is stored
+              navigate(pathname);
             })
             .catch(error => {
               console.error('There was an error!', error);
             });
           } else {
-            setUser(response.data)
-            console.log(response.data.user)
-            navigate('/');
+            setUser(response.data.user)
+            console.log("admin login",response.data.user)
+            navigate('/admin');
           }
 
           

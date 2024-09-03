@@ -3,36 +3,32 @@ import { UserContext } from '../../App.js'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserRoutes from '../UserRoutes/UserRoutes'
 import LoginSignup from '../../Pages/Auth/LoginSignup/LoginSignup.js'
-// import Signup from '../../Pages/Auth/Signup/Signup'
-
+import AdminHome from '../../Pages/Admin/AdminHome.js'
+import PrivateRoute from '../PrivateRoute/PrivateRoute.js'
 
 const AppRoutes = () => {
     const { user } = useContext(UserContext)
     console.log(user);
     return (
-        
         <BrowserRouter>
-            {
+            <Routes>
+                {/* Define route for admin with PrivateRoute guard */}
+                <Route
+                    path="/admin"
+                    element={
+                        <PrivateRoute requiredRole="ADMIN">
+                            <AdminHome />
+                        </PrivateRoute>
+                    }
+                />
 
-                <Routes>
-                    <Route path="/*" element={<UserRoutes/>} />
-                    <Route path="/login" element={<LoginSignup/>} />
-                    <Route path="/signup" element={<LoginSignup />} />
-                    {/* <Route path="/account" element={<Account/>} /> */}
-                    
-                </Routes>
+                {/* Define public routes */}
+                <Route path="/login" element={<LoginSignup />} />
+                <Route path="/signup" element={<LoginSignup />} />
 
-                // user ?
-                //     <Switch>
-                //         <Route path="/*" element={<Home />} />
-                //     </Switch>
-                //     :
-                //     <Switch>
-                //         <Route path="/login" element={<Login />} />
-                //         <Route path="/signup" element={<Signup />} />
-                //         <Route path="/*" element={<Login />} />
-                //     </Switch>
-            }
+                {/* Define user routes */}
+                <Route path="/*" element={<UserRoutes />} />
+            </Routes>
         </BrowserRouter>
     )
 }

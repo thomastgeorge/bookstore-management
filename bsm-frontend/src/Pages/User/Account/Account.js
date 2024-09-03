@@ -4,6 +4,8 @@ import 'react-initials-avatar/lib/ReactInitialsAvatar.css';
 import { FaShoppingCart, FaBoxOpen, FaUser, FaStar, FaAddressCard, FaPhone } from 'react-icons/fa';
 
 const Account = () => {
+    const currentPageUrl = window.location.href;
+    localStorage.setItem('currentPageUrl', currentPageUrl);
     return (
         <div className="container mt-5">
             <div className="d-flex align-items-center mb-4 mx-4">

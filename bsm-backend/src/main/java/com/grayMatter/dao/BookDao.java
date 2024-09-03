@@ -1,8 +1,10 @@
 package com.grayMatter.dao;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.grayMatter.entities.Book;
@@ -23,8 +25,7 @@ public class BookDao {
 	@Autowired
 	private BookOrderRepository bookOrderRepository;
 
-	public Book createBook(Book book, Long categoryId) {
-		
+	public Book createBook(Book book, long categoryId) {
 		Category cat=categoryRepository.findById(categoryId).get();
 		book.setCategory(cat);
 		return bookRepository.save(book);
@@ -34,22 +35,21 @@ public class BookDao {
 		return bookRepository.findAll();
 	}
 
-	public Book editBook(Long bookId, Book book, Long categoryId) {
+	public Book editBook(long bookId, Book book, long categoryId) {
 		Category cat=categoryRepository.findById(categoryId).get();
 		book.setCategory(cat);
 		return bookRepository.save(book);
 	}
 
-	public void deleteBook(Long bookId) {
+	public void deleteBook(long bookId) {
 		Book b=bookRepository.findById(bookId).get();
 		if(b!=null) {
 
 		}
 		bookRepository.customDelete(bookId);
-		
 	}
 
-	public Book viewBook(Long bookId) {
+	public Book getBookById(long bookId) {
 		return bookRepository.findById(bookId).get();
 	}
 
@@ -57,9 +57,22 @@ public class BookDao {
 		return bookRepository.findByCategoryCategoryName(category);
 	}
 
-	public List<Book> listBestSellingBook() {
+	public List<Book> listBestSellingBook(Integer limit) {
+//		if (limit == null || limit <= 0) {
+//			return bookOrderRepository.findBestSellingBooks(Pageable.unpaged()).getContent();
+//		} else {
+//			 Pageable pageable = PageRequest.of(0, limit);
+//			 return bookOrderRepository.findBestSellingBooks(pageable).getContent();
+//		}
+//		
+//		@Query("SELECT b FROM Book b WHERE b.category = :category")
+//	    Page<Book> findBooksByCategory(@Param("category") String category, Pageable pageable);
+		return null;
+	}
+
+	public List<Book> searchBook(String name, long category, Double minPrice, Double maxPrice) {
+		return bookRepository.searchBook(name, category, minPrice, maxPrice);
 		
-		return bookOrderRepository.findBestSellingBooks();
 	}
 	
 
