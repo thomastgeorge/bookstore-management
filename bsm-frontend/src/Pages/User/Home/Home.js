@@ -44,6 +44,10 @@ const settings = {
 };
 
 const Home = () => {
+
+  const currentPageUrl = window.location.href;
+  localStorage.setItem('currentPageUrl', currentPageUrl);
+  
   // Create separate refs for each slider
   const newArrivalsRef = useRef(null);
   const bestSellingRef = useRef(null);

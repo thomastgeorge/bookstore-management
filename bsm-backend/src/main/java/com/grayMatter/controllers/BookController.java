@@ -3,12 +3,14 @@ package com.grayMatter.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.BookDto;
@@ -22,7 +24,7 @@ public class BookController {
 	private BookService bookService;
 
 	@PostMapping("/create/{categoryId}")
-	public BookDto createBook(@RequestBody BookDto bookDto, @PathVariable("categoryId") Long categoryId) {
+	public BookDto createBook(@RequestBody BookDto bookDto, @PathVariable("categoryId") long categoryId) {
 		return bookService.createBook(bookDto, categoryId);
 	}
 
@@ -32,18 +34,18 @@ public class BookController {
 	}
 
 	@PutMapping("/update/{bookId}/{categoryId}")
-	public BookDto editBook(@PathVariable("bookId") Long bookId, @RequestBody BookDto b, @PathVariable("categoryId") Long categoryId) {
+	public BookDto editBook(@PathVariable("bookId") long bookId, @RequestBody BookDto b, @PathVariable("categoryId") long categoryId) {
 		return bookService.editBook(bookId, b, categoryId);
 	}
 
-	@PutMapping("/delete/{bookId}")
-	public void deleteBook(@PathVariable("bookId") Long bookId) {
+	@DeleteMapping("/delete/{bookId}")
+	public void deleteBook(@PathVariable("bookId") long bookId) {
 		bookService.deleteBook(bookId);
 	}
 
 	@GetMapping("/{bookId}")
-	public BookDto viewBook(@PathVariable("bookId") Long bookId) {
-		return bookService.viewBook(bookId);
+	public BookDto getBookById(@PathVariable("bookId") long bookId) {
+		return bookService.getBookById(bookId);
 	}
 
 	@GetMapping("/category/{category}")
@@ -53,9 +55,19 @@ public class BookController {
 	}
 
 	@GetMapping("/best-selling")
-	public List<BookDto> listBestSellingBook() {
-		return bookService.listBestSellingBook();
+	public List<BookDto> listBestSellingBook(@RequestParam(required = false) Integer limit) {
+		return bookService.listBestSellingBook(limit);
 
+	}
+	
+	@GetMapping("/search")
+	public List<BookDto> searchBook(
+		    @RequestParam(required = false) String name,
+		    @RequestParam(required = false) long category,
+		    @RequestParam(required = false) Double minPrice,
+		    @RequestParam(required = false) Double maxPrice
+		    ){
+		return bookService.searchBook(name, category, minPrice, maxPrice);
 	}
 
 }

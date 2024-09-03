@@ -65,6 +65,8 @@ const mediaQueries = {
 };
 
 const Cart = () => {
+  const currentPageUrl = window.location.href;
+  localStorage.setItem('currentPageUrl', currentPageUrl);
   return (
     <section className="h-100 h-custom" style={styles.section}>
       <MDBContainer className="py-5 h-100">

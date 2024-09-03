@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Axios from '../../../Service/Axios'; 
+<<<<<<< HEAD:bsm-frontend/src/Pages/Auth/Login/LoginSignup.js
+import Axios from '../../../Service/Service'; 
 import './LoginSignup.css'; 
+=======
+import Axios from '../../../Service/Axios'; 
+import './LoginSignup.css';
+import { UserContext } from '../../../App'
+>>>>>>> c47d11a0c6f6c46d21e84b1ec843c0e4b4cc7a6a:bsm-frontend/src/Pages/Auth/LoginSignup/LoginSignup.js
 
 const LoginSignup = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -15,6 +21,8 @@ const LoginSignup = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { setUser } = useContext(UserContext)
+
   useEffect(() => {
     if (location.pathname === '/signup') {
       setIsSignIn(false);
@@ -22,6 +30,7 @@ const LoginSignup = () => {
       setIsSignIn(true);
     }
   }, [location.pathname]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,13 +46,48 @@ const LoginSignup = () => {
       if (isSignIn) {
         // Sign in
         const { email, password } = formData;
-        const response = await Axios.post('/api/v1/auth/login', { email, password });
-        localStorage.setItem('token', response.data.token); 
+        Axios.post('/api/v1/auth/login', { email, password })
+        .then(response => {
+          localStorage.setItem('token', response.data.token); 
+          console.log(response)
+          
+          console.log(response.data.user.role)
+          
+          if(response.data.user.role==="USER"){
+            Axios.get(`api/v1/customer/userId/${response.data.user.userId}`)
+            .then(response => {
+              console.log(response.data);
+              
+              const modifiedData = {
+                ...response.data,
+                role: response.data.user.role
+              };
+              console.log(modifiedData)
+
+              setUser(modifiedData);
+              console.log("modified data", modifiedData)
+
+              const redirectUrl = localStorage.getItem('currentPageUrl') || '/';
+              // Extract the pathname from the URL
+              const pathname = new URL(redirectUrl, window.location.origin).pathname;
+              // Redirect to the stored URL or a default page if no URL is stored
+              navigate(pathname);
+            })
+            .catch(error => {
+              console.error('There was an error!', error);
+            });
+          } else {
+            setUser(response.data.user)
+            console.log("admin login",response.data.user)
+            navigate('/admin');
+          }
+
+          
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
         
-
-
-
-        navigate('/');
       } else {
         // Sign up
         const { username, email, mobile, password, confirmPassword } = formData;
@@ -71,7 +115,7 @@ const LoginSignup = () => {
           </div>
           <div className="login-signup-form-wrapper login-signup-align-items-center">
             <form onSubmit={handleSubmit} className="login-signup-form sign-up">
-              <h1>Sign Up</h1>
+              <h2>Sign Up</h2>
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
                 <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleInputChange} />
@@ -116,7 +160,7 @@ const LoginSignup = () => {
           </div>
           <div className="login-signup-form-wrapper login-signup-align-items-center">
             <form onSubmit={handleSubmit} className="login-signup-form sign-in">
-              <h1>Login</h1>
+              <h2>Login</h2>
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
                 <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />

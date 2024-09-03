@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react'
+import { UserContext } from '../../App.js'
 import { Navbar, Nav, Dropdown, Button } from 'react-bootstrap';
 import { FaSearch, FaShoppingCart, FaRegUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const nav = useNavigate();
+  const { user, setUser } = useContext(UserContext)
+  console.log(user);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user'); // Clear user data from localStorage
+    setUser(null); // Update user state/context
+    nav('/login'); // Redirect to login page
+  };
 
   return (
     <div >
@@ -34,31 +43,18 @@ const NavBar = () => {
             <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
               {/* Centered Search Bar */}
               <div className="d-flex flex-grow-1 justify-content-center align-items-center">
-                <Dropdown className="me-2">
-                  <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">
-                    Category
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => nav('/')}>
-                      Action
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => nav('/')}>
-                      Another action
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => nav('/')}>
-                      Something else here
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-
                 <div className="d-flex align-items-center" style={{ maxWidth: '100%' }}>
                   <input
                     type="text"
                     placeholder="Search"
-                    className="form-control custom-search-bar rounded-0"
-                    style={{ minWidth: '200px', maxWidth: '400px', width: '100%' }}
+                    className="form-control custom-search-bar"
+                    style={{
+                      minWidth: '290px', // Adjust as needed
+                      maxWidth: '600px', // Adjust as needed
+                      width: '100%',
+                    }}
                   />
-                  <Button variant="outline-secondary" className="rounded-0">
+                  <Button variant="outline-secondary" className="rounded-0" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>
                     <FaSearch />
                   </Button>
                 </div>
@@ -66,14 +62,26 @@ const NavBar = () => {
 
               {/* Right side (User Icons and Login Button) */}
               <Nav className="d-flex align-items-center justify-content-center flex-column flex-md-row">
+                
+              {user ? (
+                <Button
+                  onClick={handleLogout}
+                  variant="danger" // Changed to 'danger' for logout button
+                  style={{ backgroundColor: '#c62828', borderColor: '#c62828' }} // Different color for logout
+                  className="text-white mx-3 px-4 my-2 my-md-0"
+                >
+                  Logout
+                </Button>
+              ) : (
                 <Button
                   onClick={() => nav('/login')}
                   variant="success"
-                  style={{ backgroundColor: '#4a1f77', borderColor: '#4a1f77' }} 
+                  style={{ backgroundColor: '#4a1f77', borderColor: '#4a1f77' }}
                   className="text-white mx-3 px-4 my-2 my-md-0"
                 >
                   Login
                 </Button>
+              )}
 
                 <div className="d-flex">
                   <Nav.Link

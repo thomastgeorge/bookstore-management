@@ -2,6 +2,7 @@ package com.grayMatter.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class BookService {
 	@Autowired
 	private BookMapper bookMapper;
 
-	public BookDto createBook(BookDto bookDto, Long categoryId) {
+	public BookDto createBook(BookDto bookDto, long categoryId) {
 		return bookMapper.mapToBookDto(bookDao.createBook(bookMapper.mapToBook(bookDto), categoryId));
 	}
 
@@ -35,17 +36,17 @@ public class BookService {
 		return bDList;
 	}
 
-	public BookDto editBook(Long bookId, BookDto bookDto, Long cid) {
+	public BookDto editBook(long bookId, BookDto bookDto, long cid) {
 		Book book = bookDao.editBook(bookId, bookMapper.mapToBook(bookDto), cid);
 		return bookMapper.mapToBookDto(book);
 	}
 
-	public void deleteBook(Long bookId) {
+	public void deleteBook(long bookId) {
 		bookDao.deleteBook(bookId);
 	}
 
-	public BookDto viewBook(Long bookId) {
-		return bookMapper.mapToBookDto(bookDao.viewBook(bookId));
+	public BookDto getBookById(long bookId) {
+		return bookMapper.mapToBookDto(bookDao.getBookById(bookId));
 	}
 
 	public List<BookDto> listBooksByCategory(String category) {
@@ -59,14 +60,17 @@ public class BookService {
 
 	}
 
-	public List<BookDto> listBestSellingBook() {
-		List<Book> bList = bookDao.listBestSellingBook();
-		List<BookDto> bDList = new ArrayList<>();
-		for (Book b : bList) {
-			BookDto bookDto = bookMapper.mapToBookDto(b);
-			bDList.add(bookDto);
-		}
-		return bDList;
+	public List<BookDto> listBestSellingBook(Integer limit) {
+		List<Book> bookList = bookDao.listBestSellingBook(limit);
+		return bookList.stream()
+                .map(bookMapper::mapToBookDto)
+                .collect(Collectors.toList());
+	}
 
+	public List<BookDto> searchBook(String name, long category, Double minPrice, Double maxPrice) {
+		List<Book> bookList = bookDao.searchBook(name, category, minPrice, maxPrice);
+		return bookList.stream()
+                .map(bookMapper::mapToBookDto)
+                .collect(Collectors.toList());
 	}
 }
