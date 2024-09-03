@@ -25,6 +25,7 @@ public class UserPrincipal implements UserDetails {
 
 	@Override
 	public String getPassword() {
+		System.out.println(user.getRole()+((Object)user.getRole()).getClass().getSimpleName());
 		return user.getPassword();
 	}
 
@@ -32,5 +33,5 @@ public class UserPrincipal implements UserDetails {
 	public String getUsername() {
 		return user.getEmail();
 	}
-
+	
 }
