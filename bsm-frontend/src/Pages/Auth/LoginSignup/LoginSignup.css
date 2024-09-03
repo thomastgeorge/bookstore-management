@@ -23,7 +23,8 @@ font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
+  margin-left: 1.4rem;
 }
 
 .login-signup-logo {
@@ -50,7 +51,7 @@ font-size: 14px;
 .login-signup-row {
   display: flex;
   flex-wrap: wrap;
-  height: 100vh;
+  height: 90vh;
 }
 
 .login-signup-col {
@@ -97,7 +98,7 @@ font-size: 14px;
 
 .login-signup-input-group input {
   width: 100%;
-  padding: 1rem 3rem;
+  padding: 0.7rem 0.9rem;
   font-size: 1rem;
   font-weight: 600s;
   background-color: var(--gray);
@@ -145,7 +146,7 @@ font-size: 14px;
 .login-signup-social-list > div {
   color: var(--white);
   margin: 0 0.5rem;
-  padding: 0.7rem;
+  padding: 0.rem;
   cursor: pointer;
   border-radius: 0.5rem;
   transform: scale(0);

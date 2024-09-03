@@ -105,7 +105,7 @@ const LoginSignup = () => {
           </div>
           <div className="login-signup-form-wrapper login-signup-align-items-center">
             <form onSubmit={handleSubmit} className="login-signup-form sign-up">
-              <h1>Sign Up</h1>
+              <h2>Sign Up</h2>
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
                 <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleInputChange} />
@@ -150,7 +150,7 @@ const LoginSignup = () => {
           </div>
           <div className="login-signup-form-wrapper login-signup-align-items-center">
             <form onSubmit={handleSubmit} className="login-signup-form sign-in">
-              <h1>Login</h1>
+              <h2>Login</h2>
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
                 <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
