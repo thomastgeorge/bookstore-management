@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserContext } from '../../App.js'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserRoutes from '../UserRoutes/UserRoutes'
 import LoginSignup from '../../Pages/Auth/LoginSignup/LoginSignup.js'
@@ -6,6 +7,8 @@ import LoginSignup from '../../Pages/Auth/LoginSignup/LoginSignup.js'
 
 
 const AppRoutes = () => {
+    const { user } = useContext(UserContext)
+    console.log(user);
     return (
         
         <BrowserRouter>

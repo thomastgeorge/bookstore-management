@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Axios from '../../../Service/Axios'; 
-import './LoginSignup.css'; 
+import './LoginSignup.css';
+import { UserContext } from '../../../App'
 
 const LoginSignup = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -15,6 +16,8 @@ const LoginSignup = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { setUser } = useContext(UserContext)
+
   useEffect(() => {
     if (location.pathname === '/signup') {
       setIsSignIn(false);
@@ -22,6 +25,7 @@ const LoginSignup = () => {
       setIsSignIn(true);
     }
   }, [location.pathname]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,13 +41,43 @@ const LoginSignup = () => {
       if (isSignIn) {
         // Sign in
         const { email, password } = formData;
-        const response = await Axios.post('/api/v1/auth/login', { email, password });
-        localStorage.setItem('token', response.data.token); 
+        Axios.post('/api/v1/auth/login', { email, password })
+        .then(response => {
+          localStorage.setItem('token', response.data.token); 
+          console.log(response)
+          
+          console.log(response.data.user.role)
+          
+          if(response.data.user.role==="USER"){
+            Axios.get(`api/v1/customer/userId/${response.data.user.userId}`)
+            .then(response => {
+              console.log(response.data);
+              
+              const modifiedData = {
+                ...response.data,
+                role: response.data.user.role
+              };
+              console.log(modifiedData)
+
+              setUser(modifiedData);
+
+              navigate('/');
+            })
+            .catch(error => {
+              console.error('There was an error!', error);
+            });
+          } else {
+            setUser(response.data)
+            console.log(response.data.user)
+            navigate('/');
+          }
+
+          
+        })
+        .catch(error => {
+          console.error('There was an error!', error);
+        });
         
-
-
-
-        navigate('/');
       } else {
         // Sign up
         const { username, email, mobile, password, confirmPassword } = formData;
