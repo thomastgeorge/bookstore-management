@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-<<<<<<< HEAD:bsm-frontend/src/Pages/Auth/Login/LoginSignup.js
-import Axios from '../../../Service/Service'; 
-import './LoginSignup.css'; 
-=======
-import Axios from '../../../Service/Axios'; 
+import Axios from '../../../Service/Axios';
+import { UserContext } from '../../../App';
 import './LoginSignup.css';
-import { UserContext } from '../../../App'
->>>>>>> c47d11a0c6f6c46d21e84b1ec843c0e4b4cc7a6a:bsm-frontend/src/Pages/Auth/LoginSignup/LoginSignup.js
 
 const LoginSignup = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -51,7 +46,7 @@ const LoginSignup = () => {
           localStorage.setItem('token', response.data.token); 
           console.log(response)
           
-          console.log(response.data.user.role)
+          console.log(response.data)
           
           if(response.data.user.role==="USER"){
             Axios.get(`api/v1/customer/userId/${response.data.user.userId}`)
