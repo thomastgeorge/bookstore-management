@@ -45,8 +45,9 @@ public class CustomerService {
 	
 	public void deleteCustomer(long customerId) {
 		Customer customer = customerDao.getCustomerById(customerId);
-		userDao.deleteUser(customer.getUser().getUserId());
+		long userId = customer.getUser().getUserId();
 		customerDao.deleteCustomer(customerId);
+		userDao.deleteUser(userId);
 	}
 
 }
