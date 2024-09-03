@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.grayMatter.dao.UserDao;
 import com.grayMatter.dto.UserDto;
 import com.grayMatter.dto.UserMapper;
 import com.grayMatter.entities.User;
 
+@Service
 public class UserService {
 	
 	@Autowired
