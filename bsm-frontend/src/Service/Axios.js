@@ -15,7 +15,7 @@ Axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
 
   // Disable Authorization header for login and signup requests
-  if (config.url && (config.url.includes('api/v1/auth/login') || config.url.includes('api/v1//auth/signup'))) {
+  if (config.url && (config.url.includes('api/v1/auth/login') || config.url.includes('api/v1/auth/signup'))) {
     delete config.headers.Authorization; // Remove Authorization header for these requests
   } else if (token) {
     config.headers.Authorization = `Bearer ${token}`; // Add Authorization header for other requests
