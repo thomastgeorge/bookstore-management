@@ -120,17 +120,17 @@ const AllBooks = () => {
         <Typography variant="h3" align="center" gutterBottom>
           All Books
         </Typography>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           {loading
             ? Array.from({ length: displayedItems }).map((_, index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
+                <Grid item key={index} xs={12} sm={6} md={3}>
                   <div className="flex justify-center items-center h-full">
                     <CircularProgress />
                   </div>
                 </Grid>
               ))
             : filteredBooks.slice(0, displayedItems).map((book) => (
-                <Grid item key={book.bookId} xs={12} sm={6} md={4}>
+                <Grid item key={book.bookId} xs={12} sm={6} md={3}>
                   <ProductCard
                     id={book.bookId}
                     price={book.price}

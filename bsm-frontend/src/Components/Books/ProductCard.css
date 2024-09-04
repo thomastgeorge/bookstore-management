@@ -1,0 +1,113 @@
+.container_product_card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.product_card {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    width: 350px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
+    overflow: hidden;
+    background-color: black;
+    position: relative; /* Allow positioning of child elements */
+}
+
+.product_card .top_card {
+    background-color: white;
+    height: 300%; /* Adjust height to better fit the image */
+    position: relative;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ensure overflow is hidden for better layout */
+}
+
+.top_card .product_image {
+    position: absolute;
+    top: 0; /* Align image with the top of the card */
+    left: 50%;
+    /* bottom:0.1rem; */
+    width: 300px; /* Make image span the full width of the top card */
+    height: 300px; /* Maintain aspect ratio */
+    max-width: 300px; /* Optional: Set max width for control */
+    transform: translateX(-50%); /* Center image horizontally */
+    object-fit: fill; /* Cover the container while maintaining aspect ratio */
+    z-index: 1; /* Ensure image is properly layered */
+}
+
+.top_card .product_price {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-style: italic;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.75rem;
+}
+
+.product_card .bottom_card {
+    height: 55%; /* Adjust to fit remaining space */
+    padding: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bottom_card .product_name {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.bottom_card .product_name h6 {
+    color: #ffffff;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.bottom_card .product_name h4 {
+    font-size: 1.25rem;
+    margin: 0;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden;    /* Hide text overflow */
+    text-overflow: ellipsis; /* Add ellipsis */
+}
+
+.bottom_card .product_description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+}
+
+.bottom_card .product_description .product_rating {
+    /* No specific style needed here */
+}
+
+.bottom_card .product_description .product_price {
+    font-weight: 700;
+    font-style: italic;
+}
+
+.bottom_card .cta_add_to_cart {
+    background-color: #ffffff;
+    color: black;
+    border: none;
+    border-radius: 200px;
+    padding: 0.45rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    width: 80%;
+}
