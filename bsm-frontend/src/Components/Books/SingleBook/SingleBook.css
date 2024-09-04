@@ -1,0 +1,17 @@
+/* styles.css */
+.productDetail {
+    --gold: #fde047;
+  }
+  
+  .productDetail button {
+    @apply border border-black rounded-xl px-5 py-1;
+  }
+  
+  .productDetail .react-rater-star.is-active-half:before {
+    color: var(--gold) !important;
+  }
+  
+  .productDetail .react-rater-star.is-active {
+    color: var(--gold) !important;
+  }
+  

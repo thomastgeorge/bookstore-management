@@ -9,7 +9,9 @@ import Orders from '../../Pages/User/Orders/Orders';
 import OurStory from '../../Pages/OurStory/OurStory';
 import AllBooks from '../../Components/Books/AllBooks';
 import Profile from '../../Pages/User/Profile/Profile';
-import Address from "../../Pages/User/Address/Address"
+import Address from "../../Pages/User/Address/Address";
+import SingleBook from '../../Components/Books/SingleBook';
+// import SingleBook from '../../Components/Books/SingleBook/SingleBook';
 
 const UserRoutes = () => {
   return (
@@ -17,6 +19,7 @@ const UserRoutes = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/single-product" element={<SingleBook />} />
         <Route path="/our-story" element={<OurStory />} />
         <Route path="/account/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
