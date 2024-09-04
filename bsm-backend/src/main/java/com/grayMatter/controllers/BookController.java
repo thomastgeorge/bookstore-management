@@ -28,7 +28,7 @@ public class BookController {
 		return bookService.createBook(bookDto, categoryId);
 	}
 
-	@GetMapping()
+	@GetMapping("")
 	public List<BookDto> listAllBooks() {
 		return bookService.listAllBooks();
 	}
@@ -51,7 +51,6 @@ public class BookController {
 	@GetMapping("/category/{category}")
 	public List<BookDto> listBooksByCategory(@PathVariable("category") String category) {
 		return bookService.listBooksByCategory(category);
-
 	}
 
 	@GetMapping("/best-selling")
@@ -62,12 +61,18 @@ public class BookController {
 	
 	@GetMapping("/search")
 	public List<BookDto> searchBook(
-		    @RequestParam(required = false) String name,
-		    @RequestParam(required = false) long category,
+		    @RequestParam(required = false) String title,
+		    @RequestParam(required = false) Long category,
 		    @RequestParam(required = false) Double minPrice,
 		    @RequestParam(required = false) Double maxPrice
 		    ){
-		return bookService.searchBook(name, category, minPrice, maxPrice);
+		return bookService.searchBook(title, category, minPrice, maxPrice);
 	}
+	
+	@GetMapping("/new-arrivals/{limit}")
+	public List<BookDto> newArrivals(@PathVariable int limit) {
+		return bookService.newArrivals(limit);
+	}
+	
 
 }

@@ -29,12 +29,6 @@ const Footer = () => {
                   Home
                 </Nav.Link>
                 <Nav.Link 
-                  onClick={() => nav('/our-story')} 
-                  style={{ color: 'white', textDecoration: 'none' }}
-                >
-                  Our Story
-                </Nav.Link>
-                <Nav.Link 
                   onClick={() => nav('/account/orders')} 
                   style={{ color: 'white', textDecoration: 'none' }}
                 >

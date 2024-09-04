@@ -2,14 +2,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 5px;
 }
 
 .product_card {
     display: flex;
     flex-direction: column;
-    height: 450px;
+    height: 420px;
     width: 350px;
+    max-width: 300px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgb(255, 255, 255);
     overflow: hidden;
@@ -34,7 +35,7 @@
     left: 50%;
     /* bottom:0.1rem; */
     width: 300px; /* Make image span the full width of the top card */
-    height: 300px; /* Maintain aspect ratio */
+    height: 350px; /* Maintain aspect ratio */
     max-width: 300px; /* Optional: Set max width for control */
     transform: translateX(-50%); /* Center image horizontally */
     object-fit: fill; /* Cover the container while maintaining aspect ratio */

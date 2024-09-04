@@ -61,6 +61,7 @@ const LoginSignup = () => {
               console.log(modifiedData)
 
               setUser(modifiedData);
+              localStorage.setItem('user', JSON.stringify(modifiedData)); 
               console.log("modified data", modifiedData)
 
               const redirectUrl = localStorage.getItem('currentPageUrl') || '/';

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../App';
-import { Button, Form, Container, Alert } from 'react-bootstrap';
+import { Button, Form, Container, Alert, Modal } from 'react-bootstrap';
 import Axios from '../../../Service/Axios';
 import './Profile.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ const Profile = () => {
   const [passwordError, setPasswordError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,6 +32,18 @@ const Profile = () => {
     setUpdateError("")
     setFormData({ ...user });
   };
+
+  const handleDeleteAccount = async () => {
+    try {
+      await Axios.delete(`api/v1/customer/${user.customerId}`);
+      localStorage.clear();
+      setUser(null); // Clear the user context
+      navigate('/login');
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      setUpdateError('An error occurred while deleting the account. Please try again.');
+    }
+  }
 
   const fetchUserData = async () => {
     try {
@@ -201,6 +214,7 @@ const Profile = () => {
               <strong>Password:</strong> Password is hidden
               <Button variant="link" onClick={() => setEditingField('password')} className="ms-2">Update Password</Button>
             </div>
+            <Button variant="danger" onClick={() => setShowDeleteModal(true)} className="mt-3">Delete Account</Button>
           </div>
         </div>
       ) : editingField === 'password' ? (
@@ -290,6 +304,20 @@ const Profile = () => {
 
         </div>
       )}
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete your account?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteAccount}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

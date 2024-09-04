@@ -41,6 +41,7 @@ public class SecurityConfig{
         .requestMatchers("/api/v1/cart/**").hasRole("USER")
         .requestMatchers("/api/v1/user/**").hasRole("USER")
         .requestMatchers("/api/v1/customer/**").hasRole("USER")
+        .requestMatchers("/api/v1/category/**").hasRole("USER")
         .requestMatchers("/api/v1/bookorder/**").hasRole("USER")
         .requestMatchers("/api/v1/auth/**").permitAll()
         .requestMatchers("/api/v1/**").hasRole("ADMIN")
