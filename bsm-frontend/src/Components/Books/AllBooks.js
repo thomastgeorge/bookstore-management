@@ -11,7 +11,6 @@ const AllBooks = () => {
   const [filters, setFilters] = useState({ category: [], minPrice: '', maxPrice: '' });
 
   useEffect(() => {
-    // Fetch books from API
     const fetchBooks = async () => {
       try {
         const response = await axios.get('/api/v1/book');
@@ -56,7 +55,7 @@ const AllBooks = () => {
   };
 
   const filteredBooks = books.filter((book) => {
-    const inCategory = filters.category.length === 0 || filters.category.includes(book.category.categoryName); // Adjusted
+    const inCategory = filters.category.length === 0 || filters.category.includes(book.category.categoryName);
     const withinPriceRange = (
       (!filters.minPrice || book.price >= parseFloat(filters.minPrice)) &&
       (!filters.maxPrice || book.price <= parseFloat(filters.maxPrice))
@@ -121,7 +120,7 @@ const AllBooks = () => {
         <Typography variant="h3" align="center" gutterBottom>
           All Books
         </Typography>
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {loading
             ? Array.from({ length: displayedItems }).map((_, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
@@ -135,9 +134,9 @@ const AllBooks = () => {
                   <ProductCard
                     id={book.bookId}
                     price={book.price}
-                    thumbnail={book.thumbnail}
+                    cover={book.cover}
                     title={book.title}
-                    category={book.category.categoryName} // Adjusted
+                    category={book.category.categoryName}
                     rating={book.avgRating}
                   />
                 </Grid>
