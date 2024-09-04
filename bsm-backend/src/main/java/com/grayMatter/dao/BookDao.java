@@ -70,12 +70,13 @@ public class BookDao {
 		return null;
 	}
 
-	public List<Book> searchBook(String name, long category, Double minPrice, Double maxPrice) {
-		return bookRepository.searchBook(name, category, minPrice, maxPrice);
+	public List<Book> searchBook(String title, Long category, Double minPrice, Double maxPrice) {
+		return bookRepository.searchBook(title, category, minPrice, maxPrice);
 		
 	}
 	
-
-	
+	public List<Book> newArrivals(int limit) {
+        return bookRepository.newArrivals(limit);
+    }
 
 }

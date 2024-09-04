@@ -16,7 +16,7 @@ import com.grayMatter.dto.AddressDto;
 import com.grayMatter.services.AddressService;
 
 @RestController
-@RequestMapping("/api/va/address")
+@RequestMapping("/api/v1/address")
 public class AddressContoller {
 	
 	@Autowired

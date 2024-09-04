@@ -67,10 +67,18 @@ public class BookService {
                 .collect(Collectors.toList());
 	}
 
-	public List<BookDto> searchBook(String name, long category, Double minPrice, Double maxPrice) {
-		List<Book> bookList = bookDao.searchBook(name, category, minPrice, maxPrice);
+	public List<BookDto> searchBook(String title, Long category, Double minPrice, Double maxPrice) {
+		List<Book> bookList = bookDao.searchBook(title, category, minPrice, maxPrice);
 		return bookList.stream()
                 .map(bookMapper::mapToBookDto)
                 .collect(Collectors.toList());
 	}
+	
+	public List<BookDto> newArrivals(int limit) {
+		List<Book> bookList = bookDao.newArrivals(limit);
+		return bookList.stream()
+		        .map(bookMapper::mapToBookDto)
+		        .collect(Collectors.toList());
+    }
+	
 }

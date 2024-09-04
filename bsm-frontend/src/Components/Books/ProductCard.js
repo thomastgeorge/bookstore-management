@@ -2,22 +2,22 @@ import React from 'react';
 import './ProductCard.css'; // Import the CSS file
 import RatingStar from './RatingStar';
 
-const ProductCard = ({ id, price, cover, title, category, rating }) => {
+const ProductCard = ({ book }) => {
   return (
     <div className='container_product_card'>
       <div className='product_card'>
         <div className='top_card'>
           {/* Image and price */}
-          <img src={cover} className="product_image" alt={title} />
+          <img src={book.cover} className="product_image" alt={book.title} />
           
         </div>
         <div className='bottom_card'>
           {/* Name, description, and CTA */}
           <div className='product_name'>
-            <h6>{category}</h6>
-            <h4>{title}</h4>
+            <h6>{book.author}</h6>
+            <h4>{book.title}</h4>
             <div className='product_description'>
-          <RatingStar className='product_rating' rating={rating} /> <span className='product_price'>₹ {price.toFixed(2)}</span>
+          <RatingStar className='product_rating' rating={book.avgRating} /> <span className='product_price'>₹ {book.price}</span>
           </div>
           </div>
           

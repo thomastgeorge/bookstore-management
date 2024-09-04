@@ -21,13 +21,15 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     void customDelete(@Param("bookId") Long bookId);
 	
 	@Query("SELECT b FROM Book b " +
-	           "WHERE (:name IS NULL OR b.title LIKE %:name% OR b.description LIKE %:name%) " +
-	           "AND (:category IS NULL OR b.category = :category) " +
-	           "AND (:minPrice IS NULL OR :maxPrice IS NULL OR (b.price BETWEEN :minPrice AND :maxPrice))")
-	    List<Book> searchBook(@Param("name") String name,
-	                          @Param("category") Long category,
-	                          @Param("minPrice") Double minPrice,
-	                          @Param("maxPrice") Double maxPrice);
+		       "WHERE (:title IS NULL OR b.title LIKE %:title% OR b.description LIKE %:title%) " +
+		       "AND (:category IS NULL OR b.category.categoryId = :category) " +
+		       "AND (:minPrice IS NULL OR :maxPrice IS NULL OR (b.price BETWEEN :minPrice AND :maxPrice))")
+	List<Book> searchBook(@Param("title") String title,
+	                      @Param("category") Long category,
+	                      @Param("minPrice") Double minPrice,
+	                      @Param("maxPrice") Double maxPrice);
 
+	 @Query("SELECT b FROM Book b ORDER BY publishedDate DESC LIMIT :limit")
+	 List<Book> newArrivals(@Param("limit") int limit);
 	
 }

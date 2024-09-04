@@ -1,18 +1,35 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../../App.js'
-import { Navbar, Nav, Dropdown, Button } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown, Button, Form } from 'react-bootstrap';
 import { FaSearch, FaShoppingCart, FaRegUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   const nav = useNavigate();
   const { user, setUser } = useContext(UserContext)
   console.log(user);
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
     localStorage.removeItem('user'); // Clear user data from localStorage
     setUser(null); // Update user state/context
     nav('/login'); // Redirect to login page
+  };
+
+  const handleSearch = () => {
+    const trimmedQuery = searchQuery.trim();
+    if (trimmedQuery) {
+      const encodedQuery = encodeURIComponent(trimmedQuery);
+      nav(`/search?query=${encodedQuery}`);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();  // Prevent form submission
+      handleSearch();
+    }
   };
 
   return (
@@ -42,24 +59,33 @@ const NavBar = () => {
           <Navbar.Collapse id="basic-navbar-nav" className="w-100">
             <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
               {/* Centered Search Bar */}
+
               <div className="d-flex flex-grow-1 justify-content-center align-items-center">
                 <div className="d-flex align-items-center" style={{ maxWidth: '100%' }}>
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className="form-control custom-search-bar"
-                    style={{
-                      minWidth: '290px', // Adjust as needed
-                      maxWidth: '600px', // Adjust as needed
-                      width: '100%',
-                    }}
-                  />
-                  <Button variant="outline-secondary" className="rounded-0" style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}>
-                    <FaSearch />
-                  </Button>
+                  <Form
+                    className="d-flex align-items-center flex-grow-1"
+                    style={{ maxWidth: '500px', width: '100%' }}
+                    onKeyDown={handleKeyDown}  // Add keydown event listener
+                  >
+                    <Form.Control
+                      type="text"
+                      placeholder="Search"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="rounded-0 me-2"
+                    />
+                    <Button
+                      variant="outline-secondary"
+                      className="rounded-0"
+                      onClick={handleSearch}
+                      aria-label="Search"
+                      style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}
+                    >
+                      <FaSearch />
+                    </Button>
+                  </Form>
                 </div>
               </div>
-
               {/* Right side (User Icons and Login Button) */}
               <Nav className="d-flex align-items-center justify-content-center flex-column flex-md-row">
                 
