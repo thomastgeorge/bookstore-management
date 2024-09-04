@@ -40,6 +40,7 @@ const LoginSignup = () => {
     try {
       if (isSignIn) {
         // Sign in
+        localStorage.removeItem('token')
         const { email, password } = formData;
         Axios.post('/api/v1/auth/login', { email, password })
         .then(response => {

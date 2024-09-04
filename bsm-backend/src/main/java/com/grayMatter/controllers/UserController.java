@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grayMatter.dto.ChangePassword;
 import com.grayMatter.dto.UserDto;
 import com.grayMatter.services.UserService;
 
@@ -30,14 +32,19 @@ public class UserController {
 		return userService.getAllUser();
 	}
 	
-	@PutMapping()
-	public UserDto updateUser(UserDto userDto) {
-		return userService.updateUser(userDto);
+	@PatchMapping("/{userId}")
+	public UserDto updateUser(@PathVariable("userId") long userId, @RequestBody UserDto userDto) {
+		return userService.updateUser(userId, userDto);
 	}
 	
 	@DeleteMapping("/{userId}")
 	public void deleteUser(@PathVariable("userId") long userId) {
 		userService.deleteUser(userId);
+	}
+	
+	@PatchMapping("/updatePassword/{userId}")
+	public UserDto updatePassword(@PathVariable("userId") long userId, @RequestBody ChangePassword changePassword) {
+		return userService.updatePassword(userId, changePassword);
 	}
 
 }

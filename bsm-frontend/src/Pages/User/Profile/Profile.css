@@ -1,0 +1,19 @@
+/* Profile.css */
+.small-input {
+    max-width: 350px; /* Adjust width as needed */
+    width: 100%; /* Ensures the input takes full width of its container */
+    font-size: 0.875rem; /* Adjust font size for smaller text */
+}
+  
+.small-input-password {
+  max-width: 350px; /* Adjust width as needed */
+  width: 100%; /* Ensures the input takes full width of its container */
+  font-size: 0.875rem; /* Adjust font size for smaller text */
+}
+
+  /* Profile.css */
+.small-error, .small-success {
+  max-width: 500px;
+}
+
+  

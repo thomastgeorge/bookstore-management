@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,11 +36,11 @@ public class CustomerController {
 		return customerService.getAllCustomer();
 	}
 	
-	@PutMapping()
-	public CustomerDto updateCustomer(@RequestBody CustomerDto customerDto) {
-		return customerService.updateCustomer(customerDto);
+	@PatchMapping("/{customerId}")
+	public CustomerDto updateCustomer(@PathVariable("customerId") long customerId, @RequestBody CustomerDto customerDto) {
+		return customerService.updateCustomer(customerId, customerDto);
 	}
-	
+
 	@DeleteMapping("/{customerId}")
 	public void deleteCustomer(@PathVariable("customerId") long customerId) {
 		customerService.deleteCustomer(customerId);

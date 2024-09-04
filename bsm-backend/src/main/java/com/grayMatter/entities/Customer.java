@@ -37,7 +37,4 @@ public class Customer {
 	@JoinColumn(name="userId", referencedColumnName = "userId")
 	private User user;
 
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private List<Cart> cart;
-
 }
