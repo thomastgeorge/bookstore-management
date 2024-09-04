@@ -3,8 +3,10 @@ package com.grayMatter.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.grayMatter.dto.ChangePassword;
 import com.grayMatter.entities.Role;
 import com.grayMatter.entities.User;
 import com.grayMatter.repositories.UserRepository;
@@ -14,6 +16,9 @@ public class UserDao {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 	
 	public User getUserById(long userId) {
 		return userRepository.findById(userId).get();
@@ -33,6 +38,21 @@ public class UserDao {
 		    return;
 		}
 		userRepository.deleteById(userId);
+	}
+
+	public User updatePassword(long userId, ChangePassword changePassword) {
+		User existingUser = userRepository.findById(userId).get();
+		
+		if(changePassword.getNewPassword() != null && !changePassword.getNewPassword().isEmpty()) {
+			
+			// Validate the current password
+	        if (!passwordEncoder.matches(changePassword.getCurrentPassword(), existingUser.getPassword())) {
+	            throw new RuntimeException("Current password is incorrect");
+	        }
+	        String encodedNewPassword = passwordEncoder.encode(changePassword.getNewPassword());
+			existingUser.setPassword(encodedNewPassword);
+		}
+		return userRepository.save(existingUser);
 	}
 
 }

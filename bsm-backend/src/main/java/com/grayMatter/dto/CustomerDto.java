@@ -20,6 +20,5 @@ public class CustomerDto {
 	private String mobile;
 	private Date registeredOn;
 	private User user;
-	private List<Cart> cart;
 
 }

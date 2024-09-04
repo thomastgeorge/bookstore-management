@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grayMatter.dao.UserDao;
+import com.grayMatter.dto.ChangePassword;
 import com.grayMatter.dto.UserDto;
 import com.grayMatter.dto.UserMapper;
 import com.grayMatter.entities.User;
@@ -31,12 +32,20 @@ public class UserService {
                 .collect(Collectors.toList());
 	}
 	
-	public UserDto updateUser(UserDto userDto) {
-		return userMapper.mapToUserDto(userDao.updateUser(userMapper.mapToUser(userDto)));
+	public UserDto updateUser(long userId, UserDto userDto) {
+		User existingUser = userDao.getUserById(userId);
+		if(userDto.getEmail() != null) {
+			existingUser.setEmail(userDto.getEmail());
+		}
+		return userMapper.mapToUserDto(userDao.updateUser(existingUser));
 	}
 	
 	public void deleteUser(long userId) {
 		userDao.deleteUser(userId);
+	}
+
+	public UserDto updatePassword(long userId, ChangePassword changePassword) {
+		return userMapper.mapToUserDto(userDao.updatePassword(userId, changePassword));
 	}
 
 }

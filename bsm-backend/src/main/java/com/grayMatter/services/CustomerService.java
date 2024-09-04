@@ -39,8 +39,18 @@ public class CustomerService {
                 .collect(Collectors.toList());
 	}
 	
-	public CustomerDto updateCustomer(CustomerDto customerDto) {
-		return customerMapper.mapToCustomerDto(customerDao.updateCustomer(customerMapper.mapToCustomer(customerDto)));
+	public CustomerDto updateCustomer(long customerId, CustomerDto customerDto) {
+		Customer existingCustomer = customerDao.getCustomerById(customerId);
+		     
+	    if (customerDto.getName() != null) {
+	        existingCustomer.setName(customerDto.getName());
+	    }
+	    
+	    if (customerDto.getMobile() != null) {
+	        existingCustomer.setMobile(customerDto.getMobile());
+	    }
+	    
+		return customerMapper.mapToCustomerDto(customerDao.updateCustomer(existingCustomer));
 	}
 	
 	public void deleteCustomer(long customerId) {

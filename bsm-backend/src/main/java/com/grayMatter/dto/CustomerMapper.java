@@ -13,8 +13,7 @@ public class CustomerMapper {
 				customer.getName(),
 				customer.getMobile(),
 				customer.getRegisteredOn(),
-				customer.getUser(),
-				customer.getCart()
+				customer.getUser()
 				);
 	}
 	
@@ -24,8 +23,7 @@ public class CustomerMapper {
 				customerDto.getName(),
 				customerDto.getMobile(),
 				customerDto.getRegisteredOn(),
-				customerDto.getUser(),
-				customerDto.getCart()
+				customerDto.getUser()
 				);
 	}
 

@@ -39,7 +39,6 @@ public class AuthenticationDao {
 		customer.setMobile(regUserDto.getMobile());
 		customer.setRegisteredOn(new Date(System.currentTimeMillis()));
 		customer.setUser(savedUser);
-		customer.setCart(null);
 		customerRepository.save(customer);
 		
 		return savedUser;
