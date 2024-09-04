@@ -7,10 +7,11 @@ import Account from '../../Pages/User/Account/Account';
 import Cart from '../../Pages/User/Cart/Cart';
 import Orders from '../../Pages/User/Orders/Orders';
 import OurStory from '../../Pages/OurStory/OurStory';
-import AllBooks from '../../Components/Books/AllBooks';
 import Profile from '../../Pages/User/Profile/Profile';
 import Address from "../../Pages/User/Address/Address";
 import SingleBook from '../../Components/Books/SingleBook';
+import SearchLayout from '../../Components/SearchLayout/SearchLayout'
+import Contact from '../../Pages/Contact/Contact'
 // import SingleBook from '../../Components/Books/SingleBook/SingleBook';
 
 const UserRoutes = () => {
@@ -26,7 +27,8 @@ const UserRoutes = () => {
         <Route path="/account/cart" element={<Cart />} />
         <Route path="/account/profile" element={<Profile />} />
         <Route path="/account/address" element={<Address />} />
-        <Route path="/all-books" element={<AllBooks/>} />
+        <Route path="/search" element={<SearchLayout />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </>
