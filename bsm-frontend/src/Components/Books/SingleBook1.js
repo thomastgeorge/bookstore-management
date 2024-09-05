@@ -22,7 +22,7 @@ const SingleBook = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await axios.get(`/api/v1/book/9`);
+        const response = await axios.get(`/api/v1/book/${bookID}`);
         const bookData = response.data;
         setBook(bookData);
         setScategory(bookData.category.categoryName || '');

@@ -20,7 +20,7 @@ const UserRoutes = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/single-product" element={<SingleBook />} />
+        <Route path="/book/:bookID" element={<SingleBook />} />
         <Route path="/our-story" element={<OurStory />} />
         <Route path="/account/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
