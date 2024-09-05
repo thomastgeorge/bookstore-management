@@ -2,6 +2,8 @@ package com.grayMatter.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,10 +32,12 @@ public class Review {
 	
 	@ManyToOne
 	@JoinColumn(name="bookId", referencedColumnName = "bookId")
+	@JsonIgnore
 	private Book book;
 	
 	@ManyToOne
 	@JoinColumn(name="customerId", referencedColumnName = "customerId")
+	@JsonIgnore
 	private Customer customer;
 
 }

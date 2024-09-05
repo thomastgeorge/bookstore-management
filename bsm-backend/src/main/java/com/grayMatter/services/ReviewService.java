@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.grayMatter.configuration.UserPrincipal;
 import com.grayMatter.dao.ReviewDao;
+import com.grayMatter.dto.BookDto;
 import com.grayMatter.dto.ReviewDto;
 import com.grayMatter.dto.ReviewMapper;
 import com.grayMatter.entities.Review;
@@ -26,6 +30,24 @@ public class ReviewService {
                 .map(reviewMapper::mapToReviewDto)
                 .collect(Collectors.toList());
 		
+	}
+
+	public ReviewDto createReview(ReviewDto reviewDto, long bookId) {
+		// TODO Auto-generated method stub
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = (UserPrincipal) userDetails;
+        Long customerId = userPrincipal.getUserId();
+		return reviewMapper.mapToReviewDto(reviewDao.createReview(reviewMapper.mapToReview(reviewDto),bookId,customerId));
+	}
+
+	public List<ReviewDto> getReviewByCustomer() {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = (UserPrincipal) userDetails;
+        Long customerId = userPrincipal.getUserId();
+    	List<Review> reviewList = reviewDao.getReviewByCustomerId(customerId);
+		return reviewList.stream()
+                .map(reviewMapper::mapToReviewDto)
+                .collect(Collectors.toList());
 	}
 	
 

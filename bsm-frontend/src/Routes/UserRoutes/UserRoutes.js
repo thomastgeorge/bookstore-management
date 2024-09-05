@@ -9,10 +9,10 @@ import Orders from '../../Pages/User/Orders/Orders';
 import OurStory from '../../Pages/OurStory/OurStory';
 import Profile from '../../Pages/User/Profile/Profile';
 import Address from "../../Pages/User/Address/Address";
-import SingleBook from '../../Components/Books/SingleBook';
+// import SingleBook from '../../Components/Books/SingleBook';
 import SearchLayout from '../../Components/SearchLayout/SearchLayout'
 import Contact from '../../Pages/Contact/Contact'
-// import SingleBook from '../../Components/Books/SingleBook/SingleBook';
+import SingleBook from '../../Components/Books/SingleBook1';
 
 const UserRoutes = () => {
   return (
