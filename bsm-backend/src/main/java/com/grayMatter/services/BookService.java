@@ -29,8 +29,8 @@ public class BookService {
 	public List<BookDto> listAllBooks() {
 		List<Book> bList = bookDao.listAllBooks();
 		List<BookDto> bDList = new ArrayList<>();
-		for (Book b : bList) {
-			BookDto bookDto = bookMapper.mapToBookDto(b);
+		for (Book book : bList) {
+			BookDto bookDto = bookMapper.mapToBookDto(book);
 			bDList.add(bookDto);
 		}
 		return bDList;
@@ -67,9 +67,10 @@ public class BookService {
                 .collect(Collectors.toList());
 	}
 
-	public List<BookDto> searchBook(String title, Long category, Double minPrice, Double maxPrice) {
-		List<Book> bookList = bookDao.searchBook(title, category, minPrice, maxPrice);
+	public List<BookDto> searchBook(String query, Long category, Double minPrice, Double maxPrice) {
+		List<Book> bookList = bookDao.searchBook(query, category, minPrice, maxPrice);
 		return bookList.stream()
+				.filter(Book::getAvailable)
                 .map(bookMapper::mapToBookDto)
                 .collect(Collectors.toList());
 	}
@@ -77,8 +78,17 @@ public class BookService {
 	public List<BookDto> newArrivals(int limit) {
 		List<Book> bookList = bookDao.newArrivals(limit);
 		return bookList.stream()
+				.filter(Book::getAvailable)
 		        .map(bookMapper::mapToBookDto)
 		        .collect(Collectors.toList());
     }
+	
+	public List<BookDto> getTopRatedBooks(int limit){
+		List<Book> bookList = bookDao.getTopRatedBooks(limit);
+		return bookList.stream()
+				.filter(Book::getAvailable)
+		        .map(bookMapper::mapToBookDto)
+		        .collect(Collectors.toList());
+	}
 	
 }

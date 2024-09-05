@@ -1,10 +1,10 @@
 package com.grayMatter.dao;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.grayMatter.entities.Book;
@@ -70,13 +70,18 @@ public class BookDao {
 		return null;
 	}
 
-	public List<Book> searchBook(String title, Long category, Double minPrice, Double maxPrice) {
-		return bookRepository.searchBook(title, category, minPrice, maxPrice);
+	public List<Book> searchBook(String query, Long category, Double minPrice, Double maxPrice) {
+		return bookRepository.searchBook(query, category, minPrice, maxPrice);
 		
 	}
 	
 	public List<Book> newArrivals(int limit) {
         return bookRepository.newArrivals(limit);
     }
+	
+	public List<Book> getTopRatedBooks(int limit){
+		Pageable pageable =  PageRequest.of(0, limit);
+		return bookRepository.findAllByOrderByAvgRatingDesc(pageable);
+	}
 
 }

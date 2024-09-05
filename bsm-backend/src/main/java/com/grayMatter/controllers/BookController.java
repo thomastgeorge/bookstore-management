@@ -3,6 +3,7 @@ package com.grayMatter.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,18 +62,24 @@ public class BookController {
 	
 	@GetMapping("/search")
 	public List<BookDto> searchBook(
-		    @RequestParam(required = false) String title,
+		    @RequestParam(required = false) String query,
 		    @RequestParam(required = false) Long category,
 		    @RequestParam(required = false) Double minPrice,
 		    @RequestParam(required = false) Double maxPrice
 		    ){
-		return bookService.searchBook(title, category, minPrice, maxPrice);
+		return bookService.searchBook(query, category, minPrice, maxPrice);
 	}
 	
 	@GetMapping("/new-arrivals/{limit}")
 	public List<BookDto> newArrivals(@PathVariable int limit) {
 		return bookService.newArrivals(limit);
 	}
+	
+	@GetMapping("/top-rated/{limit}")
+    public ResponseEntity<List<BookDto>> getTopRatedBooks(@PathVariable int limit) {
+        List<BookDto> books = bookService.getTopRatedBooks(limit);
+        return ResponseEntity.ok(books);
+    }
 	
 
 }

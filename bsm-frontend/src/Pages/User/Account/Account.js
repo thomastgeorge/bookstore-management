@@ -1,11 +1,14 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../../../App';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import InitialsAvatar from 'react-initials-avatar';
 import 'react-initials-avatar/lib/ReactInitialsAvatar.css';
 import { FaShoppingCart, FaBoxOpen, FaUser, FaStar, FaAddressCard, FaPhone } from 'react-icons/fa';
 
 const Account = () => {
+    const currentPageUrl = window.location.href;
+    localStorage.setItem('currentPageUrl', currentPageUrl);
+
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 

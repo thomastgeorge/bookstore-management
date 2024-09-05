@@ -34,7 +34,7 @@ public class SecurityConfig{
 		.and()
 		.csrf().disable()
 		.authorizeRequests()
-        .requestMatchers("/api/v1/book/**").hasRole("USER")
+        .requestMatchers("/api/v1/book/**").permitAll()
         .requestMatchers("/api/v1/order/**").hasRole("USER")
         .requestMatchers("/api/v1/review/**").hasRole("USER")
         .requestMatchers("/api/v1/address/**").hasRole("USER")

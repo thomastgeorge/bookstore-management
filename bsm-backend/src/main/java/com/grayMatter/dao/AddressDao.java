@@ -34,7 +34,7 @@ public class AddressDao {
 	}
 	
 	public Address updateAddress(long customerId, Address address) {
-		Address currentAddress = addressRepository.findById(address.getCustomer().getCustomerId()).get();
+		Address currentAddress = addressRepository.findById(address.getAddressId()).get();
 		if(currentAddress == null)
 			return null;
 		Customer customer = customerRepository.findById(customerId).get();

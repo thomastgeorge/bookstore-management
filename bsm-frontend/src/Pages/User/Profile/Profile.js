@@ -19,9 +19,15 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Redirect to login if user is null
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
     // Reset formData if user changes
     setFormData({ ...user });
-  }, [user]);
+  }, [user, navigate]);
 
   const handleEditClick = (field) => {
     setEditingField(field);
@@ -29,7 +35,7 @@ const Profile = () => {
 
   const handleCancel = () => {
     setEditingField('');
-    setUpdateError("")
+    setUpdateError("");
     setFormData({ ...user });
   };
 
@@ -43,29 +49,23 @@ const Profile = () => {
       console.error('Error deleting account:', error);
       setUpdateError('An error occurred while deleting the account. Please try again.');
     }
-  }
+  };
 
   const fetchUserData = async () => {
     try {
-      // Make the Axios GET request to fetch user data
       const response = await Axios.get(`api/v1/customer/userId/${user.user.userId}`);
-      
-      // Handle successful response
       console.log(response.data);
-      setUpdateError("")
-      
-      // Modify the data as needed
+      setUpdateError("");
+
       const modifiedData = {
         ...response.data,
         role: response.data.user.role
       };
-  
-      // Update state or do something with the modified data
+
       setUser(modifiedData);
       console.log("Modified data", modifiedData);
       
     } catch (error) {
-      // Handle errors
       console.error('There was an error!', error);
       setUpdateError('An error occurred while updating. Please try again.');
     }
@@ -101,24 +101,16 @@ const Profile = () => {
         await Axios.patch(apiUrl, updateData);
        
         if (editingField === 'email') {
-            // Set a success message
             setUpdateError('Email updated successfully. You will be logged out.');
-    
-            // Clear local storage and redirect to login page after a short delay
             setTimeout(() => {
               localStorage.clear();
               navigate('/login')
             }, 4000); // Delay for showing the alert
           } else {
             setSuccessMessage(`${editingField.charAt(0).toUpperCase() + editingField.slice(1)} updated successfully`);
-            // Clear success message after 5 seconds
             setTimeout(() => setSuccessMessage(''), 5000);
-            
-            // Update context user with the new data
-            setEditingField('')
-            // Update context user with the new data
             setEditingField('');
-            // Call the function to fetch user data
+            setEditingField('');
             fetchUserData();
           }
       }
@@ -129,7 +121,6 @@ const Profile = () => {
   };
 
   const handlePasswordUpdate = async () => {
-    // Validate password
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setPasswordError('New passwords do not match');
       return;
@@ -149,13 +140,12 @@ const Profile = () => {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword
       });
-        setSuccessMessage('Password updated successfully');
-        setEditingField('');
-        setUpdateError('');
-        setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-        // Clear success message after 5 seconds
-        setTimeout(() => setSuccessMessage(''), 5000);
-        fetchUserData();
+      setSuccessMessage('Password updated successfully');
+      setEditingField('');
+      setUpdateError('');
+      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setTimeout(() => setSuccessMessage(''), 5000);
+      fetchUserData();
 
     } catch (error) {
       console.error('Error updating password:', error);
@@ -166,7 +156,6 @@ const Profile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
   
-    // Handling different fields based on `editingField`
     if (editingField === 'email') {
       setFormData(prevState => ({
         ...prevState,
@@ -191,9 +180,14 @@ const Profile = () => {
     }));
   };
 
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
+
   return (
     <Container className="mt-5" style={{ marginLeft: '300px' }}>
-    {successMessage && <Alert variant="success" className="small-success mt-3">{successMessage}</Alert>}
+      {successMessage && <Alert variant="success" className="small-success mt-3">{successMessage}</Alert>}
       {editingField === '' ? (
         <div>
           <h2>Profile</h2>
@@ -227,7 +221,7 @@ const Profile = () => {
               name="currentPassword"
               value={passwordData.currentPassword}
               onChange={handlePasswordChange}
-              className="small-input-password" // Apply custom CSS class
+              className="small-input-password"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -237,7 +231,7 @@ const Profile = () => {
               name="newPassword"
               value={passwordData.newPassword}
               onChange={handlePasswordChange}
-              className="small-input-password" // Apply custom CSS class
+              className="small-input-password"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -247,7 +241,7 @@ const Profile = () => {
               name="confirmPassword"
               value={passwordData.confirmPassword}
               onChange={handlePasswordChange}
-              className="small-input-password" // Apply custom CSS class
+              className="small-input-password"
             />
           </Form.Group>
           {passwordError && <Alert variant="danger">{passwordError}</Alert>}
@@ -298,10 +292,9 @@ const Profile = () => {
               </>
             )}
           </Form.Group>
-            <Button variant="secondary" onClick={handleCancel} className="me-2">Cancel</Button>
-            <Button variant="primary" onClick={handleUpdateField}>Update</Button>
-            {updateError && <Alert variant="danger" className="small-error mt-3">{updateError}</Alert>}
-
+          <Button variant="secondary" onClick={handleCancel} className="me-2">Cancel</Button>
+          <Button variant="primary" onClick={handleUpdateField}>Update</Button>
+          {updateError && <Alert variant="danger" className="small-error mt-3">{updateError}</Alert>}
         </div>
       )}
       <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
