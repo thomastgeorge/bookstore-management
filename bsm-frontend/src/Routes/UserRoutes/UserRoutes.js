@@ -13,6 +13,7 @@ import Address from "../../Pages/User/Address/Address";
 import SearchLayout from '../../Components/SearchLayout/SearchLayout'
 import Contact from '../../Pages/Contact/Contact'
 import SingleBook from '../../Components/Books/SingleBook1';
+import Review from '../../Pages/User/Review/Review';
 
 const UserRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const UserRoutes = () => {
         <Route path="/account/address" element={<Address />} />
         <Route path="/search" element={<SearchLayout />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/account/review" element={<Review />} /> 
       </Routes>
       <Footer />
     </>
