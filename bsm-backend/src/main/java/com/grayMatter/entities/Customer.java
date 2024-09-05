@@ -28,8 +28,6 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long customerId;
 	private String name;
-	
-	@Column(unique = true, nullable = false)
 	private String mobile;
 	private Date registeredOn;
 	

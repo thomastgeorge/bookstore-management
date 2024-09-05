@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../../App.js'
-import { Navbar, Nav, Dropdown, Button, Form } from 'react-bootstrap';
+import { Navbar, Nav, Button, Form } from 'react-bootstrap';
 import { FaSearch, FaShoppingCart, FaRegUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -88,7 +88,7 @@ const NavBar = () => {
               </div>
               {/* Right side (User Icons and Login Button) */}
               <Nav className="d-flex align-items-center justify-content-center flex-column flex-md-row">
-                
+
               {user ? (
                 <Button
                   onClick={handleLogout}

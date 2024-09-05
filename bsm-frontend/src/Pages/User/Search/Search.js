@@ -6,6 +6,8 @@ import ProductCard from '../../../Components/Books/ProductCard';
 import { Col, Container, Row } from 'react-bootstrap';
 
 const Search = () => {
+  const currentPageUrl = window.location.href;
+  localStorage.setItem('currentPageUrl', currentPageUrl);
 
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,7 @@ const Search = () => {
     setError(null);
 
     Axios.get('/api/v1/book/search', {
-      params: { title: query, category, minPrice, maxPrice }
+      params: { query, category, minPrice, maxPrice }
     })
     .then(response => {
       setSearchResults(Array.isArray(response.data) ? response.data : []);
