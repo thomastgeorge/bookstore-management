@@ -1,10 +1,16 @@
 import React from 'react';
 import './ProductCard.css'; 
 import RatingStar from './RatingStar';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ book }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/book/${book.bookId}`, { state: { book } });
+      };
   return (
-    <div className='container_product_card'>
+    <div className='container_product_card' onClick={handleClick}>
       <div className='product_card'>
         <div className='top_card'>
           {/* Image and price */}

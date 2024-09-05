@@ -98,7 +98,7 @@ const SingleBook = () => {
             <img
               src={book.cover || ''}
               alt="Cover"
-              className="w-full md:w-80 h-auto object-cover"
+              className="w-full md:w-80 h-120 object-cover"
             />
           </div>
           
