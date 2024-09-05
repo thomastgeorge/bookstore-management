@@ -3,6 +3,8 @@ package com.grayMatter.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +44,7 @@ public class Book {
 	private Category category;
 	
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonBackReference
 	private List<Review> review;
 
 }

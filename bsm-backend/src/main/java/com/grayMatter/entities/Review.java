@@ -2,6 +2,7 @@ package com.grayMatter.entities;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -33,11 +34,12 @@ public class Review {
 	@ManyToOne
 	@JoinColumn(name="bookId", referencedColumnName = "bookId")
 	@JsonIgnore
+	@JsonBackReference
 	private Book book;
 	
 	@ManyToOne
 	@JoinColumn(name="customerId", referencedColumnName = "customerId")
-	@JsonIgnore
+	@JsonBackReference
 	private Customer customer;
 
 }

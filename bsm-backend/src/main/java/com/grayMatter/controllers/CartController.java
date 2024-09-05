@@ -22,7 +22,7 @@ public class CartController {
 	@Autowired
 	private CartServices cartServices;
 	
-	@PostMapping("/create/{customerId}/{bookId}")
+	@PostMapping("/create/{bookId}")
 	public CartDto createCart(@PathVariable("customerId") long customerId, @PathVariable("bookId") long bookId, @RequestBody CartDto cartDto) {
 		return cartServices.createCart(customerId, bookId, cartDto);
 	}

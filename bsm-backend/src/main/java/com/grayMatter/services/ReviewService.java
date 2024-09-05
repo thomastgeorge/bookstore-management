@@ -36,15 +36,15 @@ public class ReviewService {
 		// TODO Auto-generated method stub
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = (UserPrincipal) userDetails;
-        Long customerId = userPrincipal.getUserId();
-		return reviewMapper.mapToReviewDto(reviewDao.createReview(reviewMapper.mapToReview(reviewDto),bookId,customerId));
+        Long userId = userPrincipal.getUserId();
+		return reviewMapper.mapToReviewDto(reviewDao.createReview(reviewMapper.mapToReview(reviewDto),bookId,userId));
 	}
 
 	public List<ReviewDto> getReviewByCustomer() {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = (UserPrincipal) userDetails;
-        Long customerId = userPrincipal.getUserId();
-    	List<Review> reviewList = reviewDao.getReviewByCustomerId(customerId);
+        Long userId = userPrincipal.getUserId();
+    	List<Review> reviewList = reviewDao.getReviewByCustomerId(userId);
 		return reviewList.stream()
                 .map(reviewMapper::mapToReviewDto)
                 .collect(Collectors.toList());
