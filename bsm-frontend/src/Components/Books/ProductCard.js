@@ -2,6 +2,7 @@ import React from 'react';
 import './ProductCard.css'; // Import the CSS file
 import RatingStar from './RatingStar';
 import { useNavigate } from 'react-router-dom';
+import Axios from '../../Service/Axios';
 
 const ProductCard = ({ book }) => {
 
@@ -9,6 +10,18 @@ const ProductCard = ({ book }) => {
 
   const handleClick = () => {
     navigate(`/book/${book.bookId}`, { state: { book } });
+  };
+
+  const handleAddToCart = async (event) => {
+    event.stopPropagation();
+    try {
+      const cartDto = { quantity: 1 }; // Example data
+      await Axios.post(`/api/v1/cart/create/${book.bookId}`, cartDto);
+      alert('Book added to cart!');
+    } catch (error) {
+      console.error('Error adding book to cart:', error);
+      alert('Failed to add book to cart.');
+    }
   };
 
   return (
@@ -29,7 +42,11 @@ const ProductCard = ({ book }) => {
           </div>
           </div>
           
-          <button type="button" className='cta_add_to_cart'>Add To Cart</button>
+          <button type="button" 
+          className='cta_add_to_cart'
+          onClick={handleAddToCart}>
+            Add To Cart
+          </button>
         </div>
       </div>
     </div>

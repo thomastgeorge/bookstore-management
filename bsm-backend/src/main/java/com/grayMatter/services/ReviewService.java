@@ -49,6 +49,14 @@ public class ReviewService {
                 .map(reviewMapper::mapToReviewDto)
                 .collect(Collectors.toList());
 	}
+
+	public ReviewDto updateReview(ReviewDto reviewDto) {
+		return reviewMapper.mapToReviewDto(reviewDao.updateReview(reviewMapper.mapToReview(reviewDto)));
+	}
+
+	public void delete(long reviewId) {
+		reviewDao.delete(reviewId);
+	}
 	
 
 }

@@ -51,4 +51,14 @@ public class ReviewDao {
 		return reviewRepository.findByCustomerCustomerId(customerId);
 	}
 
+
+	public Review updateReview(Review review) {
+		return reviewRepository.save(review);
+	}
+
+
+	public void delete(long reviewId) {
+		reviewRepository.deleteById(reviewId);
+	}
+
 }

@@ -27,6 +27,8 @@ public class CartDao {
 	public Cart createCart(long userId, long bookId, Cart cart) {
 		
 		Customer customer=customerRepository.findByUserUserId(userId);
+		if(cartRepository.existsByCustomerCustomerIdAndBookBookId(customer.getCustomerId(), bookId))
+			return null;
 		Book book = bookRepository.findById(bookId).get();
 		cart.setCustomer(customer);
 		cart.setBook(book);

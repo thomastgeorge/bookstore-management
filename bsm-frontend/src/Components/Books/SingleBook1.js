@@ -54,7 +54,7 @@ const SingleBook = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`/api/v1/review/book/9`);
+        const response = await axios.get(`/api/v1/review/book/${bookID}`);
         setReviews(response.data);
       } catch (error) {
         console.error('Error fetching reviews:', error);
@@ -75,11 +75,11 @@ const SingleBook = () => {
 
   const handleSubmitReview = async () => {
     try {
-      await axios.post(`/api/v1/review/create/9`, { ...review, rating: ratingValue });
+      await axios.post(`/api/v1/review/create/${bookID}`, { ...review, rating: ratingValue });
       setReview({ headLine: '', comment: '', rating: 5 });
       setRatingValue(5);
       // Refresh reviews after submission
-      const response = await axios.get(`/api/v1/review/book/9`);
+      const response = await axios.get(`/api/v1/review/book/${bookID}`);
       setReviews(response.data);
     } catch (error) {
       console.error('Error submitting review:', error);

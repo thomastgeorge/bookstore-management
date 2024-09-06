@@ -30,7 +30,7 @@ const UserRoutes = () => {
         <Route path="/account/address" element={<Address />} />
         <Route path="/search" element={<SearchLayout />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/account/review" element={<Review />} /> 
+        <Route path="/account/reviews" element={<Review />} /> 
       </Routes>
       <Footer />
     </>

@@ -10,7 +10,7 @@ const AdminHome = () => {
     // Define the async function to fetch data
     const fetchData = async () => {
       try {
-        const response = await Axios.get('/api/v1/customer/allow/102');
+        const response = await Axios.get('/api/v1/customer');
         setData(response.data);
       } catch (err) {
         setError(err);

@@ -9,5 +9,7 @@ import com.grayMatter.entities.Cart;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
 	List<Cart> findByCustomerCustomerId(long customerId);
+	
+	boolean existsByCustomerCustomerIdAndBookBookId(Long customerId, long bookId);
 
 }
