@@ -86,6 +86,17 @@ const SingleBook = () => {
     }
   };
 
+  const handleAddToCart = async () => {
+    try {
+      const cartDto = { quantity: 1 }; // Example data
+      await axios.post(`/api/v1/cart/create/${bookID}`, cartDto);
+      alert('Book added to cart!');
+    } catch (error) {
+      console.error('Error adding book to cart:', error);
+      alert('Failed to add book to cart.');
+    }
+  };
+
   if (error) return <p className="text-red-500">Error: {error}</p>;
   if (!book) return <p>Loading...</p>;
 
@@ -129,6 +140,7 @@ const SingleBook = () => {
               <button
                 type="button"
                 className="flex items-center space-x-1 mb-2 text-white p-2 rounded bg-purple-900"
+                onClick={handleAddToCart}
               >
                 <AiOutlineShoppingCart />
                 <span>ADD TO CART</span>

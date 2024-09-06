@@ -24,15 +24,19 @@ public class CartDao {
 	@Autowired
 	private BookRepository bookRepository;
 	
-	public Cart createCart(long customerId, long bookId, Cart cart) {
-		Customer customer = customerRepository.findById(customerId).get();
+	public Cart createCart(long userId, long bookId, Cart cart) {
+		
+		Customer customer=customerRepository.findByUserUserId(userId);
 		Book book = bookRepository.findById(bookId).get();
 		cart.setCustomer(customer);
 		cart.setBook(book);
 		return cartRepository.save(cart);
 	}
 	
-	public List<Cart> getByCustomerId(long customerId){
+	public List<Cart> getByCustomerId(long userId){
+		
+		Customer customer=customerRepository.findByUserUserId(userId);
+		long customerId=customer.getCustomerId();
 		return cartRepository.findByCustomerCustomerId(customerId);
 	}
 	

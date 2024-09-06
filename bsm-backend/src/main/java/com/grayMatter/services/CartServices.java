@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.grayMatter.configuration.UserPrincipal;
 import com.grayMatter.dao.CartDao;
 import com.grayMatter.dto.CartDto;
 import com.grayMatter.dto.CartMapper;
@@ -20,12 +23,18 @@ public class CartServices {
 	@Autowired
 	private CartMapper cartMapper;
 	
-	public CartDto createCart(long customerId, long bookId, CartDto cartDto) {
-		return cartMapper.mapToCartDto(cartDao.createCart(customerId, bookId, cartMapper.maptToCart(cartDto)));
+	public CartDto createCart(long bookId, CartDto cartDto) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = (UserPrincipal) userDetails;
+        Long userId = userPrincipal.getUserId();
+		return cartMapper.mapToCartDto(cartDao.createCart(userId, bookId, cartMapper.maptToCart(cartDto)));
 	}
 	
-	public List<CartDto> getByCustomerId(long customerId){
-		List<Cart> cartList = cartDao.getByCustomerId(customerId);
+	public List<CartDto> getByCustomer(){
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = (UserPrincipal) userDetails;
+        Long userId = userPrincipal.getUserId();
+		List<Cart> cartList = cartDao.getByCustomerId(userId);
 		return cartList.stream()
 				 .map(cartMapper::mapToCartDto)
 	             .collect(Collectors.toList());

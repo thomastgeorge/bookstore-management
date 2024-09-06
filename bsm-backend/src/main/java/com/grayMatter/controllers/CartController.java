@@ -23,13 +23,13 @@ public class CartController {
 	private CartServices cartServices;
 	
 	@PostMapping("/create/{bookId}")
-	public CartDto createCart(@PathVariable("customerId") long customerId, @PathVariable("bookId") long bookId, @RequestBody CartDto cartDto) {
-		return cartServices.createCart(customerId, bookId, cartDto);
+	public CartDto createCart(@PathVariable("bookId") long bookId, @RequestBody CartDto cartDto) {
+		return cartServices.createCart(bookId, cartDto);
 	}
 	
-	@GetMapping("/customerId/{customerId}")
-	public List<CartDto> getByCustomerId(@PathVariable("customerId") long customerId){
-		return cartServices.getByCustomerId(customerId);
+	@GetMapping("/customer")
+	public List<CartDto> getByCustomer(){
+		return cartServices.getByCustomer();
 	}
 	
 	@PutMapping("/{cartId}/{quantity}")

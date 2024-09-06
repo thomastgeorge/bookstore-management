@@ -33,10 +33,9 @@ public class ReviewDao {
 
 
 	public Review createReview(Review review, long bookId, Long userId) {
-		UserPrincipal user;
+		
 		Customer customer=customerRepository.findByUserUserId(userId);
 		Book book=bookRepository.findById(bookId).get();
-		
 		LocalDate localDate = LocalDate.now();
 		review.setReviewedOn(Date.valueOf(localDate));
 		review.setBook(book);
@@ -46,7 +45,7 @@ public class ReviewDao {
 
 
 	public List<Review> getReviewByCustomerId(Long userId) {
-		// TODO Auto-generated method stub
+		
 		Customer customer=customerRepository.findByUserUserId(userId);
 		long customerId=customer.getCustomerId();
 		return reviewRepository.findByCustomerCustomerId(customerId);
