@@ -81,5 +81,9 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 	
+	@GetMapping("/count")
+	public long getTotalBooks() {
+        return bookService.getTotalBooks();
+    }
 
 }

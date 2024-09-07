@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './ProductCard.css'; // Import the CSS file
 import RatingStar from './RatingStar';
 import { useNavigate } from 'react-router-dom';
 import Axios from '../../Service/Axios';
+import { UserContext } from '../../App';
 
 const ProductCard = ({ book }) => {
-
+  const { user } = useContext(UserContext)
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -14,6 +15,11 @@ const ProductCard = ({ book }) => {
 
   const handleAddToCart = async (event) => {
     event.stopPropagation();
+    if (!user) {
+      // Redirect to login page if the user is not logged in
+      navigate('/login');
+      return;
+    }
     try {
       const cartDto = { quantity: 1 }; // Example data
       await Axios.post(`/api/v1/cart/create/${book.bookId}`, cartDto);

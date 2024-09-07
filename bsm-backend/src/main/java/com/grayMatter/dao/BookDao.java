@@ -83,5 +83,10 @@ public class BookDao {
 		Pageable pageable =  PageRequest.of(0, limit);
 		return bookRepository.findAllByOrderByAvgRatingDesc(pageable);
 	}
+	
+	public long getTotalBooks() {
+        return bookRepository.count();
+    }
+
 
 }

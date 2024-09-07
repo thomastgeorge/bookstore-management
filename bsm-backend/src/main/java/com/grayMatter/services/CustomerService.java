@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grayMatter.dao.CustomerDao;
-import com.grayMatter.dao.UserDao;
 import com.grayMatter.dto.CustomerDto;
 import com.grayMatter.dto.CustomerMapper;
 import com.grayMatter.entities.Customer;
@@ -17,9 +16,6 @@ public class CustomerService {
 	
 	@Autowired
 	private CustomerDao  customerDao;
-	
-	@Autowired
-	private UserDao userDao;
 	
 	@Autowired
 	private CustomerMapper customerMapper;
@@ -56,5 +52,11 @@ public class CustomerService {
 	public void deleteCustomer(long customerId) {
 		customerDao.deleteCustomer(customerId);
 	}
+
+	public long getTotalCustomers() {
+        return customerDao.count();
+    }
+	
+	
 
 }

@@ -35,5 +35,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	 List<Book> newArrivals(@Param("limit") int limit);
 	 
 	 List<Book> findAllByOrderByAvgRatingDesc(Pageable pageable);
+
+	 List<Book> findAllByBookIdIn(List<Long> bookIds);
 	
 }

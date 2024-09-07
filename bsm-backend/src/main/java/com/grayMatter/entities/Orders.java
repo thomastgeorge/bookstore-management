@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,15 @@ public class Orders {
 	private double totalTotal;
 	private String paymentMethod;
 	
+	@OneToOne
+	@JoinColumn(name="addressId", referencedColumnName = "addressId")
+	private Address address;
+	
 	@ManyToOne
 	@JoinColumn(name="customerId", referencedColumnName = "customerId")
 	private Customer customer;
 	
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "bookOrderId", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<BookOrder> bookorder;
 
 }
