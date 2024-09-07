@@ -38,6 +38,7 @@ public class BookDao {
 	public Book editBook(long bookId, Book book, long categoryId) {
 		Category cat=categoryRepository.findById(categoryId).get();
 		book.setCategory(cat);
+		book.setBookId(bookId);
 		return bookRepository.save(book);
 	}
 

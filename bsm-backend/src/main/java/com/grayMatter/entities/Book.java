@@ -43,7 +43,7 @@ public class Book {
 	@JoinColumn(name="categoryId", referencedColumnName = "categoryId")
 	private Category category;
 	
-	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "book")
 	@JsonBackReference
 	private List<Review> review;
 

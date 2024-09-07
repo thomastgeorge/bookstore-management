@@ -1,12 +1,43 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
+import ReactImageGallery from "react-image-gallery";
 import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
 
-const SingleBook = () => {
+const ProductDetail = () => {
   const productDetailItem = {
-    image:
-      "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600",
+    images: [
+      {
+        original:
+          "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600",
+        thumbnail:
+          "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        original:
+          "https://images.pexels.com/photos/1667088/pexels-photo-1667088.jpeg?auto=compress&cs=tinysrgb&w=600",
+        thumbnail:
+          "https://images.pexels.com/photos/1667088/pexels-photo-1667088.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        original:
+          "https://images.pexels.com/photos/2697787/pexels-photo-2697787.jpeg?auto=compress&cs=tinysrgb&w=600",
+        thumbnail:
+          "https://images.pexels.com/photos/2697787/pexels-photo-2697787.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+      {
+        original:
+          "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        thumbnail:
+          "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      },
+      {
+        original:
+          "https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600",
+        thumbnail:
+          "https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600",
+      },
+    ],
     title: "BIG ITALIAN SOFA",
     reviews: "150",
     availability: true,
@@ -20,21 +51,23 @@ const SingleBook = () => {
     size: ["XS", "S", "M", "L", "XL"],
     color: ["gray", "violet", "red"],
   };
-
   const plusMinuceButton =
     "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
-
   return (
     <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
-      {/* image display */}
+      {/* image gallery */}
       <div className="container mx-auto px-4">
-        <img
-          src={productDetailItem.image}
-          alt={productDetailItem.title}
-          className="w-full h-auto object-cover"
+        <ReactImageGallery
+          showBullets={false}
+          showFullscreenButton={false}
+          showPlayButton={false}
+          items={productDetailItem.images}
         />
+
+        {/* /image gallery  */}
       </div>
-      {/* description */}
+      {/* description  */}
+
       <div className="mx-auto px-5 lg:px-5">
         <h2 className="pt-3 text-2xl font-bold lg:pt-0">
           {productDetailItem.title}
@@ -47,6 +80,7 @@ const SingleBook = () => {
               interactive={false}
               rating={3.5}
             />
+
             <p className="ml-3 text-sm text-gray-400">
               ({productDetailItem.reviews})
             </p>
@@ -64,7 +98,7 @@ const SingleBook = () => {
           Brand: <span className="font-normal">{productDetailItem.brand}</span>
         </p>
         <p className="font-bold">
-          Category:{" "}
+          Cathegory:{" "}
           <span className="font-normal">{productDetailItem.category}</span>
         </p>
         <p className="font-bold">
@@ -132,4 +166,4 @@ const SingleBook = () => {
   );
 };
 
-export default SingleBook;
+export default ProductDetail;
