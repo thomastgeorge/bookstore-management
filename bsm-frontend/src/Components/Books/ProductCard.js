@@ -3,7 +3,8 @@ import './ProductCard.css'; // Import the CSS file
 import RatingStar from './RatingStar';
 import { useNavigate } from 'react-router-dom';
 import Axios from '../../Service/Axios';
-import { UserContext } from '../../App';
+import { ToastContainer, toast,Slide } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductCard = ({ book }) => {
   const { user } = useContext(UserContext)
@@ -23,16 +24,30 @@ const ProductCard = ({ book }) => {
     try {
       const cartDto = { quantity: 1 }; // Example data
       await Axios.post(`/api/v1/cart/create/${book.bookId}`, cartDto);
-      alert('Book added to cart!');
+      toast.success('Book added to cart!');
     } catch (error) {
       console.error('Error adding book to cart:', error);
-      alert('Failed to add book to cart.');
+      toast.info('Book already in cart');
     }
   };
 
   return (
+    
     <div className='container_product_card' onClick={handleClick} >
       <div className='product_card'>
+      <ToastContainer // Add ToastContainer to your component
+        position="top-center"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      />
         <div className='top_card'>
           {/* Image and price */}
           <img src={book.cover} className="product_image" alt={book.title} />
