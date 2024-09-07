@@ -91,4 +91,8 @@ public class BookService {
 		        .collect(Collectors.toList());
 	}
 	
+	public long getTotalBooks() {
+        return bookDao.getTotalBooks();
+    }
+	
 }

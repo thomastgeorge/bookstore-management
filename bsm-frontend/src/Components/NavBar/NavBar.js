@@ -62,6 +62,7 @@ const NavBar = () => {
 
               <div className="d-flex flex-grow-1 justify-content-center align-items-center">
                 <div className="d-flex align-items-center" style={{ maxWidth: '100%' }}>
+                {  user === null || user.role !== "ADMIN" ? (
                   <Form
                     className="d-flex align-items-center flex-grow-1"
                     style={{ maxWidth: '500px', width: '100%' }}
@@ -84,6 +85,8 @@ const NavBar = () => {
                       <FaSearch />
                     </Button>
                   </Form>
+                ) : null
+              }
                 </div>
               </div>
               {/* Right side (User Icons and Login Button) */}
@@ -108,23 +111,24 @@ const NavBar = () => {
                   Login
                 </Button>
               )}
-
-                <div className="d-flex">
-                  <Nav.Link
-                    onClick={() => nav('/account/cart')}
-                    className="mx-2"
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <FaShoppingCart size="1.7em" />
-                  </Nav.Link>
-                  <Nav.Link
-                    onClick={() => nav('/account')}
-                    className="mx-2"
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <FaRegUserCircle size="1.7em" />
-                  </Nav.Link>
-                </div>
+             {user && user.role !== "ADMIN" && (
+              <div className="d-flex">
+                <Nav.Link
+                  onClick={() => nav('/account/cart')}
+                  className="mx-2"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <FaShoppingCart size="1.7em" />
+                </Nav.Link>
+                <Nav.Link
+                  onClick={() => nav('/account')}
+                  className="mx-2"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <FaRegUserCircle size="1.7em" />
+                </Nav.Link>
+              </div>
+              )}
               </Nav>
             </div>
           </Navbar.Collapse>

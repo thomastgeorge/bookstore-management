@@ -3,7 +3,7 @@ import { UserContext } from '../../App.js'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserRoutes from '../UserRoutes/UserRoutes'
 import LoginSignup from '../../Pages/Auth/LoginSignup/LoginSignup.js'
-import AdminHome from '../../Pages/Admin/AdminHome.js'
+import AdminRoutes from '../AdminRoutes/AdminRoutes.js'
 import PrivateRoute from '../PrivateRoute/PrivateRoute.js'
 
 const AppRoutes = () => {
@@ -14,10 +14,10 @@ const AppRoutes = () => {
             <Routes>
                 {/* Define route for admin with PrivateRoute guard */}
                 <Route
-                    path="/admin"
+                    path="/admin/*"
                     element={
                         <PrivateRoute requiredRole="ADMIN">
-                            <AdminHome />
+                            <AdminRoutes />
                         </PrivateRoute>
                     }
                 />

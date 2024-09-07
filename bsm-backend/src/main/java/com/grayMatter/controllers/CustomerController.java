@@ -45,5 +45,10 @@ public class CustomerController {
 	public void deleteCustomer(@PathVariable("customerId") long customerId) {
 		customerService.deleteCustomer(customerId);
 	}
+	
+	@GetMapping("/count")
+    public long getTotalCustomers() {
+        return customerService.getTotalCustomers();
+    }
 
 }

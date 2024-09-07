@@ -27,11 +27,6 @@ public class BookOrder {
 	private int quantity;
 	private int subTotal;
 	
-	@ManyToOne
-	@JoinColumn(name="orderId", referencedColumnName = "orderId")
-	@JsonBackReference
-	private Orders order;
-	
 	@OneToOne
 	@JoinColumn(name="bookId", referencedColumnName = "bookId")
 	private Book book;

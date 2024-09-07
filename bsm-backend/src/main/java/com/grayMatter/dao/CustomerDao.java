@@ -34,4 +34,8 @@ public class CustomerDao {
 		customerRepository.deleteById(customerId);
 	}
 
+	public long count() {
+		return customerRepository.count();
+	}
+
 }
