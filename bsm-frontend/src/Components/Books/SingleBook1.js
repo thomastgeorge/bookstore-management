@@ -7,7 +7,9 @@ import RatingStar from "./RatingStar";
 import axios from "../../Service/Axios";
 import SimilarBook from "./SimilarBook";
 import Rating from '@mui/material/Rating';
-import { Button, TextareaAutosize, Box, Typography } from '@mui/material';
+import { Button, TextareaAutosize } from '@mui/material';
+import { ToastContainer, toast,Slide } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for Toastify
 
 const SingleBook = () => {
   const { bookID } = useParams();
@@ -90,10 +92,10 @@ const SingleBook = () => {
     try {
       const cartDto = { quantity: 1 }; // Example data
       await axios.post(`/api/v1/cart/create/${bookID}`, cartDto);
-      alert('Book added to cart!');
+      toast.success('Book added to cart!'); // Display toast notification
     } catch (error) {
       console.error('Error adding book to cart:', error);
-      alert('Failed to add book to cart.');
+      toast.info('Book already in cart'); // Display error toast notification
     }
   };
 
@@ -102,6 +104,19 @@ const SingleBook = () => {
 
   return (
     <main className="relative">
+      <ToastContainer // Add ToastContainer to your component
+        position="top-center"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      />
       <div className="container mx-auto pt-8 dark:text-white">
         <div className="flex flex-col md:flex-row gap-4 px-4 font-karla">
           {/* Image Section */}
