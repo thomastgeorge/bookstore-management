@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect,useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Axios from '../../../Service/Axios';
 import { UserContext } from '../../../App';
 import './LoginSignup.css';
-
+import emailjs from '@emailjs/browser';
+const PUBLIC_KEY = 'zgVYVTJWKV1hRD6pk';
+emailjs.init(PUBLIC_KEY);
 const LoginSignup = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [formData, setFormData] = useState({
@@ -13,10 +15,12 @@ const LoginSignup = () => {
     password: '',
     confirmPassword: '',
   });
+  const [otp, setOtp] = useState('');
+  const [showOtpDialog, setShowOtpDialog] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
-
-  const { setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
     if (location.pathname === '/signup') {
@@ -26,6 +30,9 @@ const LoginSignup = () => {
     }
   }, [location.pathname]);
 
+  const generateOTP = () => {
+    return Math.floor(1000 + Math.random() * 9000);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,67 +44,77 @@ const LoginSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (isSignIn) {
-        // Sign in
-        localStorage.removeItem('token')
-        const { email, password } = formData;
-        Axios.post('/api/v1/auth/login', { email, password })
-        .then(response => {
-          localStorage.setItem('token', response.data.token); 
-          console.log(response)
-          
-          console.log(response.data)
-          
-          if(response.data.user.role==="USER"){
-            Axios.get(`api/v1/customer/userId/${response.data.user.userId}`)
-            .then(response => {
-              console.log(response.data);
-              
-              const modifiedData = {
-                ...response.data,
-                role: response.data.user.role
-              };
-              console.log(modifiedData)
-
-              setUser(modifiedData);
-              localStorage.setItem('user', JSON.stringify(modifiedData)); 
-              console.log("modified data", modifiedData)
-
-              const redirectUrl = localStorage.getItem('currentPageUrl') || '/';
-              // Extract the pathname from the URL
-              const pathname = new URL(redirectUrl, window.location.origin).pathname;
-              // Redirect to the stored URL or a default page if no URL is stored
-              navigate(pathname);
-            })
-            .catch(error => {
-              console.error('There was an error!', error);
-            });
-          } else {
-            setUser(response.data.user)
-            console.log("admin login",response.data.user)
-            navigate('/admin');
-          }
-
-          
-        })
-        .catch(error => {
-          console.error('There was an error!', error);
-        });
-        
-      } else {
-        // Sign up
-        const { username, email, mobile, password, confirmPassword } = formData;
-        if (password !== confirmPassword) {
-          alert("Passwords do not match!");
-          return;
+    if (isSignIn) {
+      // Sign in logic
+      localStorage.removeItem('token');
+      const { email, password } = formData;
+      try {
+        const response = await Axios.post('/api/v1/auth/login', { email, password });
+        localStorage.setItem('token', response.data.token);
+        if (response.data.user.role === "USER") {
+          const userResponse = await Axios.get(`api/v1/customer/userId/${response.data.user.userId}`);
+          const modifiedData = {
+            ...userResponse.data,
+            role: response.data.user.role
+          };
+          setUser(modifiedData);
+          localStorage.setItem('user', JSON.stringify(modifiedData));
+          const redirectUrl = localStorage.getItem('currentPageUrl') || '/';
+          const pathname = new URL(redirectUrl, window.location.origin).pathname;
+          navigate(pathname);
+        } else {
+          setUser(response.data.user);
+          navigate('/admin');
         }
-        await Axios.post('/api/v1/auth/signup', { name: username, email, mobile, password });
-        navigate('/login'); 
+      } catch (error) {
+        console.error('There was an error!', error);
       }
-    } catch (error) {
-      console.error("There was an error!", error);
-      alert("Error occurred. Please try again.");
+    } else {
+      // Sign up logic
+      const { username, email, mobile, password, confirmPassword } = formData;
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const otp = generateOTP();
+      setGeneratedOtp(otp);
+      setShowOtpDialog(true);
+
+      // Send OTP email
+      const serviceID = "service_6sfv418";
+      const templateID = "template_xr5glab";
+      const templateParams = {
+        from_name: "Libreria",
+        OTP: otp,
+        message: "Hi",
+        reply_to: email,
+      };
+
+      emailjs.send(serviceID, templateID, templateParams)
+        .then((response) => {
+          console.log('OTP sent successfully', response);
+        })
+        .catch((error) => {
+          console.error('Error sending OTP', error);
+        });
+    }
+  };
+
+  const handleOtpSubmit = () => {
+    if (otp === generatedOtp.toString()) {
+      // Proceed with the signup
+      const { username, email, mobile, password } = formData;
+      Axios.post('/api/v1/auth/signup', { name: username, email, mobile, password })
+        .then(() => {
+          navigate('/login');
+        })
+        .catch((error) => {
+          console.error('Error during signup', error);
+        });
+      setShowOtpDialog(false);
+    } else {
+      alert('Invalid OTP');
     }
   };
 
@@ -207,6 +224,23 @@ const LoginSignup = () => {
         </div>
         {/* END SIGN UP CONTENT */}
       </div>
+
+      {/* OTP Dialog */}
+      {showOtpDialog && (
+        <div className="otp-dialog">
+          <div className="otp-dialog-content">
+            <h3>Enter OTP</h3>
+            <input
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter OTP"
+            />
+            <button onClick={handleOtpSubmit}>Verify OTP</button>
+            <button onClick={() => setShowOtpDialog(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

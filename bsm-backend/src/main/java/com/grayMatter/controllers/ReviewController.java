@@ -23,7 +23,7 @@ public class ReviewController {
 	ReviewService reviewService;
 	
 	@PostMapping("/create/{bookId}")
-	public ReviewDto createBook(@RequestBody ReviewDto reviewDto ,@PathVariable("bookId") long bookId) {
+	public ReviewDto createReview(@RequestBody ReviewDto reviewDto ,@PathVariable("bookId") long bookId) {
 		return reviewService.createReview(reviewDto,bookId);
 	}
 	@GetMapping("/book/{bookId}")
@@ -33,6 +33,10 @@ public class ReviewController {
 	@GetMapping("/customer")
 	public List<ReviewDto> getReviewByCustomer() {
 		return reviewService.getReviewByCustomer();
+	}
+	@GetMapping("/customer/admin/{customerId}")
+	public List<ReviewDto> getReviewByCustomerAdmin(@PathVariable("customerId") long customerId) {
+		return reviewService.getReviewByCustomerAdmin(customerId);
 	}
 	
 	@PutMapping()

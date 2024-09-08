@@ -29,7 +29,7 @@ public class BookController {
 		return bookService.createBook(bookDto, categoryId);
 	}
 
-	@GetMapping("")
+	@GetMapping()
 	public List<BookDto> listAllBooks() {
 		return bookService.listAllBooks();
 	}

@@ -57,6 +57,15 @@ public class ReviewService {
 	public void delete(long reviewId) {
 		reviewDao.delete(reviewId);
 	}
+
+	public List<ReviewDto> getReviewByCustomerAdmin(long customerId) {
+		// TODO Auto-generated method stub
+		List<Review> reviewList = reviewDao.getReviewByCustomerIdAdmin(customerId);
+		return reviewList.stream()
+                .map(reviewMapper::mapToReviewDto)
+                .collect(Collectors.toList());
+//		return null;
+	}
 	
 
 }

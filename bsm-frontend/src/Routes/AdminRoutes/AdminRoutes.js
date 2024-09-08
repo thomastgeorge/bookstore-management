@@ -6,6 +6,7 @@ import AdminHome from '../../Pages/Admin/AdminHome/AdminHome.js'
 import AdminLayout from '../AdminLayout/AdminLayout.js'
 import AdminCustomer from '../../Pages/Admin/AdminCustomer/AdminCustomer.js'
 import AdminBooks from '../../Pages/Admin/AdminBooks/AdminBooks.js'
+import AdminReview from '../../Pages/Admin/AdminReview/AdminReview.js'
 
 
 const AdminRoutes = () => {
@@ -19,7 +20,7 @@ const AdminRoutes = () => {
           <Route path="/customers" element={<AdminCustomer />} />
           <Route path="/categories" element={<AdminHome />} />
           <Route path="/orders" element={<AdminHome />} />
-          <Route path="/reviews" element={<AdminHome />} />
+          <Route path="/reviews" element={<AdminReview />} />
         </Route>
       </Routes>
       {/* <Footer /> */}

@@ -61,4 +61,9 @@ public class ReviewDao {
 		reviewRepository.deleteById(reviewId);
 	}
 
+
+	public List<Review> getReviewByCustomerIdAdmin(long customerId) {
+		return reviewRepository.findByCustomerCustomerId(customerId);
+	}
+
 }
