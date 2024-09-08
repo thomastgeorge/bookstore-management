@@ -7,6 +7,8 @@ import AdminLayout from '../AdminLayout/AdminLayout.js'
 import AdminCustomer from '../../Pages/Admin/AdminCustomer/AdminCustomer.js'
 import AdminBooks from '../../Pages/Admin/AdminBooks/AdminBooks.js'
 import AdminReview from '../../Pages/Admin/AdminReview/AdminReview.js'
+import AdminOrder from '../../Pages/Admin/AdminOrder/AdminOrder.js'
+import AdminCategory from '../../Pages/Admin/AdminCategory/AdminCategory.js'
 
 
 const AdminRoutes = () => {
@@ -18,8 +20,8 @@ const AdminRoutes = () => {
           <Route index element={<AdminHome />} />
           <Route path="/books" element={<AdminBooks />} />
           <Route path="/customers" element={<AdminCustomer />} />
-          <Route path="/categories" element={<AdminHome />} />
-          <Route path="/orders" element={<AdminHome />} />
+          <Route path="/categories" element={<AdminCategory />} />
+          <Route path="/orders" element={<AdminOrder />} />
           <Route path="/reviews" element={<AdminReview />} />
         </Route>
       </Routes>

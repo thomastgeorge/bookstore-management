@@ -89,6 +89,12 @@ public class OrderService implements OrderServiceInterface {
 	    //return ordersMapper.mapToOrdersDto(orderDao.addOrder(ordersMapper.mapToOrders(ordersDto)));
 	}
 
+	public List<OrdersDto> listAllOrders(){
+		List<Orders> listOrders = orderDao.listAllOrders();
+		return listOrders.stream()
+                .map(ordersMapper::mapToOrdersDto)
+                .collect(Collectors.toList());
+	}
 	@Override
 	public List<OrdersDto> getOrdersByCustomerId(long customerId) {
 		List<Orders> listOrders = orderDao.getOrdersByCustomerId(customerId);
@@ -116,6 +122,11 @@ public class OrderService implements OrderServiceInterface {
 	public double getTodaysRevenue() {
 		return orderDao.getTodaysRevenue();
 	}
-
+	 public List<OrdersDto> searchOrders(Long orderId, String param) {
+	        List<Orders> listOrders = orderDao.searchOrders(orderId, param);
+	        return listOrders.stream()
+	                .map(ordersMapper::mapToOrdersDto)
+	                .collect(Collectors.toList());
+	    }
 
 }

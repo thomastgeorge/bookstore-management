@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.grayMatter.dto.BookDto;
 import com.grayMatter.dto.OrdersDto;
 import com.grayMatter.services.OrderService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,11 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	 @GetMapping
+	    public ResponseEntity<List<OrdersDto>> listAllOrders() {
+	        List<OrdersDto> books = orderService.listAllOrders();
+	        return new ResponseEntity<>(books, HttpStatus.OK);
+	    }
 	
 	@GetMapping("/{orderId}")
     public ResponseEntity<OrdersDto> getOrderById(@PathVariable long orderId) {
@@ -69,6 +76,14 @@ public class OrderController {
     public ResponseEntity<Double> getTodaysRevenue() {
         double todaysRevenue = orderService.getTodaysRevenue();
         return new ResponseEntity<>(todaysRevenue, HttpStatus.OK);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<OrdersDto>> searchOrders(
+            @RequestParam(value = "orderId", required = false) Long orderId,
+            @RequestParam(value = "param", required = false) String param) 
+    {
+        List<OrdersDto> orders = orderService.searchOrders(orderId, param);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
 }

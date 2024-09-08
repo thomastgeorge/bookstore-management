@@ -45,4 +45,13 @@ public class OrderDao {
 		return ordersRepository.findTodaysRevenue(new Date(System.currentTimeMillis()));
 	}
 
+	public List<Orders> listAllOrders() {
+		return ordersRepository.findAll();
+	}
+	 public List<Orders> searchOrders(Long orderId, String param) {
+	        return ordersRepository.searchOrders(orderId, param);
+	       
+	        
+	    }
+
 }
