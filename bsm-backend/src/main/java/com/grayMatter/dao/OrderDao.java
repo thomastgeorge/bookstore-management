@@ -1,5 +1,6 @@
 package com.grayMatter.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,24 @@ public class OrderDao {
 
 	public List<Orders> getOrdersByCustomerId(long customerId) {
 		return ordersRepository.findByCustomerCustomerId(customerId);
+	}
+
+	public long getOrderCount() {
+		return ordersRepository.count();
+	}
+
+	public long getTodaysOrderCount() {
+		return ordersRepository.countTodaysOrders(new Date(System.currentTimeMillis()));
+	}
+
+	public double getTotalRevenue() {
+		return ordersRepository.findAll().stream()
+                .mapToDouble(order -> order.getTotalTotal())
+                .sum();
+	}
+
+	public double getTodaysRevenue() {
+		return ordersRepository.findTodaysRevenue(new Date(System.currentTimeMillis()));
 	}
 
 }

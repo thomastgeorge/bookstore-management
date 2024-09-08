@@ -12,7 +12,8 @@ public class BookOrderMapper {
 				bookOrder.getBookOrderId(),
 				bookOrder.getQuantity(),
 				bookOrder.getSubTotal(),
-				bookOrder.getBook()
+				bookOrder.getBook(),
+				bookOrder.getOrders()
 				);
 	}
 	
@@ -21,7 +22,8 @@ public class BookOrderMapper {
 				bookOrderDto.getBookOrderId(),
 				bookOrderDto.getQuantity(),
 				bookOrderDto.getSubTotal(),
-				bookOrderDto.getBook()
+				bookOrderDto.getBook(),
+				bookOrderDto.getOrders()
 				);
 	}
 

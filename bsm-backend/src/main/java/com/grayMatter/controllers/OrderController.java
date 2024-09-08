@@ -37,5 +37,25 @@ public class OrderController {
 	public List<OrdersDto> getOrdersByCustomerId(@PathVariable long customerId){
 		return orderService.getOrdersByCustomerId(customerId);
 	}
+	
+	@GetMapping("/count")
+	public long getOrderCount() {
+		return orderService.getOrderCount();
+	}
+	
+	@GetMapping("/todays/count")
+	public long getTodaysOrderCount() {
+		return orderService.getTodaysOrderCount();
+	}
+	
+	@GetMapping("/total/revenue")
+	public double getTotalRevenue() {
+		return orderService.getTotalRevenue();
+	}
+	
+	@GetMapping("/todays/revenue")
+	public double getTodaysRevenue() {
+		return orderService.getTodaysRevenue();
+	}
 
 }

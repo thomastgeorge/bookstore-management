@@ -95,5 +95,21 @@ public class OrderService {
                 .collect(Collectors.toList());
 	}
 
+	public long getOrderCount() {
+		return orderDao.getOrderCount();
+	}
+
+	public long getTodaysOrderCount() {
+		return orderDao.getTodaysOrderCount();
+	}
+
+	public double getTotalRevenue() {
+		return orderDao.getTotalRevenue();
+	}
+
+	public double getTodaysRevenue() {
+		return orderDao.getTodaysRevenue();
+	}
+
 
 }

@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from '../../../Service/Axios.js'
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { UserContext } from '../../../App.js'
+import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
   const { user } = useContext(UserContext)
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -25,7 +27,7 @@ const Orders = () => {
   }, []);
 
   const handleViewBook = (bookId) => {
-    alert(`Viewing book with ID: ${bookId}`); // Replace with your actual logic
+    navigate(`/book/${bookId}`);
   };
 
   if (loading) return <div>Loading...</div>;

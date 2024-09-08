@@ -92,7 +92,7 @@ const AdminHome = () => {
             <Card>
               <Card.Body>
                 <Card.Title>Today's Revenue</Card.Title>
-                <Card.Text>${data.todaysRevenue}</Card.Text>
+                <Card.Text>₹{data.todaysRevenue}</Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -102,7 +102,7 @@ const AdminHome = () => {
             <Card>
               <Card.Body>
                 <Card.Title>Total Revenue</Card.Title>
-                <Card.Text>${data.totalRevenue}</Card.Text>
+                <Card.Text>₹{data.totalRevenue}</Card.Text>
               </Card.Body>
             </Card>
           </Col>

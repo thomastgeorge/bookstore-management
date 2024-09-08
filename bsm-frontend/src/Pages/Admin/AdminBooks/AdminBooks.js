@@ -21,6 +21,7 @@ const BookManagement = () => {
     category: '',
   });
   const [isEditMode, setIsEditMode] = useState(false);
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     fetchBooks();
@@ -37,6 +38,27 @@ const BookManagement = () => {
       setIsLoading(false);
     }
   };
+
+  const searchBook = async (e) => {
+    e.preventDefault()
+    setIsLoading(true);
+
+      axios.get('/api/v1/book/search', {
+        params: { query }
+      })
+      .then(response => {
+        console.log(response)
+        setBooks(response.data)
+      })
+      .catch(err => {
+        console.error('Error fetching books:', err);
+      })
+      .finally(err =>{
+        setIsLoading(false);
+      });
+    }
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -185,9 +207,20 @@ const BookManagement = () => {
             {/* Book List */}
             <div className="bg-white p-6 rounded shadow-md dark:bg-slate-700">
               <h3 className="text-xl font-semibold mb-4">Book List</h3>
+              <form onSubmit={searchBook} className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Search by title or author or category"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white px-3 py-2"
+                />
+              </form>
               {isLoading ? (
-                <p>Loading...</p>
-              ) : (
+                  <p>Loading...</p>
+                ) : books.length === 0 ? (
+                  <p>No books found. Try a different search.</p>
+                ) : (
                 <ul>
                   {books.map((book) => (
                     <li key={book.bookId} className="mb-4 border-b border-gray-200 dark:border-gray-600 pb-4">
