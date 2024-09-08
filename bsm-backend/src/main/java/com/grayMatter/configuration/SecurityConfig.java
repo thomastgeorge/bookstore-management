@@ -36,6 +36,7 @@ public class SecurityConfig{
 		.authorizeRequests()
 		.requestMatchers("/api/v1/auth/**").permitAll()
         .requestMatchers("/api/v1/book/**").permitAll()
+        .requestMatchers("/api/v1/user/updatePasswordLogin/**").permitAll()
         .requestMatchers("/api/v1/order/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers("/api/v1/review/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers("/api/v1/address/**").hasAnyRole("USER", "ADMIN")

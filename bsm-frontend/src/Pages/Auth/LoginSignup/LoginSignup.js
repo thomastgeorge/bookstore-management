@@ -1,11 +1,13 @@
-import React, { useEffect,useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Axios from '../../../Service/Axios';
 import { UserContext } from '../../../App';
 import './LoginSignup.css';
 import emailjs from '@emailjs/browser';
+
 const PUBLIC_KEY = 'zgVYVTJWKV1hRD6pk';
 emailjs.init(PUBLIC_KEY);
+
 const LoginSignup = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [formData, setFormData] = useState({
@@ -18,6 +20,13 @@ const LoginSignup = () => {
   const [otp, setOtp] = useState('');
   const [showOtpDialog, setShowOtpDialog] = useState(false);
   const [generatedOtp, setGeneratedOtp] = useState('');
+  const [showForgotPasswordDialog, setShowForgotPasswordDialog] = useState(false);
+  const[showResetPasswordDialog,setShowResetPasswordDialog]=useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordOtp, setForgotPasswordOtp] = useState('');
+  const [generatedForgotPasswordOtp, setGeneratedForgotPasswordOtp] = useState(''); // Added state
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -118,6 +127,53 @@ const LoginSignup = () => {
     }
   };
 
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+    const otp = generateOTP();
+    setGeneratedForgotPasswordOtp(otp);
+
+    // Send OTP email
+    const serviceID = "service_6sfv418";
+    const templateID = "template_j8sxit5";
+    const templateParams = {
+      from_name: "Libreria",
+      OTP: otp,
+      message: "Hi",
+      reply_to: forgotPasswordEmail,
+    };
+
+    emailjs.send(serviceID, templateID, templateParams)
+      .then((response) => {
+        console.log('OTP sent successfully', response);
+        // forgotPasswordOtp
+        setShowForgotPasswordDialog(false); // Show dialog to enter OTP and new password
+        setShowResetPasswordDialog(true);
+      })
+      .catch((error) => {
+        console.error('Error sending OTP', error);
+      });
+  };
+
+  const handleResetPasswordSubmit = async () => {
+    if (forgotPasswordOtp !== generatedForgotPasswordOtp.toString()) {
+      alert('Invalid OTP');
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    try {
+      await Axios.patch(`/api/v1/user/updatePasswordLogin/${forgotPasswordEmail}`, { newPassword });
+      alert('Password reset successfully');
+      setShowResetPasswordDialog(false);
+    } catch (error) {
+      console.error('Error resetting password', error);
+    }
+  };
+
   return (
     <div id="login-signup-container" className={`login-signup-container ${isSignIn ? 'sign-in' : 'sign-up'}`}>
       <div className="login-signup-row">
@@ -186,12 +242,12 @@ const LoginSignup = () => {
               <button type="submit">
                 Login
               </button>
-              <p >
-                <b className='login-already-span'>
+              <p>
+                <b className='login-already-span' onClick={() => setShowForgotPasswordDialog(true)}>
                   Forgot password?
                 </b>
               </p>
-              <p >
+              <p>
                 <span className='login-already-span'>
                   Don't have an account?
                 </span>
@@ -238,6 +294,55 @@ const LoginSignup = () => {
             />
             <button onClick={handleOtpSubmit}>Verify OTP</button>
             <button onClick={() => setShowOtpDialog(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* Forgot Password Dialog */}
+      {showForgotPasswordDialog && !forgotPasswordOtp && (
+        <div className="forgot-password-dialog">
+          <div className="forgot-password-dialog-content">
+            <h3>Reset Password</h3>
+            <input
+              type="text"
+              value={forgotPasswordEmail}
+              onChange={(e) => setForgotPasswordEmail(e.target.value)}
+              placeholder="Enter your email"
+            />
+            <button onClick={handleForgotPasswordSubmit}>Send OTP</button>
+            <button onClick={() => setShowForgotPasswordDialog(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Password Dialog */}
+      {showResetPasswordDialog&& (
+        <div className="forgot-password-dialog">
+          <div className="forgot-password-dialog-content">
+            <h3>Enter OTP and New Password</h3>
+            <input
+              type="text"
+              value={forgotPasswordOtp}
+              onChange={(e) => setForgotPasswordOtp(e.target.value)}
+              placeholder="Enter OTP"
+            />
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="New Password"
+            />
+            <input
+              type="password"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+              placeholder="Confirm New Password"
+            />
+            <button onClick={handleResetPasswordSubmit}>Reset Password</button>
+            <button onClick={() => {
+              setForgotPasswordOtp('');
+              setShowResetPasswordDialog(false);
+            }}>Cancel</button>
           </div>
         </div>
       )}

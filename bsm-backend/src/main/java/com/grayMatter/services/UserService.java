@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.grayMatter.dao.UserDao;
 import com.grayMatter.dto.ChangePassword;
+import com.grayMatter.dto.ForgotPasswordDto;
 import com.grayMatter.dto.UserDto;
 import com.grayMatter.dto.UserMapper;
 import com.grayMatter.entities.User;
@@ -46,6 +47,11 @@ public class UserService {
 
 	public UserDto updatePassword(long userId, ChangePassword changePassword) {
 		return userMapper.mapToUserDto(userDao.updatePassword(userId, changePassword));
+	}
+
+	public UserDto updatePasswordLoginForgot(String emailId, ForgotPasswordDto forgotPassword) {
+		// TODO Auto-generated method stub
+		return userMapper.mapToUserDto(userDao.updatePasswordLoginForgot(emailId, forgotPassword));
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.ChangePassword;
+import com.grayMatter.dto.ForgotPasswordDto;
 import com.grayMatter.dto.UserDto;
 import com.grayMatter.services.UserService;
 
@@ -45,6 +46,10 @@ public class UserController {
 	@PatchMapping("/updatePassword/{userId}")
 	public UserDto updatePassword(@PathVariable("userId") long userId, @RequestBody ChangePassword changePassword) {
 		return userService.updatePassword(userId, changePassword);
+	}
+	@PatchMapping("/updatePasswordLogin/{emailId}")
+	public UserDto updatePasswordLoginForgot(@PathVariable("emailId") String emailId, @RequestBody ForgotPasswordDto forgotPassword) {
+		return userService.updatePasswordLoginForgot(emailId, forgotPassword);
 	}
 
 }

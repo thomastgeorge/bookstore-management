@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.grayMatter.dto.ChangePassword;
+import com.grayMatter.dto.ForgotPasswordDto;
 import com.grayMatter.entities.Role;
 import com.grayMatter.entities.User;
 import com.grayMatter.repositories.UserRepository;
@@ -50,6 +51,15 @@ public class UserDao {
 	            throw new RuntimeException("Current password is incorrect");
 	        }
 	        String encodedNewPassword = passwordEncoder.encode(changePassword.getNewPassword());
+			existingUser.setPassword(encodedNewPassword);
+		}
+		return userRepository.save(existingUser);
+	}
+
+	public User updatePasswordLoginForgot(String emailId, ForgotPasswordDto forgotPassword) {
+		User existingUser = userRepository.findByEmail(emailId).get();
+		if(forgotPassword.getNewPassword() != null && !forgotPassword.getNewPassword().isEmpty()) {
+			String encodedNewPassword = passwordEncoder.encode(forgotPassword.getNewPassword());
 			existingUser.setPassword(encodedNewPassword);
 		}
 		return userRepository.save(existingUser);
