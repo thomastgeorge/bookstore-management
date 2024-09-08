@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from '../../../Service/Axios';
+import { Container as ContainerC, Row, Col, Form, Button  as ButtonB, Alert } from 'react-bootstrap';
 import { 
     Button, 
     Card, 
@@ -17,6 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
+import { UserContext } from '../../../App';
 
 // Inline CSS
 const styles = {
@@ -69,6 +72,22 @@ const Cart = () => {
     const [error, setError] = useState(null);
     const [shippingCost, setShippingCost] = useState(5);
     const [selectedDelivery, setSelectedDelivery] = useState("1"); // Default to Standard Delivery
+    const navigate = useNavigate();  // Hook for navigation
+
+    const { user } = useContext(UserContext);
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState('');
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+    const [cardId, setCardId] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [upiId, setUpiId] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [cartPage, setCartPage] = useState(true); // New state for cart page
+
+    const [totalTotal, setTotalTotal] = useState(0);
+    const [bookIds, setBookIds] = useState([]);
+    const [bookorder, setBookOrder] = useState([]);
+    
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -117,14 +136,7 @@ const Cart = () => {
     };
 
     const handleCheckout = async () => {
-        try {
-            await axios.post('/api/v1/cart/checkout');
-            setCartItems([]);
-            alert('Proceeding to checkout!');
-        } catch (err) {
-            setError('Error processing checkout.');
-            console.error('Error processing checkout:', err);
-        }
+        setCartPage(false)
     };
 
     const handleDeliveryChange = (e) => {
@@ -150,7 +162,115 @@ const Cart = () => {
         return cartItems.reduce((total, item) => total + (item.book.price * item.quantity), 0);
     };
 
+    useEffect(() => {
+        // Fetch addresses when component mounts
+        const fetchAddresses = async () => {
+          try {
+            const response = await axios.get(`/api/v1/address/customerId/${user.customerId}`);
+            setAddresses(response.data);
+            // Optionally set default selected address
+            if (response.data.length > 0) {
+              setSelectedAddress(response.data[0].address); // Assuming `address` is the field name
+            }
+          } catch (error) {
+            console.error('Error fetching addresses:', error);
+            // Handle error accordingly
+          }
+        };
+    
+        fetchAddresses();
+      }, [user.customerId]);
+    
+      const handlePaymentMethodChange = (e) => {
+        setSelectedPaymentMethod(e.target.value);
+      };
+      
+      useEffect(() => {
+        const calculateTotalAndBookIds = () => {
+            const ids = cartItems.map(item => item.bookId); // Assuming `book.id` is the book ID
+            setBookIds(ids);
+            setTotalTotal(calculateTotal() + shippingCost);
+        };
+    
+        calculateTotalAndBookIds();
+    }, [cartItems, shippingCost]);
+
+    const handleOrderClick = async () => {
+        if (selectedAddress && selectedPaymentMethod) {
+            if (selectedPaymentMethod === 'cod' || 
+                (selectedPaymentMethod === 'upi' && upiId) || 
+                (selectedPaymentMethod === 'credit' && cardId && expiryDate) || 
+                (selectedPaymentMethod === 'debit' && cardId && expiryDate)) {
+                // Prepare the payload
+                const addressId = addresses.find(addr => addr.address === selectedAddress)?.addressId; // Get address ID
+                if (!addressId) {
+                    alert('Selected address not found.');
+                    return;
+                }
+    
+                const bookIdsString = bookIds.join(',');
+    
+                try {
+                    await axios.post(`/api/v1/order/create/${user.customerId}/${addressId}`, {
+                        totalTotal,
+                        paymentMethod: selectedPaymentMethod,
+                        bookIds: bookIdsString,
+                        bookorder
+                    });
+                    setShowSuccess(true);
+                    await Promise.all(
+                        cartItems.map(item => 
+                            axios.delete(`/api/v1/cart/${item.cartId}`)
+                        )
+                    );
+                    setSelectedAddress('');
+                    setSelectedPaymentMethod('');
+                    setCardId('');
+                    setExpiryDate('');
+                    setUpiId('');
+                    setBookIds([]);
+                    setTimeout(() => {
+                        setShowSuccess(false); // Hide the success message after 2 seconds
+                        setCartPage(true)
+                        navigate('/account/orders'); // Redirect to account/orders
+                    }, 2000);
+                } catch (error) {
+                    console.error('Error placing order or deleting cart items:', error);
+                    alert('Failed to place order or delete cart items.');
+                }
+            } else {
+                alert('Please fill in the payment details.');
+            }
+        } else {
+            alert('Please select an address and payment method.');
+        }
+    };
+
+    useEffect(() => {
+        const calculateBookOrders = () => {
+            const orders = cartItems.map(item => ({
+                book: {
+                    bookId: item.book.bookId, // Include bookId in the book object
+                },
+                quantity: item.quantity,
+                subTotal: item.book.price * item.quantity
+            }));
+            console.log(orders)
+            console.log(cartItems)
+            setBookOrder(orders);
+        };
+    
+        calculateBookOrders();
+    }, [cartItems, selectedPaymentMethod]);
+    
+    
+      const handleGoToCart = () => {
+        setCartPage(true);
+      };
+
     return (
+        <>
+        { cartPage ? (
         <section className="h-100 h-custom" style={styles.section}>
             <Container maxWidth="false" className="py-7  h-100">
                 <Grid container spacing={4} justifyContent="center" alignItems="center" className="h-100">
@@ -190,18 +310,18 @@ const Cart = () => {
                                                     </Grid>
                                                     <Grid item md={3} lg={3} xl={3} className="d-flex align-items-center">
                                                         <div style={styles.quantityControl}>
-                                                    <Button
-                                                      variant="contained"
-                                                      style={{
-                                                        ...styles.button,
-                                                        padding: '0.25rem 0.25rem',
-                                                        backgroundColor: 'black', 
-                                                        color: 'white'
-                                                      }}
-                                                      onClick={() => handleQuantityChange(item.cartId, Math.max(item.quantity - 1, 1))}
-                                                    >
-                                                      <RemoveIcon style={{ color: 'white' }} /> {/* Set icon color to white */}
-                                                    </Button>
+                                                            <Button
+                                                              variant="contained"
+                                                              style={{
+                                                                ...styles.button,
+                                                                padding: '0.25rem 0.25rem',
+                                                                backgroundColor: 'black', 
+                                                                color: 'white'
+                                                              }}
+                                                              onClick={() => handleQuantityChange(item.cartId, Math.max(item.quantity - 1, 1))}
+                                                            >
+                                                              <RemoveIcon style={{ color: 'white' }} /> {/* Set icon color to white */}
+                                                            </Button>
 
                                                             <Input 
                                                                 type="number" 
@@ -210,18 +330,18 @@ const Cart = () => {
                                                                 readOnly 
                                                                 style={{  ...styles.quantityInput}}
                                                             />
-                                                    <Button
-                                                      variant="contained"
-                                                      color="default"
-                                                      style={{
-                                                        ...styles.button, padding: '0.25rem 0.25rem',
-                                                        backgroundColor: 'black',
-                                                        color: 'white'
-                                                      }}
-                                                      onClick={() => handleQuantityChange(item.cartId, item.quantity + 1)}
-                                                    >
-                                                      <AddIcon />
-                                                    </Button>
+                                                            <Button
+                                                              variant="contained"
+                                                              color="default"
+                                                              style={{
+                                                                ...styles.button, padding: '0.25rem 0.25rem',
+                                                                backgroundColor: 'black',
+                                                                color: 'white'
+                                                              }}
+                                                              onClick={() => handleQuantityChange(item.cartId, item.quantity + 1)}
+                                                            >
+                                                              <AddIcon />
+                                                            </Button>
                                                         </div>
                                                     </Grid>
                                                     <Grid item md={3} lg={2} xl={2} className="text-end">
@@ -278,12 +398,12 @@ const Cart = () => {
                                                 </Select>
                                             </div>
                                             <div className="d-flex justify-content-between mb-4">
-                                            <Typography variant="body1" className="text-uppercase mb-3">
-                                                Total
-                                            </Typography>
-                                            <Typography variant="body1" className="text-end">
-                                                ₹ {(calculateTotal() + shippingCost).toFixed(2)}
-                                            </Typography>
+                                                <Typography variant="body1" className="text-uppercase mb-3">
+                                                    Total
+                                                </Typography>
+                                                <Typography variant="body1" className="text-end">
+                                                    ₹ {(calculateTotal() + shippingCost).toFixed(2)}
+                                                </Typography>
                                             </div>
                                             <hr className="my-4" />
                                             <Button variant="contained" color="primary" style={{ backgroundColor: 'black', color: 'white' }} fullWidth onClick={handleCheckout}>
@@ -298,6 +418,157 @@ const Cart = () => {
                 </Grid>
             </Container>
         </section>
+        )
+        : 
+        <>
+        <ContainerC className="mt-5">
+            <h2>Checkout</h2>
+        <Row>
+            <Col md={6}>
+            <h4>Select Address</h4>
+            <Form>
+                {addresses.length > 0 ? (
+                <Form.Group>
+                    {addresses.map((address, index) => (
+                    <Form.Check
+                        key={index}
+                        type="radio"
+                        label={address.address} // Adjust based on the actual field name
+                        value={address.address}
+                        checked={selectedAddress === address.address}
+                        onChange={(e) => setSelectedAddress(e.target.value)}
+                    />
+                    ))}
+                </Form.Group>
+                ) : (
+                <p>Loading addresses...</p>
+                )}
+            </Form>
+            </Col>
+            <Col md={6}>
+            <h4>Select Payment Method</h4>
+            <Form>
+                <Form.Check
+                type="radio"
+                label="Cash on Delivery (COD)"
+                value="cod"
+                checked={selectedPaymentMethod === 'cod'}
+                onChange={handlePaymentMethodChange}
+                />
+                <Form.Check
+                type="radio"
+                label="Credit Card"
+                value="credit"
+                checked={selectedPaymentMethod === 'credit'}
+                onChange={handlePaymentMethodChange}
+                />
+                {selectedPaymentMethod === 'credit' && (
+                <div className="mt-3">
+                    <Form.Group>
+                    <Form.Label>Card ID</Form.Label>
+                    <Form.Control
+                        type="text"
+                        maxLength="16"
+                        value={cardId}
+                        onChange={(e) => setCardId(e.target.value)}
+                        placeholder="Enter 16-digit card number"
+                    />
+                    </Form.Group>
+                    <Form.Group className="mt-2">
+                    <Form.Label>Expiry Date</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={expiryDate}
+                        onChange={(e) => setExpiryDate(e.target.value)}
+                        placeholder="MM/YY"
+                    />
+                    </Form.Group>
+                </div>
+                )}
+                <Form.Check
+                type="radio"
+                label="Debit Card"
+                value="debit"
+                checked={selectedPaymentMethod === 'debit'}
+                onChange={handlePaymentMethodChange}
+                />
+                {selectedPaymentMethod === 'debit' && (
+                <div className="mt-3">
+                    <Form.Group>
+                    <Form.Label>Card ID</Form.Label>
+                    <Form.Control
+                        type="text"
+                        maxLength="16"
+                        value={cardId}
+                        onChange={(e) => setCardId(e.target.value)}
+                        placeholder="Enter 16-digit card number"
+                    />
+                    </Form.Group>
+                    <Form.Group className="mt-2">
+                    <Form.Label>Expiry Date</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={expiryDate}
+                        onChange={(e) => setExpiryDate(e.target.value)}
+                        placeholder="MM/YY"
+                    />
+                    </Form.Group>
+                </div>
+                )}
+                <Form.Check
+                type="radio"
+                label="UPI"
+                value="upi"
+                checked={selectedPaymentMethod === 'upi'}
+                onChange={handlePaymentMethodChange}
+                />
+                {selectedPaymentMethod === 'upi' && (
+                <div className="mt-3">
+                    <Form.Group>
+                    <Form.Label>UPI ID</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={upiId}
+                        onChange={(e) => setUpiId(e.target.value)}
+                        placeholder="Enter UPI ID"
+                    />
+                    </Form.Group>
+                </div>
+                )}
+            </Form>
+            </Col>
+        </Row>
+        <Button
+            variant="contained"
+            onClick={handleGoToCart}
+            style={{
+                backgroundColor: '#6c757d', // Secondary color for "Go to Cart"
+                color: 'white',
+                marginRight: '1rem',
+            }}
+            >
+                Go to Cart
+            </Button>
+            <Button
+                variant="contained"
+                onClick={handleOrderClick}
+                style={{
+                    backgroundColor: '#007bff', // Blue color
+                    color: 'white',
+                }}
+            >
+                Place Order
+            </Button>
+
+        {showSuccess && (
+            <Alert variant="success" className="mt-3">
+            Order Successful!
+            </Alert>
+        )}
+        </ContainerC>
+        </>
+        }
+        </>
     );
 };
 

@@ -1,7 +1,10 @@
 package com.grayMatter.entities;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -20,7 +23,6 @@ import lombok.ToString;
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public class Orders {
 	
@@ -31,7 +33,7 @@ public class Orders {
 	private double totalTotal;
 	private String paymentMethod;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="addressId", referencedColumnName = "addressId")
 	private Address address;
 	
@@ -39,7 +41,14 @@ public class Orders {
 	@JoinColumn(name="customerId", referencedColumnName = "customerId")
 	private Customer customer;
 	
-	@OneToMany(mappedBy = "bookOrderId", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BookOrder> bookorder;
+	
+	public Orders() {}
+	
+	public void addBookOrder(BookOrder bookOrder) {
+		bookorder.add(bookOrder);
+		bookOrder.setOrders(this);
+	}
 
 }

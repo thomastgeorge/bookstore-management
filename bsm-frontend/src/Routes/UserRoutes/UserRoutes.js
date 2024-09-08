@@ -14,7 +14,6 @@ import SearchLayout from '../../Components/SearchLayout/SearchLayout'
 import Contact from '../../Pages/Contact/Contact'
 import SingleBook from '../../Components/Books/SingleBook1';
 import Review from '../../Pages/User/Review/Review';
-import Checkout from '../../Pages/User/Chechout/Checkout'
 
 const UserRoutes = () => {
   return (
@@ -32,7 +31,6 @@ const UserRoutes = () => {
         <Route path="/search" element={<SearchLayout />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/account/reviews" element={<Review />} /> 
-        <Route path="/account/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </>

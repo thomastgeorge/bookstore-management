@@ -7,7 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +29,13 @@ public class BookOrder {
 	private int quantity;
 	private int subTotal;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="bookId", referencedColumnName = "bookId")
 	private Book book;
+	
+	@ManyToOne
+	@JoinColumn(name="orderId", referencedColumnName = "orderId")
+	@JsonBackReference
+	private Orders orders;
 
 }
