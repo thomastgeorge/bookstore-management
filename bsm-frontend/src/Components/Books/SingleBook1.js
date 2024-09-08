@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FaHandHoldingUsd, FaRegUser } from "react-icons/fa";
+import { FaHandHoldingUsd, FaRegUser ,FaCheck  } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
 import RatingStar from "./RatingStar";
 import axios from "../../Service/Axios";
 import SimilarBook from "./SimilarBook";
 import Rating from '@mui/material/Rating';
-import { Button, TextareaAutosize } from '@mui/material';
+import { TextareaAutosize } from '@mui/material';
 import { ToastContainer, toast,Slide } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for Toastify
 
@@ -118,7 +118,7 @@ const SingleBook = () => {
         transition={Slide}
       />
       <div className="container mx-auto pt-8 dark:text-white">
-        <div className="flex flex-col md:flex-row gap-4 px-4 font-karla">
+        <div className="flex flex-col md:flex-row gap-14 px-4 font-karla">
           {/* Image Section */}
           <div className="flex-shrink-0">
             <img
@@ -131,30 +131,38 @@ const SingleBook = () => {
           {/* Book Details Section */}
           <div className="flex-grow">
             <h2 className="text-2xl font-semibold">{book.title}</h2>
+            <h2 className="text-sm font-hidden">{book.author}</h2>
             {book.avgRating && <RatingStar rating={book.avgRating} />}
-            <div className="mt-1">
-              <h2 className="font-medium text-blue-500 text-xl">₹{book.price}</h2>
-            </div>
-            <table className="mt-2">
+            
+            <table className>
               <tbody>
                 <tr>
-                  <td className="pr-2 font-bold">Category</td>
-                  <td>{book.category.categoryName}</td>
+                  <td className="pr-2 font-semibold">Category</td> 
+                   <td>{book.category.categoryName}</td>
                 </tr>
                 <tr>
-                  <td className="pr-2 font-bold">Stock</td>
-                  <td>{book.stockQuantity}</td>
+                  {/* <td className="pr-2 font-semibold">ISBN</td> */}
+                  {/* <td>{book.isbn}</td> */}
                 </tr>
+                <tr>
+                   {/* <td className="pr-2 font-bold">Stock</td> */}
+                     <td className={`font-semibold ${book.available ? 'text-green-500' : 'text-red-500'}`}>
+                          {book.available ? 'In Stock' : 'Out of Stock'}
+                        </td>
+                   </tr>
               </tbody>
             </table>
-            <div className="mt-2">
-              <h2 className="font-bold">About the book</h2>
+            <div className="mt-1">
+              <h2 className="font-medium text-blue-500 text-xl">₹ {book.price}</h2>
+            </div>
+            <div className="mt-4">
+              <h2 className="font-semibold text-2xl">ABOUT</h2>
               <p className="leading-5">{book.description}</p>
             </div>
             <div className="flex flex-wrap items-center mt-4 mb-2 space-x-2">
               <button
                 type="button"
-                className="flex items-center space-x-1 mb-2 text-white p-2 rounded bg-purple-900"
+                className="flex items-center space-x-1  mb-2 text-white p-2 rounded bg-purple-900"
                 onClick={handleAddToCart}
               >
                 <AiOutlineShoppingCart />
@@ -215,13 +223,13 @@ const SingleBook = () => {
                     // precision={0.5}
                   />
                 </div>
-                <Button
+                <button
                   type="button"
                   onClick={handleSubmitReview}
-                  className="mt-4 bg-blue-500 text-white p-2 rounded"
-                >
-                  Submit Review
-                </Button>
+                  className="flex items-center space-x-1 mb-2 bg-yellow-400 text-white p-2 rounded ml-auto"
+                ><FaCheck />
+                 <span>SUBMIT REVIEW</span>
+                </button>
               </div>
             </div>
             {reviews.map(review => (
@@ -234,12 +242,12 @@ const SingleBook = () => {
                 
                 {/* Second Row: Headline and rating */}
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <p style={{ fontWeight: '600', marginRight: '0.5rem', margin: 0 }}>{review.headLine}</p>
+                  <p style={{ fontWeight: '600', marginRight: '0.7rem', margin: 0 }}>{review.headLine} </p>
                   {review.rating && <RatingStar rating={review.rating} style={{ verticalAlign: 'middle' }} />}
                 </div>
                 
                 {/* Third Row: Review date */}
-                <p style={{ color: '#4a4a4a', marginBottom: '0.5rem' }}>Reviewed On: {review.reviewedOn}</p>
+                <p style={{ color: '#4a4a4a', marginBottom: '0.5rem' }}>Reviewed on {review.reviewedOn}</p>
                 
                 {/* Comments */}
                 <p style={{ marginTop: '0.5rem' }}>{review.comment}</p>
