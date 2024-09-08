@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.CartDto;
+import com.grayMatter.exceptions.BookIdNotFoundException;
+import com.grayMatter.exceptions.CartIdNotFoundException;
+import com.grayMatter.exceptions.CustomerIdNotFoundException;
 import com.grayMatter.services.CartServices;
 
 @RestController
@@ -25,29 +28,27 @@ public class CartController {
 	private CartServices cartServices;
 	
 	@PostMapping("/create/{bookId}")
-    public ResponseEntity<CartDto> createCart(@PathVariable("bookId") long bookId, @RequestBody CartDto cartDto) {
+    public ResponseEntity<CartDto> createCart(	@PathVariable("bookId") long bookId,
+    											@RequestBody CartDto cartDto) throws BookIdNotFoundException {
         CartDto createdCart = cartServices.createCart(bookId, cartDto);
         return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
     }
 
     @GetMapping("/customer")
-    public ResponseEntity<List<CartDto>> getByCustomer() {
+    public ResponseEntity<List<CartDto>> getByCustomer() throws CustomerIdNotFoundException {
         List<CartDto> carts = cartServices.getByCustomer();
         return new ResponseEntity<>(carts, HttpStatus.OK);
     }
 
     @PutMapping("/{cartId}/{quantity}")
-    public ResponseEntity<CartDto> updateCart(@PathVariable("cartId") long cartId, @PathVariable("quantity") int quantity) {
+    public ResponseEntity<CartDto> updateCart(	@PathVariable("cartId") long cartId,
+    											@PathVariable("quantity") int quantity)  throws CartIdNotFoundException{
         CartDto updatedCart = cartServices.updateCart(cartId, quantity);
-        if (updatedCart != null) {
-            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
     }
 
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable("cartId") long cartId) {
+    public ResponseEntity<Void> deleteCart(@PathVariable("cartId") long cartId) throws CartIdNotFoundException {
         try {
         	cartServices.deleteCart(cartId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content

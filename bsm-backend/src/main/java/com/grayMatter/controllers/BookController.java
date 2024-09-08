@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.BookDto;
+import com.grayMatter.exceptions.BookIdNotFoundException;
+import com.grayMatter.exceptions.CategoryNotFoundException;
+import com.grayMatter.exceptions.InvalidRequestException;
+import com.grayMatter.exceptions.NoContentFoundException;
 import com.grayMatter.services.BookService;
 
 @RestController
@@ -26,29 +30,27 @@ public class BookController {
 	private BookService bookService;
 
 	@PostMapping("/create/{categoryId}")
-    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto, @PathVariable("categoryId") long categoryId) {
+    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto, @PathVariable("categoryId") long categoryId) throws InvalidRequestException {
         BookDto createdBook = bookService.createBook(bookDto, categoryId);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDto>> listAllBooks() {
+    public ResponseEntity<List<BookDto>> listAllBooks() throws NoContentFoundException {
         List<BookDto> books = bookService.listAllBooks();
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @PutMapping("/update/{bookId}/{categoryId}")
-    public ResponseEntity<BookDto> editBook(@PathVariable("bookId") long bookId, @RequestBody BookDto bookDto, @PathVariable("categoryId") long categoryId) {
+    public ResponseEntity<BookDto> editBook(@PathVariable("bookId") long bookId,
+    										@RequestBody BookDto bookDto,
+    										@PathVariable("categoryId") long categoryId) throws BookIdNotFoundException {
         BookDto updatedBook = bookService.editBook(bookId, bookDto, categoryId);
-        if (updatedBook != null) {
-            return new ResponseEntity<>(updatedBook, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{bookId}")
-    public ResponseEntity<Void> deleteBook(@PathVariable("bookId") long bookId) {
+    public ResponseEntity<Void> deleteBook(@PathVariable("bookId") long bookId) throws BookIdNotFoundException {
         try {
             bookService.deleteBook(bookId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -58,23 +60,15 @@ public class BookController {
     }
 
     @GetMapping("/{bookId}")
-    public ResponseEntity<BookDto> getBookById(@PathVariable("bookId") long bookId) {
+    public ResponseEntity<BookDto> getBookById(@PathVariable("bookId") long bookId) throws BookIdNotFoundException {
         BookDto bookDto = bookService.getBookById(bookId);
-        if (bookDto != null) {
-            return new ResponseEntity<>(bookDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<BookDto>> listBooksByCategory(@PathVariable("category") String category) {
+    public ResponseEntity<List<BookDto>> listBooksByCategory(@PathVariable("category") String category) throws CategoryNotFoundException {
         List<BookDto> books = bookService.listBooksByCategory(category);
-        if (books != null && !books.isEmpty()) {
-            return new ResponseEntity<>(books, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -82,7 +76,7 @@ public class BookController {
             @RequestParam(required = false) String query,
             @RequestParam(required = false) Long category,
             @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice) {
+            @RequestParam(required = false) Double maxPrice) throws NoContentFoundException {
         List<BookDto> books = bookService.searchBook(query, category, minPrice, maxPrice);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
@@ -94,15 +88,22 @@ public class BookController {
     }
 
     @GetMapping("/top-rated/{limit}")
-    public ResponseEntity<List<BookDto>> getTopRatedBooks(@PathVariable int limit) {
+    public ResponseEntity<List<BookDto>> getTopRatedBooks(@PathVariable int limit) throws InvalidRequestException {
         List<BookDto> books = bookService.getTopRatedBooks(limit);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> getTotalBooks() {
+    public ResponseEntity<Long> getTotalBooks() throws NoContentFoundException {
         long count = bookService.getTotalBooks();
         return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+    
+    @GetMapping("/best-selling")
+    public ResponseEntity<List<BookDto>> getTopSellingBooks(
+    							@RequestParam(value = "limit", defaultValue = "8") int limit) throws InvalidRequestException {
+        List<BookDto> topSellingBooks = bookService.getTopSellingBooks(limit);
+        return ResponseEntity.ok(topSellingBooks);
     }
 
 }

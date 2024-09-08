@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.grayMatter.dto.ChangePassword;
 import com.grayMatter.dto.ForgotPasswordDto;
 import com.grayMatter.dto.UserDto;
+import com.grayMatter.exceptions.NoContentFoundException;
+import com.grayMatter.exceptions.UserIdNotFoundException;
 import com.grayMatter.services.UserService;
 
 @RestController
@@ -26,32 +28,49 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("/{userId}")
-	public UserDto getUserById(@PathVariable("userId") long userId) {
-		return userService.getUserById(userId);
-	}
-	
-	@GetMapping()
-	public List<UserDto> getAllUser() {
-		return userService.getAllUser();
-	}
-	
-	@PatchMapping("/{userId}")
-	public UserDto updateUser(@PathVariable("userId") long userId, @RequestBody UserDto userDto) {
-		return userService.updateUser(userId, userDto);
-	}
-	
-	@DeleteMapping("/{userId}")
-	public void deleteUser(@PathVariable("userId") long userId) {
-		userService.deleteUser(userId);
-	}
-	
-	@PatchMapping("/updatePassword/{userId}")
-	public UserDto updatePassword(@PathVariable("userId") long userId, @RequestBody ChangePassword changePassword) {
-		return userService.updatePassword(userId, changePassword);
-	}
-	@PatchMapping("/updatePasswordLogin/{emailId}")
-	public UserDto updatePasswordLoginForgot(@PathVariable("emailId") String emailId, @RequestBody ForgotPasswordDto forgotPassword) {
-		return userService.updatePasswordLoginForgot(emailId, forgotPassword);
-	}
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") long userId) throws UserIdNotFoundException {
+        UserDto userDto = userService.getUserById(userId);
+        if (userDto != null) {
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUser() throws NoContentFoundException {
+        List<UserDto> users = userService.getAllUser();
+        if (users != null && !users.isEmpty()) {
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserDto> updateUser(	@PathVariable("userId") long userId,
+    											@RequestBody UserDto userDto) throws UserIdNotFoundException {
+        UserDto updatedUser = userService.updateUser(userId, userDto);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable("userId") long userId) throws UserIdNotFoundException {
+        userService.deleteUser(userId);
+    }
+
+    @PatchMapping("/updatePassword/{userId}")
+    public ResponseEntity<UserDto> updatePassword(	@PathVariable("userId") long userId,
+    												@RequestBody ChangePassword changePassword) throws UserIdNotFoundException {
+        UserDto updatedUser = userService.updatePassword(userId, changePassword);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @PatchMapping("/updatePasswordLogin/{emailId}")
+    public ResponseEntity<UserDto> updatePasswordLoginForgot(@PathVariable("emailId") String emailId,
+    														@RequestBody ForgotPasswordDto forgotPassword) throws UserIdNotFoundException {
+        UserDto updatedUser = userService.updatePasswordLoginForgot(emailId, forgotPassword);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
 
 }

@@ -26,4 +26,6 @@ public interface BookServiceInterface {
 
     long getTotalBooks();
 
+	List<BookDto> getTopSellingBooks(int limit);
+
 }
