@@ -30,6 +30,8 @@ const LoginSignup = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+ 
+
 
   useEffect(() => {
     if (location.pathname === '/signup') {
@@ -38,6 +40,8 @@ const LoginSignup = () => {
       setIsSignIn(true);
     }
   }, [location.pathname]);
+
+
 
   const generateOTP = () => {
     return Math.floor(1000 + Math.random() * 9000);
@@ -50,6 +54,7 @@ const LoginSignup = () => {
       [name]: value
     }));
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,10 +86,15 @@ const LoginSignup = () => {
     } else {
       // Sign up logic
       const { username, email, mobile, password, confirmPassword } = formData;
+      if (!username || !email || !mobile || !password || !confirmPassword) {
+        alert('All fields are required!');
+        return;
+      }
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
         return;
       }
+     
 
       const otp = generateOTP();
       setGeneratedOtp(otp);
@@ -188,23 +198,33 @@ const LoginSignup = () => {
               <h2>Sign Up</h2>
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
-                <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleInputChange} />
+                <input type="text" name="username" placeholder="Username" value={formData.username} required
+                  pattern="[A-Za-z0-9]{5,}"
+                  title="Username must be at least 5 characters long and contain only letters and digits." onChange={handleInputChange} />
+                {/* {errors.username && <span className="error-message">{errors.username}</span>} */}
               </div>
               <div className="login-signup-input-group">
                 <i className='bx bx-mail-send'></i>
                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
+                {/* {errors.email && <span className="error-message">{errors.email}</span>} */}
               </div>
               <div className="login-signup-input-group">
                 <i className='bx bx-user'></i>
-                <input type="text" name="mobile" placeholder="Mobile Number" value={formData.mobile} onChange={handleInputChange} />
+                <input type="text" name="mobile" placeholder="Mobile Number" required pattern="\+?[1-9]\d{1,14}$"
+                  title="Please enter a valid international mobile number." value={formData.mobile} onChange={handleInputChange} />
+                {/* {errors.mobile && <span className="error-message">{errors.mobile}</span>} */}
               </div>
               <div className="login-signup-input-group">
                 <i className='bx bxs-lock-alt'></i>
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
+                <input type="password" name="password" placeholder="Password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
+                  title="Password must be at least 8 characters long and contain a mix of uppercase, lowercase letters, and numbers." value={formData.password} onChange={handleInputChange} />
+                {/* {errors.password && <span className="error-message">{errors.password}</span>} */}
               </div>
               <div className="login-signup-input-group">
                 <i className='bx bxs-lock-alt'></i>
-                <input type="password" name="confirmPassword" placeholder="Confirm password" value={formData.confirmPassword} onChange={handleInputChange} />
+                <input type="password" name="confirmPassword" placeholder="Confirm password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}"
+                  title="Please confirm your password." value={formData.confirmPassword} onChange={handleInputChange} />
+                {/* {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>} */}
               </div>
               <button type="submit">
                 Sign up
@@ -233,11 +253,12 @@ const LoginSignup = () => {
               <h2>Login</h2>
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
-                <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
+                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
               </div>
               <div className="login-signup-input-group">
                 <i className='bx bxs-lock-alt'></i>
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
+                <input type="password" name="password" placeholder="Password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
+                  title="Password must be at least 8 characters long and contain a mix of uppercase, lowercase letters, and numbers." value={formData.password} onChange={handleInputChange} />
               </div>
               <button type="submit">
                 Login
