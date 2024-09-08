@@ -141,7 +141,7 @@ const BookManagement = () => {
   return (
     <main className="relative">
      
-      <section className="xl:padding-l wide:padding-r padding-b pt-20">
+      <section className="xl:padding-l wide:padding-r padding-b">
         <div className="container mt-8 mx-auto px-4 dark:bg-slate-800">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-4xl font-medium font-lora dark:text-white">

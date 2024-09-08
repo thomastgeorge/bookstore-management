@@ -11,7 +11,7 @@ import com.grayMatter.dto.RegUserDto;
 import com.grayMatter.entities.User;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationService implements AuthenticationServiceInterface {
 	
 	@Autowired
 	private AuthenticationDao authenticationDao;
@@ -19,10 +19,12 @@ public class AuthenticationService {
 	@Autowired
 	private AuthenticationManager authManager;
 	
+	@Override
 	public User signUp(RegUserDto regUserDto) {
 		return authenticationDao.signUp(regUserDto);
 	}
 
+	@Override
 	public User login(LoginUserDto loginUserDto) {
 		authManager.authenticate(new UsernamePasswordAuthenticationToken(
 				loginUserDto.getEmail(),

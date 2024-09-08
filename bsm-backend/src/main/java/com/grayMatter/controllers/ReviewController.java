@@ -3,6 +3,8 @@ package com.grayMatter.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,30 +25,47 @@ public class ReviewController {
 	ReviewService reviewService;
 	
 	@PostMapping("/create/{bookId}")
-	public ReviewDto createReview(@RequestBody ReviewDto reviewDto ,@PathVariable("bookId") long bookId) {
-		return reviewService.createReview(reviewDto,bookId);
-	}
-	@GetMapping("/book/{bookId}")
-	public List<ReviewDto> getReviewByBookId(@PathVariable("bookId") long bookId) {
-		return reviewService.getReviewByBookId(bookId);
-	}
-	@GetMapping("/customer")
-	public List<ReviewDto> getReviewByCustomer() {
-		return reviewService.getReviewByCustomer();
-	}
-	@GetMapping("/customer/admin/{customerId}")
-	public List<ReviewDto> getReviewByCustomerAdmin(@PathVariable("customerId") long customerId) {
-		return reviewService.getReviewByCustomerAdmin(customerId);
-	}
-	
-	@PutMapping()
-	public ReviewDto updateReview(@RequestBody ReviewDto reviewDto) {
-		return reviewService.updateReview(reviewDto);
-	}
-	
-	@DeleteMapping("/{reviewId}")
-	public void deleteReview(@PathVariable long reviewId) {
-		reviewService.delete(reviewId);
-	}
+    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDto, @PathVariable("bookId") long bookId) {
+        ReviewDto createdReview = reviewService.createReview(reviewDto, bookId);
+        return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/book/{bookId}")
+    public ResponseEntity<List<ReviewDto>> getReviewByBookId(@PathVariable("bookId") long bookId) {
+        List<ReviewDto> reviews = reviewService.getReviewByBookId(bookId);
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @GetMapping("/customer")
+    public ResponseEntity<List<ReviewDto>> getReviewByCustomer() {
+        List<ReviewDto> reviews = reviewService.getReviewByCustomer();
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @GetMapping("/customer/admin/{customerId}")
+    public ResponseEntity<List<ReviewDto>> getReviewByCustomerAdmin(@PathVariable("customerId") long customerId) {
+        List<ReviewDto> reviews = reviewService.getReviewByCustomerAdmin(customerId);
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @PutMapping()
+    public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
+        ReviewDto updatedReview = reviewService.updateReview(reviewDto);
+        if (updatedReview != null) {
+            return new ResponseEntity<>(updatedReview, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<Void> deleteReview(@PathVariable long reviewId) {
+        try {
+            reviewService.delete(reviewId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
 
 }

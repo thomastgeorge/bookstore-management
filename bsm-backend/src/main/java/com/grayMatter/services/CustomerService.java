@@ -12,7 +12,7 @@ import com.grayMatter.dto.CustomerMapper;
 import com.grayMatter.entities.Customer;
 
 @Service
-public class CustomerService {
+public class CustomerService implements CustomerServiceInterface {
 	
 	@Autowired
 	private CustomerDao  customerDao;
@@ -20,14 +20,17 @@ public class CustomerService {
 	@Autowired
 	private CustomerMapper customerMapper;
 	
+	@Override
 	public CustomerDto getCustomerById(long customerId) {
 		return customerMapper.mapToCustomerDto(customerDao.getCustomerById(customerId));
 	}
 	
+	@Override
 	public CustomerDto getCustomerByUserId(long userId) {
 		return customerMapper.mapToCustomerDto(customerDao.getCustomerByUserId(userId));
 	}
 	
+	@Override
 	public List<CustomerDto> getAllCustomer(){
 		List<Customer> listCustomer = customerDao.getAllCustomer();
 		return listCustomer.stream()
@@ -35,6 +38,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
 	}
 	
+	@Override
 	public CustomerDto updateCustomer(long customerId, CustomerDto customerDto) {
 		Customer existingCustomer = customerDao.getCustomerById(customerId);
 		     
@@ -53,10 +57,17 @@ public class CustomerService {
 		customerDao.deleteCustomer(customerId);
 	}
 
+	@Override
 	public long getTotalCustomers() {
         return customerDao.count();
     }
 	
-	
+	@Override
+	public List<CustomerDto> searchCustomer(String param){
+		List<Customer> customerList = customerDao.searchCustomer(param);
+		return customerList.stream()
+                .map(customerMapper::mapToCustomerDto)
+                .collect(Collectors.toList());
+	}
 
 }

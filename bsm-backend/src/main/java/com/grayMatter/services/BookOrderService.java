@@ -14,7 +14,7 @@ import com.grayMatter.entities.Book;
 import com.grayMatter.entities.BookOrder;
 
 @Service
-public class BookOrderService {
+public class BookOrderService implements BookOrderServiceInterface {
 	
 	@Autowired
 	private BookOrderDao bookOrderDao;
@@ -25,6 +25,7 @@ public class BookOrderService {
 	@Autowired
 	private BookDao bookDao;
 
+	@Override
 	public void createBookOrder(List<BookOrderDto> list) {
 		for(BookOrderDto bookOrderDto : list){
 			Book book = bookDao.getBookById(bookOrderDto.getBook().getBookId());
@@ -33,6 +34,7 @@ public class BookOrderService {
 		}
 	}
 
+	@Override
 	public List<BookOrderDto> getAllBookOrder() {
 		List<BookOrder> listBookOrder = bookOrderDao.getAllBookOrder();
 		return listBookOrder.stream()
@@ -40,6 +42,7 @@ public class BookOrderService {
 	             .collect(Collectors.toList());
 	}
 
+	@Override
 	public BookOrderDto getBookOrderById(long bookOrderId) {
 		return bookOrderMapper.mapToBookOrderDto(bookOrderDao.getBookOrderById(bookOrderId));
 	}

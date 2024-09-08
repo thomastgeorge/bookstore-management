@@ -17,7 +17,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-public class JwtService {
+public class JwtService implements JwtServiceInterface {
 	
 	@Value("${security.jwt.secret-key}")
 	private String secretKey;
@@ -25,23 +25,28 @@ public class JwtService {
 	@Value("${security.jwt.expiration-time}")
 	private long expirationTime;
 
+	@Override
 	public String extractUserName(String token) {
 		return extractClaims(token).getSubject();
 	}
 	
+	@Override
 	public Date ExtractExpirationTime(String token) {
 		return extractClaims(token).getExpiration();
 	}
 	
+	@Override
 	public boolean isTokenExpired(String token) {
 		return extractClaims(token).getExpiration().before(new Date(System.currentTimeMillis()));
 	}
 
+	@Override
 	public boolean isTokenValid(String token, UserDetails userDeatils) {
 		String email= extractUserName(token);
 		return (email.equals(userDeatils.getUsername()) && !isTokenExpired(token));
 	}
 	
+	@Override
 	public Claims extractClaims(String token) {
 		return Jwts
 				.parser()
@@ -51,6 +56,7 @@ public class JwtService {
 				.getBody();
 	}
 
+	@Override
 	public String generateToken(UserPrincipal userPrincipal) {
 		return generateToken(new HashMap<String, Object>(), userPrincipal);
 	}
@@ -75,6 +81,7 @@ public class JwtService {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
+	@Override
 	public long expirationTime() {
 		return expirationTime;
 	}

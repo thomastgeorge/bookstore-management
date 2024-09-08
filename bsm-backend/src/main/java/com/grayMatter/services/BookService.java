@@ -12,9 +12,8 @@ import com.grayMatter.dto.BookDto;
 import com.grayMatter.dto.BookMapper;
 import com.grayMatter.entities.Book;
 
-
 @Service
-public class BookService {
+public class BookService implements BookServiceInterface {
 
 	@Autowired
 	private BookDao bookDao;
@@ -22,10 +21,12 @@ public class BookService {
 	@Autowired
 	private BookMapper bookMapper;
 
+	@Override
 	public BookDto createBook(BookDto bookDto, long categoryId) {
 		return bookMapper.mapToBookDto(bookDao.createBook(bookMapper.mapToBook(bookDto), categoryId));
 	}
 
+	@Override
 	public List<BookDto> listAllBooks() {
 		List<Book> bList = bookDao.listAllBooks();
 		List<BookDto> bDList = new ArrayList<>();
@@ -36,19 +37,23 @@ public class BookService {
 		return bDList;
 	}
 
+	@Override
 	public BookDto editBook(long bookId, BookDto bookDto, long cid) {
 		Book book = bookDao.editBook(bookId, bookMapper.mapToBook(bookDto), cid);
 		return bookMapper.mapToBookDto(book);
 	}
 
+	@Override
 	public void deleteBook(long bookId) {
 		bookDao.deleteBook(bookId);
 	}
 
+	@Override
 	public BookDto getBookById(long bookId) {
 		return bookMapper.mapToBookDto(bookDao.getBookById(bookId));
 	}
 
+	@Override
 	public List<BookDto> listBooksByCategory(String category) {
 		List<Book> bList = bookDao.listBooksByCategory(category);
 		List<BookDto> bDList = new ArrayList<>();
@@ -60,13 +65,7 @@ public class BookService {
 
 	}
 
-	public List<BookDto> listBestSellingBook(Integer limit) {
-		List<Book> bookList = bookDao.listBestSellingBook(limit);
-		return bookList.stream()
-                .map(bookMapper::mapToBookDto)
-                .collect(Collectors.toList());
-	}
-
+	@Override
 	public List<BookDto> searchBook(String query, Long category, Double minPrice, Double maxPrice) {
 		List<Book> bookList = bookDao.searchBook(query, category, minPrice, maxPrice);
 		return bookList.stream()
@@ -75,6 +74,7 @@ public class BookService {
                 .collect(Collectors.toList());
 	}
 	
+	@Override
 	public List<BookDto> newArrivals(int limit) {
 		List<Book> bookList = bookDao.newArrivals(limit);
 		return bookList.stream()
@@ -83,6 +83,7 @@ public class BookService {
 		        .collect(Collectors.toList());
     }
 	
+	@Override
 	public List<BookDto> getTopRatedBooks(int limit){
 		List<Book> bookList = bookDao.getTopRatedBooks(limit);
 		return bookList.stream()
@@ -91,6 +92,7 @@ public class BookService {
 		        .collect(Collectors.toList());
 	}
 	
+	@Override
 	public long getTotalBooks() {
         return bookDao.getTotalBooks();
     }

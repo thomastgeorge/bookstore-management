@@ -15,7 +15,7 @@ import com.grayMatter.dto.CartMapper;
 import com.grayMatter.entities.Cart;
 
 @Service
-public class CartServices {
+public class CartServices implements CartServicesInterface {
 	
 	@Autowired
 	private CartDao cartDao;
@@ -23,6 +23,7 @@ public class CartServices {
 	@Autowired
 	private CartMapper cartMapper;
 	
+	@Override
 	public CartDto createCart(long bookId, CartDto cartDto) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = (UserPrincipal) userDetails;
@@ -30,6 +31,7 @@ public class CartServices {
 		return cartMapper.mapToCartDto(cartDao.createCart(userId, bookId, cartMapper.maptToCart(cartDto)));
 	}
 	
+	@Override
 	public List<CartDto> getByCustomer(){
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = (UserPrincipal) userDetails;
@@ -40,10 +42,12 @@ public class CartServices {
 	             .collect(Collectors.toList());
 	}
 	
+	@Override
 	public CartDto updateCart(long cartId, int quantity) {
 		return cartMapper.mapToCartDto(cartDao.updateCart(cartId, quantity));
 	}
 	
+	@Override
 	public void deleteCart(long cartId) {
 		cartDao.deleteCart(cartId);
 	}

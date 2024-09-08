@@ -58,19 +58,6 @@ public class BookDao {
 		return bookRepository.findByCategoryCategoryName(category);
 	}
 
-	public List<Book> listBestSellingBook(Integer limit) {
-//		if (limit == null || limit <= 0) {
-//			return bookOrderRepository.findBestSellingBooks(Pageable.unpaged()).getContent();
-//		} else {
-//			 Pageable pageable = PageRequest.of(0, limit);
-//			 return bookOrderRepository.findBestSellingBooks(pageable).getContent();
-//		}
-//		
-//		@Query("SELECT b FROM Book b WHERE b.category = :category")
-//	    Page<Book> findBooksByCategory(@Param("category") String category, Pageable pageable);
-		return null;
-	}
-
 	public List<Book> searchBook(String query, Long category, Double minPrice, Double maxPrice) {
 		return bookRepository.searchBook(query, category, minPrice, maxPrice);
 		

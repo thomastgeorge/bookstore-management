@@ -14,7 +14,7 @@ import com.grayMatter.dto.UserMapper;
 import com.grayMatter.entities.User;
 
 @Service
-public class UserService {
+public class UserService implements UserServiceInterface {
 	
 	@Autowired
 	private UserDao userDao;
@@ -22,10 +22,12 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Override
 	public UserDto getUserById(long userId) {
 		return userMapper.mapToUserDto(userDao.getUserById(userId));
 	}
 	
+	@Override
 	public List<UserDto> getAllUser() {
 		List<User> userList = userDao.getAllUser();
 		return userList.stream()
@@ -33,6 +35,7 @@ public class UserService {
                 .collect(Collectors.toList());
 	}
 	
+	@Override
 	public UserDto updateUser(long userId, UserDto userDto) {
 		User existingUser = userDao.getUserById(userId);
 		if(userDto.getEmail() != null) {
@@ -41,10 +44,12 @@ public class UserService {
 		return userMapper.mapToUserDto(userDao.updateUser(existingUser));
 	}
 	
+	@Override
 	public void deleteUser(long userId) {
 		userDao.deleteUser(userId);
 	}
 
+	@Override
 	public UserDto updatePassword(long userId, ChangePassword changePassword) {
 		return userMapper.mapToUserDto(userDao.updatePassword(userId, changePassword));
 	}
