@@ -37,5 +37,9 @@ public class CustomerDao {
 	public long count() {
 		return customerRepository.count();
 	}
+	
+	public List<Customer> searchCustomer(String param){
+		return customerRepository.findByAnyField(param);
+	}
 
 }

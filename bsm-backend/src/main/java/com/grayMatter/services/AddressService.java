@@ -13,7 +13,7 @@ import com.grayMatter.entities.Address;
 
 
 @Service
-public class AddressService {
+public class AddressService implements AddressServiceInterface {
 	
 	@Autowired
 	private AddressDao addressDao;
@@ -21,14 +21,17 @@ public class AddressService {
 	@Autowired
 	private AddressMapper addressMapper;
 	
-	public AddressDto createAddess(long customerId, AddressDto addressDto) {
+	@Override
+	public AddressDto createAddress(long customerId, AddressDto addressDto) {
 		return addressMapper.mapToAddressDto(addressDao.createAddess(customerId, addressMapper.mapToAddress(addressDto)));
 	}
 	
+	@Override
 	public AddressDto getById(long addressId) {
 		return addressMapper.mapToAddressDto(addressDao.getById(addressId));
 	}
 	
+	@Override
 	public List<AddressDto> getByCustomerId(long customerId){
 		List<Address> addressList = addressDao.getByCustomerId(customerId);
 		return addressList.stream()
@@ -36,10 +39,12 @@ public class AddressService {
 	             .collect(Collectors.toList());
 	}
 	
+	@Override
 	public AddressDto updateAddress(long customerId, AddressDto addressDto) {
 		return addressMapper.mapToAddressDto(addressDao.updateAddress(customerId, addressMapper.mapToAddress(addressDto)));
 	}
 	
+	@Override
 	public void deleteAddress(long addressId) {
 		addressDao.deleteAddress(addressId);
 	}

@@ -3,6 +3,8 @@ package com.grayMatter.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,24 +25,35 @@ public class CartController {
 	private CartServices cartServices;
 	
 	@PostMapping("/create/{bookId}")
-	public CartDto createCart(@PathVariable("bookId") long bookId, @RequestBody CartDto cartDto) {
-		return cartServices.createCart(bookId, cartDto);
-	}
-	
-	@GetMapping("/customer")
-	public List<CartDto> getByCustomer(){
-		return cartServices.getByCustomer();
-	}
-	
-	@PutMapping("/{cartId}/{quantity}")
-	public CartDto updateCart(@PathVariable("cartId") long cartId, @PathVariable("quantity") int quantity) {
-		return cartServices.updateCart(cartId, quantity);
-	}
-	
-	@DeleteMapping("/{cartId}")
-	public void deleteCart(@PathVariable("cartId") long cartId) {
-		cartServices.deleteCart(cartId);
-		
-	}
+    public ResponseEntity<CartDto> createCart(@PathVariable("bookId") long bookId, @RequestBody CartDto cartDto) {
+        CartDto createdCart = cartServices.createCart(bookId, cartDto);
+        return new ResponseEntity<>(createdCart, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/customer")
+    public ResponseEntity<List<CartDto>> getByCustomer() {
+        List<CartDto> carts = cartServices.getByCustomer();
+        return new ResponseEntity<>(carts, HttpStatus.OK);
+    }
+
+    @PutMapping("/{cartId}/{quantity}")
+    public ResponseEntity<CartDto> updateCart(@PathVariable("cartId") long cartId, @PathVariable("quantity") int quantity) {
+        CartDto updatedCart = cartServices.updateCart(cartId, quantity);
+        if (updatedCart != null) {
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<Void> deleteCart(@PathVariable("cartId") long cartId) {
+        try {
+        	cartServices.deleteCart(cartId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
+        }
+    }
 
 }

@@ -24,7 +24,7 @@ import com.grayMatter.entities.Orders;
 import jakarta.transaction.Transactional;
 
 @Service
-public class OrderService {
+public class OrderService implements OrderServiceInterface {
 	
 	@Autowired
 	private OrderDao orderDao;
@@ -49,6 +49,7 @@ public class OrderService {
 	}
 
 	@Transactional
+	@Override
 	public OrdersDto addOrder(long customerId, Long addressId, OrdersDto ordersDto) {
 		Orders order = new Orders();
 		
@@ -88,6 +89,7 @@ public class OrderService {
 	    //return ordersMapper.mapToOrdersDto(orderDao.addOrder(ordersMapper.mapToOrders(ordersDto)));
 	}
 
+	@Override
 	public List<OrdersDto> getOrdersByCustomerId(long customerId) {
 		List<Orders> listOrders = orderDao.getOrdersByCustomerId(customerId);
 		return listOrders.stream()
@@ -95,18 +97,22 @@ public class OrderService {
                 .collect(Collectors.toList());
 	}
 
+	@Override
 	public long getOrderCount() {
 		return orderDao.getOrderCount();
 	}
 
+	@Override
 	public long getTodaysOrderCount() {
 		return orderDao.getTodaysOrderCount();
 	}
 
+	@Override
 	public double getTotalRevenue() {
 		return orderDao.getTotalRevenue();
 	}
 
+	@Override
 	public double getTodaysRevenue() {
 		return orderDao.getTodaysRevenue();
 	}

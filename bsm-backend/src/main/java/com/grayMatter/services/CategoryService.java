@@ -12,7 +12,7 @@ import com.grayMatter.dto.CategoryMapper;
 import com.grayMatter.entities.Category;
 
 @Service
-public class CategoryService {
+public class CategoryService implements CategoryServiceInterface {
 
 	@Autowired
 	private CategoryDao categoryDao;
@@ -20,14 +20,17 @@ public class CategoryService {
 	@Autowired
 	private CategoryMapper categoryMapper;
 	
+	@Override
 	public CategoryDto createCategory(CategoryDto categoryDto) {
 		return categoryMapper.mapToCategoryDto(categoryDao.createCategory(categoryMapper.mapToCategory(categoryDto)));
 	}
 	
+	@Override
 	public CategoryDto findById(long categoryId) {
 		return categoryMapper.mapToCategoryDto(categoryDao.findById(categoryId));
 	}
 	
+	@Override
 	public List<CategoryDto> getAllCategory(){
 		List<Category> categoryList = categoryDao.getAllCategory();
 		return categoryList.stream()
@@ -35,11 +38,14 @@ public class CategoryService {
                 .collect(Collectors.toList());
 	}
 	
+	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto) {
 		return categoryMapper.mapToCategoryDto(categoryDao.updateCategory(categoryMapper.mapToCategory(categoryDto)));
 	}
 	
+	@Override
 	public void deleteCategory(long categoryId) {
 		categoryDao.deleteCategory(categoryId);
 	}
+	
 }
