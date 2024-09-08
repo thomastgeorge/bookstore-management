@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.BookDto;
 import com.grayMatter.dto.ReviewDto;
+import com.grayMatter.exceptions.BookIdNotFoundException;
+import com.grayMatter.exceptions.CustomerIdNotFoundException;
+import com.grayMatter.exceptions.ReviewIdNotFoundException;
 import com.grayMatter.services.ReviewService;
 
 @RestController
@@ -25,13 +28,13 @@ public class ReviewController {
 	ReviewService reviewService;
 	
 	@PostMapping("/create/{bookId}")
-    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDto, @PathVariable("bookId") long bookId) {
+    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDto, @PathVariable("bookId") long bookId) throws BookIdNotFoundException {
         ReviewDto createdReview = reviewService.createReview(reviewDto, bookId);
         return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
     }
 
     @GetMapping("/book/{bookId}")
-    public ResponseEntity<List<ReviewDto>> getReviewByBookId(@PathVariable("bookId") long bookId) {
+    public ResponseEntity<List<ReviewDto>> getReviewByBookId(@PathVariable("bookId") long bookId) throws BookIdNotFoundException {
         List<ReviewDto> reviews = reviewService.getReviewByBookId(bookId);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
@@ -43,23 +46,19 @@ public class ReviewController {
     }
 
     @GetMapping("/customer/admin/{customerId}")
-    public ResponseEntity<List<ReviewDto>> getReviewByCustomerAdmin(@PathVariable("customerId") long customerId) {
+    public ResponseEntity<List<ReviewDto>> getReviewByCustomerAdmin(@PathVariable("customerId") long customerId) throws CustomerIdNotFoundException {
         List<ReviewDto> reviews = reviewService.getReviewByCustomerAdmin(customerId);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) throws ReviewIdNotFoundException {
         ReviewDto updatedReview = reviewService.updateReview(reviewDto);
-        if (updatedReview != null) {
-            return new ResponseEntity<>(updatedReview, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable long reviewId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable long reviewId) throws ReviewIdNotFoundException {
         try {
             reviewService.delete(reviewId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content

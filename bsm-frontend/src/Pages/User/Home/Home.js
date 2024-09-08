@@ -34,17 +34,6 @@ const settings = {
   ],
 };
 
-const books = [
-  { title: 'Book 1', img: '/book/book1.jpg' },
-  { title: 'Book 2', img: '/book/book2.jpg' },
-  { title: 'Book 3', img: '/book/book3.jpg' },
-  { title: 'Book 4', img: '/book/book4.jpg' },
-  { title: 'Book 5', img: '/book/book5.jpg' },
-  { title: 'Book 6', img: '/book/book6.jpg' },
-  { title: 'Book 7', img: '/book/book7.jpg' },
-  { title: 'Book 8', img: '/book/book8.jpg' },
-];
-
 
 const Home = () => {
   const currentPageUrl = window.location.href;
@@ -52,6 +41,7 @@ const Home = () => {
   
   const [newArrivals, setNewArrivals] = useState([]);
   const [topRated, setTopRated] = useState([]);
+  const [bestSelling, setBestSelling] = useState([]);
   const [loadingNA, setLoadingNA] = useState(true);
   const [errorNA, setErrorNA] = useState(null);
   const [loadingBS, setLoadingBS] = useState(true);
@@ -92,6 +82,22 @@ const Home = () => {
     };
 
     fetchTopRated();
+  }, []);
+
+  useEffect(() => {
+    const fetchBestSelling = async () =>{
+      try {
+        // by-default limit is 8 to change sent limit as request param
+        const response = await Axios.get('api/v1/book/best-selling');
+        setBestSelling(response.data);
+        setLoadingBS(false);
+      } catch (err) {
+        setErrorBS(err.message);
+        setLoadingBS(false);
+      }
+    };
+
+    fetchBestSelling();
   }, []);
 
   const handlePrevClick = (ref) => {
@@ -183,44 +189,25 @@ const Home = () => {
         <Row className='my-4'>
           <Col xs={12} className='d-flex justify-content-between align-items-center'>
             <h3>Best Selling Books</h3>
-            <Button
-              variant='link'
-              style={{
-                color: 'black',
-                textDecoration: 'none'
-              }}
-            >
-              View All
-            </Button>
           </Col>
           <Col xs={12} style={{ position: 'relative' }}>
-            <Slider ref={bestSellingRef} {...settings}>
-              {books.map((book, index) => (
-                <div key={index} className='px-2'>
-                  <Card style={{ width: '100%', height: '100%' }}>
-                    <Card.Img
-                      variant='top'
-                      src={book.img}
-                      style={{
-                        width: '100%',
-                        height: '350px',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <Card.Body style={{ display: 'flex', flexDirection: 'column', height: '85px' }}>
-                      <Card.Title style={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        marginBottom: 'auto'
-                      }}>
-                        {book.title}
-                      </Card.Title>
-                    </Card.Body>
-                  </Card>
+            {loadingBS ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '350px' }}>
+                  <Spinner animation="border" />
                 </div>
-              ))}
-            </Slider>
+              ) : errorNA ? (
+                <div className="text-center text-danger">
+                  <p>Error loading Best Sellings: {errorNA}</p>
+                </div>
+              ) : (
+                <Slider ref={bestSellingRef} {...settings}>
+                  {bestSelling.map((book) => (
+                    <Col key={book.pid} xs={12} sm={6} md={4} lg={3} className="mb-1">
+                    <ProductCard book={book} />
+                  </Col>
+                  ))}
+                </Slider>
+              )}
             <button
               onClick={() => handlePrevClick(bestSellingRef)}
               style={{
@@ -265,7 +252,7 @@ const Home = () => {
               </div>
             ) : errorNA ? (
               <div className="text-center text-danger">
-                <p>Error loading Top Rated Book: {errorNA}</p>
+                <p>Error loading Top Rated Book: {errorTR}</p>
               </div>
             ) : (
               <Slider ref={topRatedRef} {...settings}>

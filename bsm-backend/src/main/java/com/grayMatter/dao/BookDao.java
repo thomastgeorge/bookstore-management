@@ -76,5 +76,10 @@ public class BookDao {
         return bookRepository.count();
     }
 
+	public List<Book> BestSellingBooks(int limit) {
+		Pageable pageable = PageRequest.of(0, limit); // Page 0, with 'limit' number of items
+        return bookOrderRepository.findTopSellingBooks(pageable);
+	}
+
 
 }

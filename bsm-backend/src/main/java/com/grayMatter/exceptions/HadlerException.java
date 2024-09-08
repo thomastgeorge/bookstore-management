@@ -54,5 +54,25 @@ public class HadlerException {
 	public ResponseEntity<String> handleCartIdNotFoundException(CartIdNotFoundException cinf){
 		return new ResponseEntity<>("Card Id Not Found", HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(OrderIdNotFoundException.class)
+	public ResponseEntity<String> handleOrderIdNotFoundException(OrderIdNotFoundException oinf){
+		return new ResponseEntity<>("Order Id Not Found", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(ReviewIdNotFoundException.class)
+	public ResponseEntity<String> handleReviewIdNotFoundException(ReviewIdNotFoundException rinf){
+		return new ResponseEntity<>("Review Id Not Found", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(UserIdNotFoundException.class)
+	public ResponseEntity<String> handleUserIdNotFoundException(UserIdNotFoundException oinf){
+		return new ResponseEntity<>("User Id Not Found", HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(CategoryNotFoundException.class)
+	public ResponseEntity<String> handleCategoryNotFoundException(CategoryNotFoundException cinf){
+		return new ResponseEntity<>("Category Id Not Found", HttpStatus.NOT_FOUND);
+	}
 
 }

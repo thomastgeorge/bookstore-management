@@ -96,5 +96,14 @@ public class BookService implements BookServiceInterface {
 	public long getTotalBooks() {
         return bookDao.getTotalBooks();
     }
+
+	@Override
+	public List<BookDto> getTopSellingBooks(int limit) {
+		List<Book> bookList = bookDao.BestSellingBooks(limit);
+		return bookList.stream()
+				.filter(Book::getAvailable)
+		        .map(bookMapper::mapToBookDto)
+		        .collect(Collectors.toList());
+	}
 	
 }

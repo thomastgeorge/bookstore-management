@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.AddressDto;
+import com.grayMatter.exceptions.AddressIdNotFoundException;
+import com.grayMatter.exceptions.CustomerIdNotFoundException;
 import com.grayMatter.services.AddressService;
 
 @RestController
@@ -25,33 +27,29 @@ public class AddressContoller {
 	private AddressService addressService;
 	
 	@PostMapping("/create/{customerId}")
-    public ResponseEntity<AddressDto> createAddress(@PathVariable("customerId") long customerId, @RequestBody AddressDto addressDto) {
+    public ResponseEntity<AddressDto> createAddress(
+    										@PathVariable("customerId") long customerId,
+    										@RequestBody AddressDto addressDto) throws CustomerIdNotFoundException {
         AddressDto createdAddress = addressService.createAddress(customerId, addressDto);
         return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
     }
 
     @GetMapping("/{addressId}")
-    public ResponseEntity<AddressDto> getById(@PathVariable("addressId") long addressId) {
+    public ResponseEntity<AddressDto> getById(@PathVariable("addressId") long addressId) throws AddressIdNotFoundException {
         AddressDto addressDto = addressService.getById(addressId);
-        if (addressDto != null) {
-            return new ResponseEntity<>(addressDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(addressDto, HttpStatus.OK);
     }
 
     @GetMapping("/customerId/{customerId}")
-    public ResponseEntity<List<AddressDto>> getByCustomerId(@PathVariable("customerId") long customerId) {
+    public ResponseEntity<List<AddressDto>> getByCustomerId(@PathVariable("customerId") long customerId) throws CustomerIdNotFoundException {
         List<AddressDto> addressList = addressService.getByCustomerId(customerId);
-        if (addressList != null && !addressList.isEmpty()) {
-            return new ResponseEntity<>(addressList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        return new ResponseEntity<>(addressList, HttpStatus.OK);
     }
 
     @PutMapping("/update/{customerId}")
-    public ResponseEntity<AddressDto> updateAddress(@PathVariable("customerId") long customerId, @RequestBody AddressDto addressDto) {
+    public ResponseEntity<AddressDto> updateAddress(
+    										@PathVariable("customerId") long customerId,
+    										@RequestBody AddressDto addressDto) throws AddressIdNotFoundException {
         AddressDto updatedAddress = addressService.updateAddress(customerId, addressDto);
         if (updatedAddress != null) {
             return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
@@ -61,7 +59,7 @@ public class AddressContoller {
     }
 
     @DeleteMapping("/{addressId}")
-	public void deleteAddress(@PathVariable("addressId") long addressId) {
+	public void deleteAddress(@PathVariable("addressId") long addressId) throws AddressIdNotFoundException {
 		addressService.deleteAddress(addressId);		
 	}
 

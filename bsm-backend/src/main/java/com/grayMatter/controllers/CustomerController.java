@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.grayMatter.dto.CustomerDto;
+import com.grayMatter.exceptions.CustomerIdNotFoundException;
+import com.grayMatter.exceptions.NoContentFoundException;
+import com.grayMatter.exceptions.UserIdNotFoundException;
 import com.grayMatter.services.CustomerService;
 
 @RestController
@@ -25,43 +28,32 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@GetMapping("/{customerId}")
-    public ResponseEntity<CustomerDto> getCustomerById(@PathVariable("customerId") long customerId) {
+    public ResponseEntity<CustomerDto> getCustomerById(@PathVariable("customerId") long customerId) throws CustomerIdNotFoundException {
         CustomerDto customerDto = customerService.getCustomerById(customerId);
-        if (customerDto != null) {
-            return new ResponseEntity<>(customerDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(customerDto, HttpStatus.OK);
     }
 
     @GetMapping("/userId/{userId}")
-    public ResponseEntity<CustomerDto> getCustomerByUserId(@PathVariable("userId") long userId) {
+    public ResponseEntity<CustomerDto> getCustomerByUserId(@PathVariable("userId") long userId) throws UserIdNotFoundException {
         CustomerDto customerDto = customerService.getCustomerByUserId(userId);
-        if (customerDto != null) {
-            return new ResponseEntity<>(customerDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(customerDto, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<CustomerDto>> getAllCustomer() {
+    public ResponseEntity<List<CustomerDto>> getAllCustomer() throws NoContentFoundException {
         List<CustomerDto> customers = customerService.getAllCustomer();
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @PatchMapping("/{customerId}")
-    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable("customerId") long customerId, @RequestBody CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> updateCustomer(	@PathVariable("customerId") long customerId,
+    													@RequestBody CustomerDto customerDto) throws CustomerIdNotFoundException {
         CustomerDto updatedCustomer = customerService.updateCustomer(customerId, customerDto);
-        if (updatedCustomer != null) {
-            return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") long customerId) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") long customerId) throws CustomerIdNotFoundException{
         try {
             customerService.deleteCustomer(customerId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
