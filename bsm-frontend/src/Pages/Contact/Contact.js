@@ -9,7 +9,7 @@ const Contact = () => {
       <h1 className="mb-4">We are Libreria</h1>
       <h3 className="mb-4">For enquiries or customer service, contact us:</h3>
       <p className="mb-4">
-        <strong>Phone:</strong> +91 12345-67890
+        <strong>Phone:</strong> +91 9948654087
       </p>
       <p className="mb-4">
         <strong>Address:</strong> Bl. No 9, Bellandur, Bengaluru, Karnataka, India, 560103
