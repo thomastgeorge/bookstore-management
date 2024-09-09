@@ -304,8 +304,8 @@ const LoginSignup = () => {
 
       {/* OTP Dialog */}
       {showOtpDialog && (
-        <div className="otp-dialog">
-          <div className="otp-dialog-content">
+        <div className="forgot-password-dialog">
+          <div className="forgot-password-dialog-content">
             <h3>Enter OTP</h3>
             <input
               type="text"

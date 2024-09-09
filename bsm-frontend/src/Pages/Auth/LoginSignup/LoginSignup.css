@@ -353,13 +353,13 @@ font-size: 14px;
   margin-right: 10px;
   border: none;
   border-radius: 4px;
-  background: #007bff;
+  background: #4a1f77;
   color: #fff;
   cursor: pointer;
 }
 
 .forgot-password-dialog-content button:hover {
-  background: #0056b3;
+  background: #4a1f77;
 }
 
 /* RESPONSIVE */
