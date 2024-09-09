@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Axios from '../../../Service/Axios';
 import Spinner from 'react-bootstrap/Spinner';
 import ProductCard from '../../../Components/Books/ProductCard';
 import { Col, Container, Row } from 'react-bootstrap';
+import { UserContext } from '../../../App';
 
 const Search = () => {
   const currentPageUrl = window.location.href;
   localStorage.setItem('currentPageUrl', currentPageUrl);
 
+  const { user } = useContext(UserContext)
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +26,7 @@ const Search = () => {
     setLoading(true);
     setError(null);
 
-    Axios.get('/api/v1/book/search', {
+    Axios.get(`/api/v1/book/${user.role}/search`, {
       params: { query, category, minPrice, maxPrice }
     })
     .then(response => {

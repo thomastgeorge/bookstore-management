@@ -200,8 +200,8 @@ const LoginSignup = () => {
               <div className="login-signup-input-group">
                 <i className='bx bxs-user'></i>
                 <input type="text" name="username" placeholder="Username" value={formData.username} required
-                  pattern="[A-Za-z0-9]{5,}"
-                  title="Username must be at least 5 characters long and contain only letters and digits." onChange={handleInputChange} />
+                  pattern="[A-Za-z0-9 ]{3,}"
+                  title="Username must be at least 3 characters long and contain only letters, space and digits." onChange={handleInputChange} />
                 {/* {errors.username && <span className="error-message">{errors.username}</span>} */}
               </div>
               <div className="login-signup-input-group">

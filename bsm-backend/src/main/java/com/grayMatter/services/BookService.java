@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grayMatter.dao.BookDao;
+import com.grayMatter.dao.UserDao;
 import com.grayMatter.dto.BookDto;
 import com.grayMatter.dto.BookMapper;
 import com.grayMatter.entities.Book;
+import com.grayMatter.entities.User;
 
 @Service
 public class BookService implements BookServiceInterface {
@@ -20,6 +22,9 @@ public class BookService implements BookServiceInterface {
 
 	@Autowired
 	private BookMapper bookMapper;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public BookDto createBook(BookDto bookDto, long categoryId) {
@@ -66,12 +71,19 @@ public class BookService implements BookServiceInterface {
 	}
 
 	@Override
-	public List<BookDto> searchBook(String query, Long category, Double minPrice, Double maxPrice) {
+	public List<BookDto> searchBook(String query, Long category, Double minPrice, Double maxPrice, String userRole) {
 		List<Book> bookList = bookDao.searchBook(query, category, minPrice, maxPrice);
-		return bookList.stream()
-				.filter(Book::getAvailable)
+		if(userRole.equals("ADMIN")) {
+			return bookList.stream()
                 .map(bookMapper::mapToBookDto)
                 .collect(Collectors.toList());
+		} else {
+			return bookList.stream()
+					.filter(Book::getAvailable)
+	                .map(bookMapper::mapToBookDto)
+	                .collect(Collectors.toList());
+			
+		}
 	}
 	
 	@Override

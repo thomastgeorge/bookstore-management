@@ -16,7 +16,6 @@ Axios.interceptors.request.use((config) => {
 
   // Disable Authorization header for login and signup requests
   if (token) {
-    console.log(token)
     config.headers.Authorization = `Bearer ${token}`; // Add Authorization header for other requests
   }
 

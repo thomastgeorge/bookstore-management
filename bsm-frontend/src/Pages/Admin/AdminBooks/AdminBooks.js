@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from '../../../Service/Axios';
-
+import { UserContext } from '../../../App.js'
 
 const BookManagement = () => {
+  const { user } = useContext(UserContext)
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editBook, setEditBook] = useState(null);
-  const [ category, setCategory] = useState(null)
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
     title: '',
     author: '',
@@ -17,14 +18,16 @@ const BookManagement = () => {
     lastUpdatedDate: '',
     avgRating: '',
     cover: '',
-    available: true,
+    available: 'true', // Changed from boolean to string for dropdown
     category: '',
   });
   const [isEditMode, setIsEditMode] = useState(false);
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchBooks();
+    fetchCategories();
   }, []);
 
   const fetchBooks = async () => {
@@ -39,41 +42,95 @@ const BookManagement = () => {
     }
   };
 
-  const searchBook = async (e) => {
-    e.preventDefault()
-    setIsLoading(true);
-
-      axios.get('/api/v1/book/search', {
-        params: { query }
-      })
-      .then(response => {
-        console.log(response)
-        setBooks(response.data)
-      })
-      .catch(err => {
-        console.error('Error fetching books:', err);
-      })
-      .finally(err =>{
-        setIsLoading(false);
-      });
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('/api/v1/category');
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
+  };
 
-
+  const searchBook = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`/api/v1/book/${user.role}/search`, {
+        params: { query },
+      });
+      setBooks(response.data);
+    } catch (err) {
+      console.error('Error searching books:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prevForm => ({
+    setForm((prevForm) => ({
       ...prevForm,
-      [name]: value
+      [name]: value,
     }));
+    
+    // Clear errors related to the changed field
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Cover URL validation
+    if (form.cover && !/\.(jpg|png|jpeg)$/i.test(form.cover)) {
+      newErrors.cover = 'Cover URL must end with .jpg, .png, or .jpeg';
+    }
+
+    // Price validation
+    if (!form.price || form.price <= 0) {
+      newErrors.price = 'Price must be a positive number';
+    }
+
+    // Published Date validation
+    const today = new Date().toISOString().split('T')[0];
+    if (form.publishedDate && new Date(form.publishedDate) > new Date(today)) {
+      newErrors.publishedDate = 'Published Date cannot be in the future';
+    }
+
+    // Last Updated Date validation
+    if (form.lastUpdatedDate) {
+      const publishedDate = new Date(form.publishedDate);
+      const lastUpdatedDate = new Date(form.lastUpdatedDate);
+
+      if (lastUpdatedDate > new Date(today)) {
+        newErrors.lastUpdatedDate = 'Last Updated Date cannot be in the future';
+      }
+
+      if (publishedDate && lastUpdatedDate < publishedDate) {
+        newErrors.lastUpdatedDate = 'Last Updated Date must be after Published Date';
+      }
+    }
+
+    // Set errors if any
+    setErrors(newErrors);
+
+    // Return true if no errors, false otherwise
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form
+    if (!validateForm()) {
+      return;
+    }
+
     const method = isEditMode ? 'put' : 'post';
-    const currentCategory = form.category;
-    setCategory(currentCategory);
-    const url = isEditMode ? `/api/v1/book/update/${editBook.bookId}/${category}` : `/api/v1/book/create/${form.category}`;
+    const url = isEditMode ? `/api/v1/book/update/${editBook.bookId}/${form.category}` : `/api/v1/book/create/${form.category}`;
+    
     try {
       const updatedForm = { ...form, category: null };
       await axios({
@@ -101,8 +158,8 @@ const BookManagement = () => {
       lastUpdatedDate: book.lastUpdatedDate,
       avgRating: book.avgRating,
       cover: book.cover,
-      available: book.available,
-      category: book.category.categoryId, // Assuming category is an object with an id field
+      available: book.available ? 'true' : 'false', // Convert boolean to string
+      category: book.category.categoryId,
     });
     setIsEditMode(true);
   };
@@ -132,16 +189,24 @@ const BookManagement = () => {
       lastUpdatedDate: '',
       avgRating: '',
       cover: '',
-      available: true,
+      available: 'true', // Reset to default 'true'
       category: '',
     });
     setEditBook(null);
+    setErrors({});
+  };
+
+  // Helper function to get min date based on the form state
+  const getMinDate = () => {
+    if (form.publishedDate) {
+      return form.publishedDate;
+    }
+    return '1900-01-01'; // Default minimum date
   };
 
   return (
     <main className="relative">
-     
-      <section className="xl:padding-l wide:padding-r padding-b">
+      <section>
         <div className="container mt-8 mx-auto px-4 dark:bg-slate-800">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-4xl font-medium font-lora dark:text-white">
@@ -156,7 +221,7 @@ const BookManagement = () => {
               </h3>
               <form onSubmit={handleSubmit}>
                 <div className="grid gap-4 mb-4">
-                {Object.entries({
+                  {Object.entries({
                     title: 'Title',
                     author: 'Author',
                     description: 'Description',
@@ -166,25 +231,71 @@ const BookManagement = () => {
                     lastUpdatedDate: 'Last Updated Date',
                     avgRating: 'Average Rating',
                     cover: 'Cover URL',
-                    available: 'Available',
-                    category: 'Category ID',
-                    }).map(([key, label]) => (
+                  }).map(([key, label]) => (
                     <div key={key}>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         {label}
-                        </label>
-                        <input
-                        type={key === 'price' || key === 'avgRating' ? 'number' : key === 'publishedDate' || key === 'lastUpdatedDate' ? 'date' : key === 'category' ? 'number' : 'text' }
-                        name={key}
-                        placeholder={label}
-                        value={form[key] || ''}
-                        onChange={handleChange}
-                        className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
-                        required={key === 'title' || key === 'price' || key === 'category'}
+                      </label>
+                      {key === 'description' ? (
+                        <textarea
+                          name={key}
+                          placeholder={label}
+                          value={form[key] || ''}
+                          onChange={handleChange}
+                          rows="5"
+                          className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
                         />
+                      ) : (
+                        <input
+                          type={key === 'price' || key === 'avgRating' ? 'number' : key === 'publishedDate' || key === 'lastUpdatedDate' ? 'date' : 'text'}
+                          name={key}
+                          placeholder={label}
+                          value={form[key] || ''}
+                          onChange={handleChange}
+                          min={key === 'publishedDate' || key === 'lastUpdatedDate' ? getMinDate() : undefined}
+                          max={key === 'publishedDate' || key === 'lastUpdatedDate' ? new Date().toISOString().split('T')[0] : undefined}
+                          disabled={key === 'lastUpdatedDate' && !form.publishedDate}
+                          className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                          required={key === 'title' || key === 'price'}
+                        />
+                      )}
+                      {errors[key] && <p className="text-red-500 text-sm">{errors[key]}</p>}
                     </div>
-                    ))}
-
+                  ))}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Category
+                    </label>
+                    <select
+                      name="category"
+                      value={form.category || ''}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                      required
+                    >
+                      <option value="" disabled>Select a category</option>
+                      {categories.map((cat) => (
+                        <option key={cat.categoryId} value={cat.categoryId}>
+                          {cat.categoryName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Available
+                    </label>
+                    <select
+                      name="available"
+                      value={form.available || 'true'}
+                      onChange={handleChange}
+                      className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                      required
+                    >
+                      <option value="true">Available</option>
+                      <option value="false">Not Available</option>
+                    </select>
+                  </div>
                 </div>
                 <button
                   type="submit"
@@ -217,10 +328,10 @@ const BookManagement = () => {
                 />
               </form>
               {isLoading ? (
-                  <p>Loading...</p>
-                ) : books.length === 0 ? (
-                  <p>No books found. Try a different search.</p>
-                ) : (
+                <p>Loading...</p>
+              ) : books.length === 0 ? (
+                <p>No books found. Try a different search.</p>
+              ) : (
                 <ul>
                   {books.map((book) => (
                     <li key={book.bookId} className="mb-4 border-b border-gray-200 dark:border-gray-600 pb-4">

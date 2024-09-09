@@ -170,13 +170,6 @@ const SingleBook = () => {
               </button>
               <button
                 type="button"
-                className="flex items-center space-x-1 mb-2 text-white p-2 rounded bg-black"
-              >
-                <FaHandHoldingUsd />
-                <span>BUY NOW</span>
-              </button>
-              <button
-                type="button"
                 className="flex items-center space-x-1 mb-2 bg-blue-700 text-white p-2 rounded"
                 onClick={() => document.getElementById('review-section').scrollIntoView({ behavior: 'smooth' })}
               >

@@ -71,13 +71,14 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/{userRole}/search")
     public ResponseEntity<List<BookDto>> searchBook(
+    		@PathVariable String userRole,
             @RequestParam(required = false) String query,
             @RequestParam(required = false) Long category,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice) throws NoContentFoundException {
-        List<BookDto> books = bookService.searchBook(query, category, minPrice, maxPrice);
+        List<BookDto> books = bookService.searchBook(query, category, minPrice, maxPrice, userRole);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 

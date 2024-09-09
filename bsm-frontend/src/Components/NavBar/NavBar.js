@@ -33,8 +33,8 @@ const NavBar = () => {
   };
 
   return (
-    <div >
-      <Navbar bg="light" expand="md" className="py-2">
+    <div>
+      <Navbar bg="light" expand="md" className="py-2"  >
         <div className="container-fluid mx-3">
           {/* Logo */}
           <Navbar.Brand

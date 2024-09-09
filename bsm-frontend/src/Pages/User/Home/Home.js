@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Row, Col, Button, Card, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -195,9 +195,9 @@ const Home = () => {
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '350px' }}>
                   <Spinner animation="border" />
                 </div>
-              ) : errorNA ? (
+              ) : errorBS ? (
                 <div className="text-center text-danger">
-                  <p>Error loading Best Sellings: {errorNA}</p>
+                  <p>Error loading Best Sellings: {errorBS}</p>
                 </div>
               ) : (
                 <Slider ref={bestSellingRef} {...settings}>

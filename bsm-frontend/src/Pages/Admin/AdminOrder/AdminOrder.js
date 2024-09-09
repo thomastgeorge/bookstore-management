@@ -89,12 +89,12 @@ const OrderManagement = () => {
                         <p>Payment Method: {order.paymentMethod}</p>
                       </div>
                       <div className="flex space-x-2">
-                        <button
+                        {/* <button
                           onClick={() => handleDelete(order.orderId)}
                           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
                         >
                           Delete
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </li>

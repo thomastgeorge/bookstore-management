@@ -18,7 +18,7 @@ public interface BookServiceInterface {
 
     List<BookDto> listBooksByCategory(String category);
 
-    List<BookDto> searchBook(String query, Long category, Double minPrice, Double maxPrice);
+    List<BookDto> searchBook(String query, Long category, Double minPrice, Double maxPrice, String userRole);
 
     List<BookDto> newArrivals(int limit);
 
@@ -27,5 +27,5 @@ public interface BookServiceInterface {
     long getTotalBooks();
 
 	List<BookDto> getTopSellingBooks(int limit);
-
+	
 }

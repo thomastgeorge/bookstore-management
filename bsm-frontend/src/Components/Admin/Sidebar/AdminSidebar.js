@@ -47,14 +47,14 @@ const AdminSidebar = () => {
         >
           Orders
         </Nav.Link>
-        {/* <Nav.Link 
+        <Nav.Link 
           as={Link} 
           to="/admin/reviews" 
           className="btn btn-dark rounded-pill py-2 px-3 mb-2 text-center text-decoration-none text-white"
           style={{ backgroundColor: 'black', borderColor: 'black' }}
         >
           Reviews
-        </Nav.Link> */}
+        </Nav.Link>
       </Nav>
     </div>
   );

@@ -42,7 +42,7 @@ const Footer = () => {
           </Col>
 
           {/* Customer Service Section */}
-          <Col md={4} className='mt-4'>
+          <Col md={4} className='mt-4' onClick={() => nav('/contact')}>
             <h5 className="font-weight-bold">CUSTOMER SERVICE</h5>
             <p className="mb-1 mt-3">+91 12345-67890</p>
             <p className="mb-1">Bl. No 9, Bellandur</p>
