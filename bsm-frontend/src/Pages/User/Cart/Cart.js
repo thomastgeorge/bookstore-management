@@ -20,6 +20,10 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
 import { UserContext } from '../../../App';
+import emailjs from '@emailjs/browser';
+
+const PUBLIC_KEY = 'zgVYVTJWKV1hRD6pk';
+emailjs.init(PUBLIC_KEY);
 
 // Inline CSS
 const styles = {
@@ -196,6 +200,25 @@ const Cart = () => {
     }, [cartItems, shippingCost]);
 
     const handleOrderClick = async () => {
+
+    // Ensure user object and email are available
+    if (!user || !user.user.email) {
+      console.error('User email is not available');
+      return;
+  }
+
+  const templateParameters = {
+      from_name: "Libreria",
+      message: "Thank you for shopping with us.",
+      reply_to: user.user.email
+  };
+
+  emailjs.send('service_6sfv418', 'template_zmm264b', templateParameters)
+      .then((response) => {
+          console.log('Email sent successfully:', response);
+      }, (err) => {
+          console.error('Error sending email:', err);
+      });
         if (selectedAddress && selectedPaymentMethod) {
             if (selectedPaymentMethod === 'cod' || 
                 (selectedPaymentMethod === 'upi' && upiId) || 
@@ -548,17 +571,17 @@ const Cart = () => {
             }}
             >
                 Go to Cart
-            </Button>
-            <Button
+              </Button>
+              <Button
                 variant="contained"
                 onClick={handleOrderClick}
                 style={{
-                    backgroundColor: '#007bff', // Blue color
-                    color: 'white',
+                  backgroundColor: '#007bff', // Blue color
+                  color: 'white',
                 }}
-            >
+              >
                 Place Order
-            </Button>
+              </Button>
 
         {showSuccess && (
             <Alert variant="success" className="mt-3">

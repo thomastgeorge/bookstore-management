@@ -106,7 +106,7 @@ const LoginSignup = () => {
       const templateParams = {
         from_name: "Libreria",
         OTP: otp,
-        message: "Hi",
+        message: "Use the OTP to verify your email address.",
         reply_to: email,
       };
 
@@ -144,11 +144,11 @@ const LoginSignup = () => {
 
     // Send OTP email
     const serviceID = "service_6sfv418";
-    const templateID = "template_j8sxit5";
+    const templateID = "template_xr5glab";
     const templateParams = {
       from_name: "Libreria",
       OTP: otp,
-      message: "Hi",
+      message: "Use the OTP given to reset password.",
       reply_to: forgotPasswordEmail,
     };
 
