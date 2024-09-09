@@ -132,7 +132,7 @@ const SingleBook = () => {
           <div className="flex-grow">
             <h2 className="text-2xl font-semibold">{book.title}</h2>
             <h2 className="text-sm font-hidden">{book.author}</h2>
-            {book.avgRating && <RatingStar rating={book.avgRating} />}
+            {book.avgRating && <RatingStar rating={parseFloat(book.avgRating.toFixed(1))} />}
             
             <table className>
               <tbody>
