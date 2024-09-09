@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Axios from '../../../Service/Axios'
+import Axios from '../../../Service/Axios';
 import { Button, Container, Row, Col, Form, ListGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Rating from '@mui/material/Rating';  // Import Rating component
 
 const Review = () => {
   const [reviews, setReviews] = useState([]);
@@ -64,6 +65,10 @@ const Review = () => {
     navigate(`/book/${bookId}`);
   };
 
+  const handleRatingChange = (event, newRating) => {
+    setEditReview({ ...editReview, rating: newRating });
+  };
+
   return (
     <Container className="mt-4">
       <Row className="mb-3">
@@ -74,51 +79,51 @@ const Review = () => {
 
       {reviews.length === 0 ? (
         <Row>
-          <Col  className='d-flex my-5 justify-content-between align-items-center'>
+          <Col className='d-flex my-5 justify-content-between align-items-center'>
             <p>You have not reviewed any books.</p>
           </Col>
         </Row>
       ) : (
-      <Row>
-        <Col>
-          <ListGroup>
-            {reviews.map((review) => (
-              <ListGroup.Item key={review.reviewId} className="d-flex justify-content-between align-items-center">
-                <div className="d-flex align-items-center">
-                  <img
-                    src={review.book.cover}
-                    alt={review.book.title}
-                    style={{ width: '50px', height: '75px', marginRight: '1rem', cursor: 'pointer' }}
-                    onClick={() => handleViewBook(review.book.bookId)}
-                  />
-                  <div>
-                    <div><strong>Book:</strong> {review.book.title}</div>
-                    <div><strong>Headline:</strong> {review.headLine}</div>
-                    <div><strong>Comment:</strong> {review.comment}</div>
-                    <div><strong>Rating:</strong> {review.rating}</div>
-                    <div><strong>Reviewed On:</strong> {review.reviewedOn}</div>
+        <Row>
+          <Col>
+            <ListGroup>
+              {reviews.map((review) => (
+                <ListGroup.Item key={review.reviewId} className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={review.book.cover}
+                      alt={review.book.title}
+                      style={{ width: '50px', height: '75px', marginRight: '1rem', cursor: 'pointer' }}
+                      onClick={() => handleViewBook(review.book.bookId)}
+                    />
+                    <div>
+                      <div><strong>Book:</strong> {review.book.title}</div>
+                      <div><strong>Headline:</strong> {review.headLine}</div>
+                      <div><strong>Comment:</strong> {review.comment}</div>
+                      <div><strong>Rating:</strong> {review.rating && <Rating name="read-only" value={review.rating} readOnly />}</div>
+                      <div><strong>Reviewed On:</strong> {review.reviewedOn}</div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <Button
-                    variant="warning"
-                    className="me-2"
-                    onClick={() => setEditReview(review)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDeleteReview(review.reviewId)}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </Col>
-      </Row>
+                  <div>
+                    <Button
+                      variant="warning"
+                      className="me-2"
+                      onClick={() => setEditReview(review)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDeleteReview(review.reviewId)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Col>
+        </Row>
       )}
 
       {editReview && (
@@ -150,6 +155,15 @@ const Review = () => {
                 <Form.Control.Feedback type="invalid">
                   {errorMessages.comment}
                 </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group controlId="formEditRating">
+                <Form.Label>Rating</Form.Label>
+                <Rating
+                  name="edit-review-rating"
+                  value={editReview.rating || 0}
+                  onChange={handleRatingChange}
+                  size="large"
+                />
               </Form.Group>
               <Button variant="primary" onClick={handleEditReview}>
                 Update Review

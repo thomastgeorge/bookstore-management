@@ -156,7 +156,7 @@ const LoginSignup = () => {
     emailjs.send(serviceID, templateID, templateParams)
       .then((response) => {
         console.log('OTP sent successfully', response);
-        // forgotPasswordOtp
+        
         setShowForgotPasswordDialog(false); // Show dialog to enter OTP and new password
         setShowResetPasswordDialog(true);
       })
@@ -326,7 +326,7 @@ const LoginSignup = () => {
           <div className="forgot-password-dialog-content">
             <h3>Reset Password</h3>
             <input
-              type="text"
+              type="email"
               value={forgotPasswordEmail}
               onChange={(e) => setForgotPasswordEmail(e.target.value)}
               placeholder="Enter your email"
@@ -346,19 +346,21 @@ const LoginSignup = () => {
               type="text"
               value={forgotPasswordOtp}
               onChange={(e) => setForgotPasswordOtp(e.target.value)}
-              placeholder="Enter OTP"
+              placeholder="Enter OTP" 
             />
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="New Password"
+              placeholder="New Password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
+                  title="Password must be at least 8 characters long and contain a mix of uppercase, lowercase letters, and numbers."
             />
             <input
               type="password"
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
-              placeholder="Confirm New Password"
+              placeholder="Confirm New Password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"
+              title="Password must be at least 8 characters long and contain a mix of uppercase, lowercase letters, and numbers."
             />
             <button onClick={handleResetPasswordSubmit}>Reset Password</button>
             <button onClick={() => {

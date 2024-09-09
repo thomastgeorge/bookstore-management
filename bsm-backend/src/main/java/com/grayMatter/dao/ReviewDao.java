@@ -40,7 +40,9 @@ public class ReviewDao {
 		review.setReviewedOn(Date.valueOf(localDate));
 		review.setBook(book);
         review.setCustomer(customer);
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        updateBookRating(bookId);
+        return savedReview;
         }
 
 
@@ -53,17 +55,45 @@ public class ReviewDao {
 
 
 	public Review updateReview(Review review) {
-		return reviewRepository.save(review);
+		Review updatedReview = reviewRepository.save(review);
+		updateBookRating(updatedReview.getBook().getBookId()); 
+		return updatedReview;
 	}
 
 
 	public void delete(long reviewId) {
-		reviewRepository.deleteById(reviewId);
+		Review review = reviewRepository.findById(reviewId).orElse(null);
+		if (review != null) {
+			long bookId = review.getBook().getBookId();
+			reviewRepository.deleteById(reviewId);
+			updateBookRating(bookId); 
+		}
 	}
 
 
 	public List<Review> getReviewByCustomerIdAdmin(long customerId) {
 		return reviewRepository.findByCustomerCustomerId(customerId);
 	}
+	
+	private void updateBookRating(long bookId) {
+		List<Review> reviews = reviewRepository.findByBookBookId(bookId);
+		if (reviews.isEmpty()) {
+			return; 
+		}
 
+		float totalRating = 0;
+		for (Review review : reviews) {
+			totalRating += review.getRating();
+			
+		}
+		System.out.println(totalRating);
+		System.out.println(reviews.size());
+		float averageRating = totalRating / reviews.size();
+
+		Book book = bookRepository.findById(bookId).orElse(null);
+		if (book != null) {
+			book.setAvgRating(averageRating);
+			bookRepository.save(book);
+		}
+	}
 }
