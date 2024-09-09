@@ -1,0 +1,121 @@
+2024-09-09 07:44:09,328 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} Starting BsmBackendApplication using Java 22.0.1 with PID 4960 (C:\Users\Admin\bookstore-management\bsm-backend\target\classes started by Admin in C:\Users\Admin\bookstore-management\bsm-backend)
+2024-09-09 07:44:09,329 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} No active profile set, falling back to 1 default profile: "default"
+2024-09-09 07:44:09,987 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate {restartedMain} Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-09 07:44:10,027 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate {restartedMain} Finished Spring Data repository scanning in 39 ms. Found 9 JPA repository interfaces.
+2024-09-09 07:44:10,390 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer {restartedMain} Tomcat initialized with port 8083 (http)
+2024-09-09 07:44:10,394 [INFO] org.apache.catalina.core.StandardService {restartedMain} Starting service [Tomcat]
+2024-09-09 07:44:10,394 [INFO] org.apache.catalina.core.StandardEngine {restartedMain} Starting Servlet engine: [Apache Tomcat/10.1.26]
+2024-09-09 07:44:10,412 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat-31].[localhost].[/] {restartedMain} Initializing Spring embedded WebApplicationContext
+2024-09-09 07:44:10,412 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext {restartedMain} Root WebApplicationContext: initialization completed in 1075 ms
+2024-09-09 07:44:10,619 [INFO] org.hibernate.jpa.internal.util.LogHelper {restartedMain} HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-09 07:44:10,623 [INFO] org.hibernate.cache.internal.RegionFactoryInitiator {restartedMain} HHH000026: Second-level cache disabled
+2024-09-09 07:44:10,638 [INFO] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo {restartedMain} No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-09 07:44:10,641 [INFO] com.zaxxer.hikari.HikariDataSource {restartedMain} HikariPool-245 - Starting...
+2024-09-09 07:44:10,656 [INFO] com.zaxxer.hikari.pool.HikariPool {restartedMain} HikariPool-245 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1fbff6dc
+2024-09-09 07:44:10,656 [INFO] com.zaxxer.hikari.HikariDataSource {restartedMain} HikariPool-245 - Start completed.
+2024-09-09 07:44:11,011 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator {restartedMain} HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-09 07:44:11,194 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean {restartedMain} Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-09 07:44:11,467 [INFO] org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer {restartedMain} Global AuthenticationManager configured with AuthenticationProvider bean with name getAuthenticationProvider
+2024-09-09 07:44:11,467 [WARN] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer {restartedMain} Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-09-09 07:44:11,713 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration {restartedMain} spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-09 07:44:12,103 [INFO] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver {restartedMain} Exposing 1 endpoint beneath base path '/actuator'
+2024-09-09 07:44:12,537 [INFO] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer {restartedMain} LiveReload server is running on port 35729
+2024-09-09 07:44:12,568 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer {restartedMain} Tomcat started on port 8083 (http) with context path '/'
+2024-09-09 07:44:12,577 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} Started BsmBackendApplication in 3.361 seconds (process running for 112189.982)
+2024-09-09 07:44:12,586 [INFO] org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener {restartedMain} Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   LogFileWebEndpointAutoConfiguration#logFileWebEndpoint matched:
+      - Log File found logging.file.name =applog.log (LogFileWebEndpointAutoConfiguration.LogFileCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.boot.actuate.logging.LogFileWebEndpoint; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2024-09-09 07:46:58,521 [INFO] org.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener {File Watcher} Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-09-09 07:46:58,536 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean {Thread-956} Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-09 07:46:58,539 [INFO] com.zaxxer.hikari.HikariDataSource {Thread-956} HikariPool-245 - Shutdown initiated...
+2024-09-09 07:46:58,551 [INFO] com.zaxxer.hikari.HikariDataSource {Thread-956} HikariPool-245 - Shutdown completed.
+2024-09-09 07:46:58,691 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} Starting BsmBackendApplication using Java 22.0.1 with PID 4960 (C:\Users\Admin\bookstore-management\bsm-backend\target\classes started by Admin in C:\Users\Admin\bookstore-management\bsm-backend)
+2024-09-09 07:46:58,692 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} No active profile set, falling back to 1 default profile: "default"
+2024-09-09 07:46:59,090 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate {restartedMain} Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-09 07:46:59,127 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate {restartedMain} Finished Spring Data repository scanning in 37 ms. Found 9 JPA repository interfaces.
+2024-09-09 07:46:59,342 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer {restartedMain} Tomcat initialized with port 8083 (http)
+2024-09-09 07:46:59,345 [INFO] org.apache.catalina.core.StandardService {restartedMain} Starting service [Tomcat]
+2024-09-09 07:46:59,348 [INFO] org.apache.catalina.core.StandardEngine {restartedMain} Starting Servlet engine: [Apache Tomcat/10.1.26]
+2024-09-09 07:46:59,364 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat-31].[localhost].[/] {restartedMain} Initializing Spring embedded WebApplicationContext
+2024-09-09 07:46:59,364 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext {restartedMain} Root WebApplicationContext: initialization completed in 669 ms
+2024-09-09 07:46:59,547 [INFO] org.hibernate.jpa.internal.util.LogHelper {restartedMain} HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-09 07:46:59,552 [INFO] org.hibernate.cache.internal.RegionFactoryInitiator {restartedMain} HHH000026: Second-level cache disabled
+2024-09-09 07:46:59,565 [INFO] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo {restartedMain} No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-09 07:46:59,566 [INFO] com.zaxxer.hikari.HikariDataSource {restartedMain} HikariPool-246 - Starting...
+2024-09-09 07:46:59,598 [INFO] com.zaxxer.hikari.pool.HikariPool {restartedMain} HikariPool-246 - Added connection com.mysql.cj.jdbc.ConnectionImpl@785782b7
+2024-09-09 07:46:59,598 [INFO] com.zaxxer.hikari.HikariDataSource {restartedMain} HikariPool-246 - Start completed.
+2024-09-09 07:46:59,867 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator {restartedMain} HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-09 07:46:59,996 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean {restartedMain} Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-09 07:47:00,275 [INFO] org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer {restartedMain} Global AuthenticationManager configured with AuthenticationProvider bean with name getAuthenticationProvider
+2024-09-09 07:47:00,276 [WARN] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer {restartedMain} Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-09-09 07:47:00,529 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration {restartedMain} spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-09 07:47:00,859 [INFO] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver {restartedMain} Exposing 1 endpoint beneath base path '/actuator'
+2024-09-09 07:47:01,235 [INFO] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer {restartedMain} LiveReload server is running on port 35729
+2024-09-09 07:47:01,272 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer {restartedMain} Tomcat started on port 8083 (http) with context path '/'
+2024-09-09 07:47:01,292 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} Started BsmBackendApplication in 2.641 seconds (process running for 112358.699)
+2024-09-09 07:47:01,299 [INFO] org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener {restartedMain} Condition evaluation unchanged
+2024-09-09 07:47:39,235 [INFO] org.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener {File Watcher} Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-09-09 07:47:39,296 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean {Thread-960} Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-09 07:47:39,297 [INFO] com.zaxxer.hikari.HikariDataSource {Thread-960} HikariPool-246 - Shutdown initiated...
+2024-09-09 07:47:39,305 [INFO] com.zaxxer.hikari.HikariDataSource {Thread-960} HikariPool-246 - Shutdown completed.
+2024-09-09 07:47:39,414 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} Starting BsmBackendApplication using Java 22.0.1 with PID 4960 (C:\Users\Admin\bookstore-management\bsm-backend\target\classes started by Admin in C:\Users\Admin\bookstore-management\bsm-backend)
+2024-09-09 07:47:39,415 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} No active profile set, falling back to 1 default profile: "default"
+2024-09-09 07:47:39,737 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate {restartedMain} Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-09 07:47:39,768 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate {restartedMain} Finished Spring Data repository scanning in 30 ms. Found 9 JPA repository interfaces.
+2024-09-09 07:47:39,980 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer {restartedMain} Tomcat initialized with port 8083 (http)
+2024-09-09 07:47:39,981 [INFO] org.apache.catalina.core.StandardService {restartedMain} Starting service [Tomcat]
+2024-09-09 07:47:39,981 [INFO] org.apache.catalina.core.StandardEngine {restartedMain} Starting Servlet engine: [Apache Tomcat/10.1.26]
+2024-09-09 07:47:39,994 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat-31].[localhost].[/] {restartedMain} Initializing Spring embedded WebApplicationContext
+2024-09-09 07:47:39,994 [INFO] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext {restartedMain} Root WebApplicationContext: initialization completed in 577 ms
+2024-09-09 07:47:40,177 [INFO] org.hibernate.jpa.internal.util.LogHelper {restartedMain} HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-09 07:47:40,180 [INFO] org.hibernate.cache.internal.RegionFactoryInitiator {restartedMain} HHH000026: Second-level cache disabled
+2024-09-09 07:47:40,191 [INFO] org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo {restartedMain} No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-09 07:47:40,192 [INFO] com.zaxxer.hikari.HikariDataSource {restartedMain} HikariPool-247 - Starting...
+2024-09-09 07:47:40,208 [INFO] com.zaxxer.hikari.pool.HikariPool {restartedMain} HikariPool-247 - Added connection com.mysql.cj.jdbc.ConnectionImpl@24f5e80f
+2024-09-09 07:47:40,209 [INFO] com.zaxxer.hikari.HikariDataSource {restartedMain} HikariPool-247 - Start completed.
+2024-09-09 07:47:40,420 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator {restartedMain} HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-09 07:47:40,520 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean {restartedMain} Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-09 07:47:40,705 [INFO] org.springframework.security.config.annotation.authentication.configuration.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer {restartedMain} Global AuthenticationManager configured with AuthenticationProvider bean with name getAuthenticationProvider
+2024-09-09 07:47:40,705 [WARN] org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer {restartedMain} Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2024-09-09 07:47:40,913 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration {restartedMain} spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-09 07:47:41,186 [INFO] org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver {restartedMain} Exposing 1 endpoint beneath base path '/actuator'
+2024-09-09 07:47:41,478 [INFO] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer {restartedMain} LiveReload server is running on port 35729
+2024-09-09 07:47:41,502 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer {restartedMain} Tomcat started on port 8083 (http) with context path '/'
+2024-09-09 07:47:41,509 [INFO] com.grayMatter.BsmBackendApplication {restartedMain} Started BsmBackendApplication in 2.118 seconds (process running for 112398.916)
+2024-09-09 07:47:41,513 [INFO] org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener {restartedMain} Condition evaluation unchanged
+2024-09-09 07:48:35,499 [INFO] org.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener {File Watcher} Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-09-09 07:48:35,508 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean {Thread-964} Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-09 07:48:35,509 [INFO] com.zaxxer.hikari.HikariDataSource {Thread-964} HikariPool-247 - Shutdown initiated...
+2024-09-09 07:48:35,515 [INFO] com.zaxxer.hikari.HikariDataSource {Thread-964} HikariPool-247 - Shutdown completed.
