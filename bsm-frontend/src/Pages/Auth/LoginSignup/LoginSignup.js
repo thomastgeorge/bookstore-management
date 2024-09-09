@@ -82,6 +82,7 @@ const LoginSignup = () => {
         }
       } catch (error) {
         console.error('There was an error!', error);
+        alert("Invalid Credentials")
       }
     } else {
       // Sign up logic
