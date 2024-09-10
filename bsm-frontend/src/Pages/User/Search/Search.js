@@ -26,7 +26,7 @@ const Search = () => {
     setLoading(true);
     setError(null);
 
-    Axios.get(`/api/v1/book/${user.role}/search`, {
+    Axios.get(`/api/v1/book/USER/search`, {
       params: { query, category, minPrice, maxPrice }
     })
     .then(response => {

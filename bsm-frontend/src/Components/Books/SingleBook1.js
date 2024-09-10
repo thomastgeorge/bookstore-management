@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaHandHoldingUsd, FaRegUser ,FaCheck  } from "react-icons/fa";
@@ -10,8 +10,13 @@ import Rating from '@mui/material/Rating';
 import { TextareaAutosize } from '@mui/material';
 import { ToastContainer, toast,Slide } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for Toastify
+import { UserContext } from "../../App";
 
 const SingleBook = () => {
+  const currentPageUrl = window.location.href;
+  localStorage.setItem('currentPageUrl', currentPageUrl);
+  
+  const { user } = useContext(UserContext)
   const { bookID } = useParams();
   const [book, setBook] = useState(null);
   const [sCategory, setScategory] = useState(null);
@@ -159,6 +164,10 @@ const SingleBook = () => {
               <h2 className="font-semibold text-2xl">ABOUT</h2>
               <p className="leading-5">{book.description}</p>
             </div>
+            <div>
+              <h2 className="font-semibold text-2xl">Policy</h2>
+              <p>We do not offer returns or replacements on this product.</p>
+            </div>
             <div className="flex flex-wrap items-center mt-4 mb-2 space-x-2">
               <button
                 type="button"
@@ -188,6 +197,7 @@ const SingleBook = () => {
         <section id="review-section" className="mt-8">
           <h2 className="text-3xl font-bold dark:text-white">Reviews</h2>
           <div className="mt-4">
+            { user ? (
             <div className="mb-4">
               <h3 className="text-xl font-semibold dark:text-white">Write a Review</h3>
               <div className="mt-2">
@@ -225,6 +235,7 @@ const SingleBook = () => {
                 </button>
               </div>
             </div>
+            ) : null }
             {reviews.map(review => (
               <div key={review.reviewId} style={{ marginBottom: '1rem' }}>
                 {/* First Row: User icon and customer name */}

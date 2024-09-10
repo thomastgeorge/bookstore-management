@@ -10,7 +10,6 @@ const Profile = () => {
   const [editingField, setEditingField] = useState('');
   const [formData, setFormData] = useState({ ...user });
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
-  const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -71,52 +70,20 @@ const Profile = () => {
     }
   };
 
-  const handleUpdateField = async () => {
+  const handleUpdateProfile = async () => {
     try {
-      let apiUrl = '';
-      const updateData = {};
-      switch (editingField) {
-        case 'name':
-          apiUrl = `api/v1/customer/${user.customerId}`;
-          updateData.name = formData.name;
-          break;
-        case 'email':
-          if (!/\S+@\S+\.\S+/.test(formData.user.email)) {
-            setEmailError('Invalid email format');
-            return;
-          }
-          setEmailError('');
-          apiUrl = `api/v1/user/${user.user.userId}`;
-          updateData.email = formData.user.email;
-          break;
-        case 'mobile':
-          apiUrl = `api/v1/customer/${user.customerId}`;
-          updateData.mobile = formData.mobile;
-          break;
-        default:
-          return;
-      }
+      await Axios.patch(`api/v1/customer/${user.customerId}`, {
+        name: formData.name,
+        mobile: formData.mobile
+      });
 
-      if (apiUrl) {
-        await Axios.patch(apiUrl, updateData);
-       
-        if (editingField === 'email') {
-            setUpdateError('Email updated successfully. You will be logged out.');
-            setTimeout(() => {
-              localStorage.clear();
-              navigate('/login')
-            }, 4000); // Delay for showing the alert
-          } else {
-            setSuccessMessage(`${editingField.charAt(0).toUpperCase() + editingField.slice(1)} updated successfully`);
-            setTimeout(() => setSuccessMessage(''), 5000);
-            setEditingField('');
-            setEditingField('');
-            fetchUserData();
-          }
-      }
+      setSuccessMessage('Profile updated successfully');
+      setTimeout(() => setSuccessMessage(''), 5000);
+      setEditingField('');
+      fetchUserData();
     } catch (error) {
       console.error('Error updating profile:', error);
-      setUpdateError('An error occurred while updating. Please try again.');
+      setUpdateError('An error occurred while updating the profile. Please try again.');
     }
   };
 
@@ -155,21 +122,10 @@ const Profile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    if (editingField === 'email') {
-      setFormData(prevState => ({
-        ...prevState,
-        user: {
-          ...prevState.user,
-          [name]: value
-        }
-      }));
-    } else {
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
-    }
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
   
   const handlePasswordChange = (e) => {
@@ -190,25 +146,25 @@ const Profile = () => {
       {successMessage && <Alert variant="success" className="small-success mt-3">{successMessage}</Alert>}
       {editingField === '' ? (
         <div>
-          <h2>Profile</h2>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <h2>Profile</h2>
+            <Button variant="link" onClick={() => handleEditClick('profile')} className="ms-2">Edit Profile</Button>
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1rem', marginTop: '30px' }}>
             <div>
               <strong>Name:</strong> {user.name}
-              <Button variant="link" onClick={() => handleEditClick('name')} className="ms-2">Edit</Button>
             </div>
             <div>
               <strong>Email:</strong> {user.user.email}
-              <Button variant="link" onClick={() => handleEditClick('email')} className="ms-2">Edit</Button>
             </div>
             <div>
               <strong>Mobile:</strong> {user.mobile}
-              <Button variant="link" onClick={() => handleEditClick('mobile')} className="ms-2">Edit</Button>
             </div>
             <div>
               <strong>Password:</strong> Password is hidden
               <Button variant="link" onClick={() => setEditingField('password')} className="ms-2">Update Password</Button>
             </div>
-            <Button variant="danger" onClick={() => setShowDeleteModal(true)} className="mt-3">Delete Account</Button>
+            {/* <Button variant="danger" onClick={() => setShowDeleteModal(true)} className="mt-3">Delete Account</Button> */}
           </div>
         </div>
       ) : editingField === 'password' ? (
@@ -251,49 +207,29 @@ const Profile = () => {
         </div>
       ) : (
         <div>
-          <h2>Edit {editingField.charAt(0).toUpperCase() + editingField.slice(1)}</h2>
+          <h2>Edit Profile</h2>
           <Form.Group className="mb-3">
-            {editingField === 'name' && (
-              <>
-                <Form.Label>Name:</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="small-input"
-                />
-              </>
-            )}
-            {editingField === 'email' && (
-              <>
-                <Form.Label>Email:</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={formData.user.email}
-                  onChange={handleChange}
-                  isInvalid={!!emailError}
-                  className="small-input"
-                />
-                <Form.Control.Feedback type="invalid">{emailError}</Form.Control.Feedback>
-              </>
-            )}
-            {editingField === 'mobile' && (
-              <>
-                <Form.Label>Mobile:</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="mobile"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  className="small-input"
-                />
-              </>
-            )}
+            <Form.Label>Name:</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="small-input"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Mobile:</Form.Label>
+            <Form.Control
+              type="text"
+              name="mobile"
+              value={formData.mobile}
+              onChange={handleChange}
+              className="small-input"
+            />
           </Form.Group>
           <Button variant="secondary" onClick={handleCancel} className="me-2">Cancel</Button>
-          <Button variant="primary" onClick={handleUpdateField}>Update</Button>
+          <Button variant="primary" onClick={handleUpdateProfile}>Update</Button>
           {updateError && <Alert variant="danger" className="small-error mt-3">{updateError}</Alert>}
         </div>
       )}
