@@ -40,7 +40,7 @@ public class SecurityConfig{
         .requestMatchers("/api/v1/book/top-rated/**").permitAll()
         .requestMatchers("/api/v1/book/best-selling/**").permitAll()
         .requestMatchers("/api/v1/user/updatePasswordLogin/**").permitAll()
-        .requestMatchers("/api/v1/book/**").hasAnyRole("USER", "ADMIN")
+        .requestMatchers("/api/v1/book/**").permitAll()
         .requestMatchers("/api/v1/order/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers("/api/v1/review/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers("/api/v1/address/**").hasAnyRole("USER", "ADMIN")

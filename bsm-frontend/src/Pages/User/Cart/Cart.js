@@ -464,7 +464,7 @@ const Cart = () => {
                     ))}
                 </Form.Group>
                 ) : (
-                <p>Loading addresses...</p>
+                <p>No Address found</p>
                 )}
             </Form>
             </Col>

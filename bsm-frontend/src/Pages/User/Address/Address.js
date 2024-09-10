@@ -113,7 +113,7 @@ const Address = () => {
                 <div>
                   <div><strong>Address:</strong> {address.address}</div>
                   <div><strong>City:</strong> {address.city}</div>
-                  <div><strong>Country:</strong> {address.country}</div>
+                  <div><strong>State, Country:</strong> {address.country}</div>
                   <div><strong>Pincode:</strong> {address.pincode}</div>
                 </div>
                 <div>
@@ -172,7 +172,7 @@ const Address = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group controlId="formCountry">
-                  <Form.Label>Country</Form.Label>
+                  <Form.Label>State, Country</Form.Label>
                   <Form.Control
                     type="text"
                     isInvalid={!!errorMessages.country}
