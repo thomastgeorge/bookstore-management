@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from '../../../Service/Axios';
 import { UserContext } from '../../../App.js'
+import Button from '../../../Components/Atoms/Button.js'
+import Text from '../../../Components/Atoms/Text.js'
 
 const BookManagement = () => {
   const { user } = useContext(UserContext)
@@ -242,8 +244,8 @@ const BookManagement = () => {
                           placeholder={label}
                           value={form[key] || ''}
                           onChange={handleChange}
-                          rows="5"
-                          className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                          rows="3"
+                          className="p-2 mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
                         />
                       ) : (
                         <input
@@ -255,7 +257,7 @@ const BookManagement = () => {
                           min={key === 'publishedDate' || key === 'lastUpdatedDate' ? getMinDate() : undefined}
                           max={key === 'publishedDate' || key === 'lastUpdatedDate' ? new Date().toISOString().split('T')[0] : undefined}
                           disabled={key === 'lastUpdatedDate' && !form.publishedDate}
-                          className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                          className="p-2 mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
                           required={key === 'title' || key === 'price'}
                         />
                       )}
@@ -270,7 +272,7 @@ const BookManagement = () => {
                       name="category"
                       value={form.category || ''}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                      className="p-2 mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
                       required
                     >
                       <option value="" disabled>Select a category</option>
@@ -282,14 +284,14 @@ const BookManagement = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="p-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Available
                     </label>
                     <select
                       name="available"
                       value={form.available || 'true'}
                       onChange={handleChange}
-                      className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
+                      className="p-2 mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-slate-600 dark:text-white"
                       required
                     >
                       <option value="true">Available</option>
@@ -297,20 +299,55 @@ const BookManagement = () => {
                     </select>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                <Button
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1D4ED8'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#3B82F6'}
+                  style={{
+                    backgroundColor: "#3B82F6",
+                    borderRadius: "8px",
+                    height: '35px',
+                    width: '100px',
+                    marginLeft: '4px',
+                  }}
                 >
-                  {isEditMode ? 'Update Book' : 'Add Book'}
-                </button>
-                {isEditMode && (
-                  <button
-                    type="button"
-                    onClick={handleBack}
-                    className="ml-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
+                  <Text
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "5px",
+                      color: 'white',
+                    }}
                   >
-                    Back
-                  </button>
+                    {isEditMode ? 'Update Book' : 'Add Book'}
+                  </Text>
+                </Button>
+
+                {isEditMode && (
+                  <Button 
+                    onClick={handleBack}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#374151'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#6B7280'}
+                    style={{
+                      backgroundColor: "#6B7280",
+                      borderRadius: "8px",
+                      height: '35px',
+                      width: '75px',
+                      marginLeft: '4px',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding:"5px",
+                        color: 'white',
+                      }}
+                    >
+                      Back
+                    </Text>
+                  </Button>
                 )}
               </form>
             </div>
@@ -341,18 +378,52 @@ const BookManagement = () => {
                           <p>{book.author} - ₹{book.price}</p>
                         </div>
                         <div className="flex space-x-2">
-                          <button
+                          <Button 
                             onClick={() => handleEdit(book)}
-                            className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-700"
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F59E0B'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FBBF24'}
+                            style={{
+                              backgroundColor: "#FBBF24",
+                              borderRadius: "8px",
+                              height: '35px',
+                              width: '55px',
+                          }}
                           >
-                            Edit
-                          </button>
-                          <button
+                            <Text
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                padding:"5px",
+                                color: 'white',
+                              }}
+                            >
+                              Edit
+                            </Text>
+                          </Button>
+                          <Button 
                             onClick={() => handleDelete(book.bookId)}
-                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#B91C1C'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#DC2626'}
+                            style={{
+                              backgroundColor: "#DC2626",
+                              borderRadius: "8px",
+                              height: '35px',
+                              width: '75px',
+                          }}
                           >
-                            Delete
-                          </button>
+                            <Text
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                padding:"5px",
+                                color: 'white',
+                              }}
+                            >
+                              Delete
+                            </Text>
+                          </Button>
                         </div>
                       </div>
                     </li>

@@ -186,60 +186,62 @@ const Home = () => {
           </Col>
         </Row>
 
-        <Row className='my-4'>
-          <Col xs={12} className='d-flex justify-content-between align-items-center'>
-            <h3>Best Selling Books</h3>
-          </Col>
-          <Col xs={12} style={{ position: 'relative' }}>
-            {loadingBS ? (
-                <div className="d-flex justify-content-center align-items-center" style={{ height: '350px' }}>
-                  <Spinner animation="border" />
-                </div>
-              ) : errorBS ? (
-                <div className="text-center text-danger">
-                  <p>Error loading Best Sellings: {errorBS}</p>
-                </div>
-              ) : (
-                <Slider ref={bestSellingRef} {...settings}>
-                  {bestSelling.map((book) => (
-                    <Col key={book.pid} xs={12} sm={6} md={4} lg={3} className="mb-1">
-                    <ProductCard book={book} />
-                  </Col>
-                  ))}
-                </Slider>
-              )}
-            <button
-              onClick={() => handlePrevClick(bestSellingRef)}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: 0,
-                transform: 'translateY(-50%)',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                zIndex: 2,
-              }}
-            >
-              <FaChevronLeft size={30} />
-            </button>
-            <button
-              onClick={() => handleNextClick(bestSellingRef)}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                right: 0,
-                transform: 'translateY(-50%)',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                zIndex: 2,
-              }}
-            >
-              <FaChevronRight size={30} />
-            </button>
-          </Col>
-        </Row>
+        {bestSelling.length>0 ?
+          <Row className='my-4'>
+            <Col xs={12} className='d-flex justify-content-between align-items-center'>
+              <h3>Best Selling Books</h3>
+            </Col>
+            <Col xs={12} style={{ position: 'relative' }}>
+              {loadingBS ? (
+                  <div className="d-flex justify-content-center align-items-center" style={{ height: '350px' }}>
+                    <Spinner animation="border" />
+                  </div>
+                ) : errorBS ? (
+                  <div className="text-center text-danger">
+                    <p>Error loading Best Sellings: {errorBS}</p>
+                  </div>
+                ) : (
+                  <Slider ref={bestSellingRef} {...settings}>
+                    {bestSelling.map((book) => (
+                      <Col key={book.pid} xs={12} sm={6} md={4} lg={3} className="mb-1">
+                      <ProductCard book={book} />
+                    </Col>
+                    ))}
+                  </Slider>
+                )}
+              <button
+                onClick={() => handlePrevClick(bestSellingRef)}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: 0,
+                  transform: 'translateY(-50%)',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  zIndex: 2,
+                }}
+              >
+                <FaChevronLeft size={30} />
+              </button>
+              <button
+                onClick={() => handleNextClick(bestSellingRef)}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: 0,
+                  transform: 'translateY(-50%)',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  zIndex: 2,
+                }}
+              >
+                <FaChevronRight size={30} />
+              </button>
+            </Col>
+          </Row>
+        : null}
 
         <Row className='my-4'>
           <Col xs={12} className='d-flex justify-content-between align-items-center'>

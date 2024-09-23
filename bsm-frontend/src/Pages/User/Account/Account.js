@@ -3,7 +3,64 @@ import { UserContext } from '../../../App';
 import { useNavigate } from 'react-router-dom';
 import InitialsAvatar from 'react-initials-avatar';
 import 'react-initials-avatar/lib/ReactInitialsAvatar.css';
-import { FaShoppingCart, FaBoxOpen, FaUser, FaStar, FaAddressCard, FaPhone } from 'react-icons/fa';
+import {
+    FaShoppingCart,
+    FaBoxOpen,
+    FaUser,
+    FaStar,
+    FaAddressCard,
+    FaPhone 
+} from 'react-icons/fa';
+import { 
+    PageWrapper,
+    HeaderWrapper,
+    AvatarWrapper,
+    AllCardWrapper,
+    CardWrapper,
+    CardBodyWrapper,
+    TextWrapper
+} from './AccountStyle.js'
+import Text from '../../../Components/Atoms/Text.js';
+import Button from '../../../Components/Atoms/Button.js';
+
+const cardData = [
+    {
+        title: 'My Cart',
+        subtitle: 'View Cart',
+        icon: <FaShoppingCart size={24} className="mr-3" />,
+        path: '/account/cart'
+    },
+    {
+        title: 'My Orders',
+        subtitle: 'View Orders',
+        icon: <FaBoxOpen size={24} className="mr-3" />,
+        path: '/account/orders'
+    },
+    {
+        title: 'My Profile',
+        subtitle: 'Edit Profile',
+        icon: <FaUser size={24} className="mr-3" />,
+        path: '/account/profile'
+    },
+    {
+        title: 'My Reviews',
+        subtitle: 'Edit Reviews',
+        icon: <FaStar size={24} className="mr-3" />,
+        path: '/account/reviews'
+    },
+    {
+        title: 'My Address',
+        subtitle: 'Edit Address',
+        icon: <FaAddressCard size={24} className="mr-3" />,
+        path: '/account/address'
+    },
+    {
+        title: 'Contact Us',
+        subtitle: 'Contact Info',
+        icon: <FaPhone size={24} className="mr-3" />,
+        path: '/contact'
+    }
+];
 
 const Account = () => {
     const currentPageUrl = window.location.href;
@@ -12,96 +69,74 @@ const Account = () => {
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
-    // Redirect to login if user is not logged in
     const handleCardClick = (path) => {
         if (!user) {
-            navigate('/login'); // Redirect to login page
+            navigate('/login');
         } else {
-            navigate(path); // Redirect to the respective page
+            navigate(path);
         }
     };
 
     return (
-        <div className="container mt-5">
-            <div className="d-flex align-items-center mb-4 mx-4">
-                <div className="mr-5">
+        <PageWrapper>
+            <HeaderWrapper >
+                <AvatarWrapper>
                     {user ? <InitialsAvatar name={user.name} /> : <InitialsAvatar name="User" />}
-                </div>
-                <div style={{ marginLeft: '1rem' }}>
-                    <h2 className="font-weight-bold" style={{ fontSize: '2rem' }}>
+                </AvatarWrapper>
+                    <Text
+                        style={{
+                            paddingTop: '5px',
+                            fontWeight: "bold",
+                            fontSize: "2rem"
+                        }}
+                    >
                         {user ? `Hello ${user.name},` : ' User'}
-                    </h2>
-                </div>
-            </div>
-            <div className="row mt-5 justify-content-center" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <div className="col-md-4 mb-4">
-                    <div className="card" onClick={() => handleCardClick('/account/cart')}>
-                        <div className="card-body d-flex align-items-center">
-                            <FaShoppingCart size={24} className="mr-3" />
-                            <div className="mx-4">
-                                <h5 className="mb-1">My Cart</h5>
-                                <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>View Cart</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                    <div className="card" onClick={() => handleCardClick('/account/orders')}>
-                        <div className="card-body d-flex align-items-center">
-                            <FaBoxOpen size={24} className="mr-3" />
-                            <div className="mx-4">
-                                <h5 className="mb-1">My Orders</h5>
-                                <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>View Orders</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                    <div className="card" onClick={() => handleCardClick('/account/profile')}>
-                        <div className="card-body d-flex align-items-center">
-                            <FaUser size={24} className="mr-3" />
-                            <div className="mx-4">
-                                <h5 className="mb-1">My Profile</h5>
-                                <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>Edit Profile</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                    <div className="card" onClick={() => handleCardClick('/account/reviews')}>
-                        <div className="card-body d-flex align-items-center">
-                            <FaStar size={24} className="mr-3" />
-                            <div className="mx-4">
-                                <h5 className="mb-1">My Reviews</h5>
-                                <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>Edit Reviews</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                    <div className="card" onClick={() => handleCardClick('/account/address')}>
-                        <div className="card-body d-flex align-items-center">
-                            <FaAddressCard size={24} className="mr-3" />
-                            <div className="mx-4">
-                                <h5 className="mb-1">My Address</h5>
-                                <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>Edit Address</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                    <div className="card" onClick={() => handleCardClick('/contact')}>
-                        <div className="card-body d-flex align-items-center">
-                            <FaPhone size={24} className="mr-3" />
-                            <div className="mx-4">
-                                <h5 className="mb-1">Contact Us</h5>
-                                <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>Contact Info</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </Text>
+            </HeaderWrapper>
+            <AllCardWrapper>
+            {cardData.map((card, index) => (
+                <CardWrapper key={index}>
+                    <Button
+                        style={{
+                            borderRadius: "8px",
+                            height: '5rem',
+                            width: '100%',
+                            padding: '11px',
+                            border: '1px solid #ccc',
+                            backgroundColor: '#fff',
+                            margin: '10px',
+                            textAlign: 'left',
+                        }}
+                        onClick={() => handleCardClick(card.path)}
+                    >
+                        <CardBodyWrapper>
+                            {card.icon}
+                            <TextWrapper>
+                                <Text
+                                    style={{
+                                        margin: '0 4px 0 20px',
+                                        fontWeight: "bold",
+                                        fontSize: "1.2rem",
+                                    }}
+                                >
+                                    {card.title}
+                                </Text>
+                                <Text
+                                    style={{
+                                        color: '#6c757d',
+                                        margin: '0 4px 0 20px',
+                                        fontSize: '1rem',
+                                    }}
+                                >
+                                    {card.subtitle}
+                                </Text>
+                            </TextWrapper>
+                        </CardBodyWrapper>
+                    </Button>
+                </CardWrapper>
+            ))}
+            </AllCardWrapper>
+        </PageWrapper>
     );
 };
 
