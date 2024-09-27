@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../../../App';
 import { useNavigate } from 'react-router-dom';
-import InitialsAvatar from 'react-initials-avatar';
 import 'react-initials-avatar/lib/ReactInitialsAvatar.css';
 import {
     FaShoppingCart,
@@ -22,6 +21,7 @@ import {
 } from './AccountStyle.js'
 import Text from '../../../Components/Atoms/Text.js';
 import Button from '../../../Components/Atoms/Button.js';
+import InitialsAvatar from '../../../Containers/InitialsAvatar/InitialsAvatar.js'
 
 const cardData = [
     {
@@ -83,15 +83,15 @@ const Account = () => {
                 <AvatarWrapper>
                     {user ? <InitialsAvatar name={user.name} /> : <InitialsAvatar name="User" />}
                 </AvatarWrapper>
-                    <Text
-                        style={{
-                            paddingTop: '5px',
-                            fontWeight: "bold",
-                            fontSize: "2rem"
-                        }}
-                    >
-                        {user ? `Hello ${user.name},` : ' User'}
-                    </Text>
+                <Text
+                    style={{
+                        fontWeight: "bold",
+                        fontSize: '3.2vw',
+                        margin: '1px'
+                    }}
+                >
+                    {user ? `Hello ${user.name},` : ' User'}
+                </Text>
             </HeaderWrapper>
             <AllCardWrapper>
             {cardData.map((card, index) => (

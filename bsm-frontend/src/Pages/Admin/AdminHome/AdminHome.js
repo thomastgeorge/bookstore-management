@@ -26,7 +26,10 @@ const AdminHome = () => {
         const todaysOrders = todaysOrderResponse.data;
 
         const todaysRevenueResponse = await Axios.get('/api/v1/order/todays/revenue');
-        const todaysRevenue = todaysRevenueResponse.data;
+        let todaysRevenue = todaysRevenueResponse.data;
+        if (todaysRevenue===""){
+          todaysRevenue=0
+        }
 
         const totalRevenueResponse = await Axios.get('/api/v1/order/total/revenue');
         const totalRevenue = totalRevenueResponse.data;

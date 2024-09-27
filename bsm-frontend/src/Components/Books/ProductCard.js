@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import './ProductCard.css'; // Import the CSS file
 import RatingStar from './RatingStar';
 import { useNavigate } from 'react-router-dom';
-import Axios from '../../Service/Axios';
 import { ToastContainer, toast,Slide } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../App';
+import config from '../../Util/config';
+import callAPI from '../../Util/callApi';
 
 const ProductCard = ({ book }) => {
   const { user } = useContext(UserContext)
@@ -24,7 +25,9 @@ const ProductCard = ({ book }) => {
     }
     try {
       const cartDto = { quantity: 1 }; // Example data
-      await Axios.post(`/api/v1/cart/create/${book.bookId}`, cartDto);
+      let url = config.api.cart.create
+        .replace("{{bookId}}", book.bookId);
+      await callAPI.post(url, cartDto)
       toast.success('Book added to cart!');
     } catch (error) {
       console.error('Error adding book to cart:', error);

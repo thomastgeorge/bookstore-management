@@ -5,8 +5,10 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Import icons
-import Axios from '../../../Service/Axios'
 import ProductCard from '../../../Components/Books/ProductCard';
+import callAPI from '../../../Util/callApi';
+import config from  '../../../Util/config';
+
 
 const settings = {
   dots: false,
@@ -57,7 +59,8 @@ const Home = () => {
   useEffect(() => {
     const fetchNewArrivals = async () => {
       try {
-        const response = await Axios.get('api/v1/book/new-arrivals/8');
+        let url = config.api.book.newArrivals;
+        let response = await callAPI.get(url);
         setNewArrivals(response.data);
         setLoadingNA(false);
       } catch (err) {
@@ -72,7 +75,8 @@ const Home = () => {
   useEffect(() => {
     const fetchTopRated = async () =>{
       try {
-        const response = await Axios.get('api/v1/book/top-rated/8');
+        let url = config.api.book.topRated;
+        let response = await callAPI.get(url);
         setTopRated(response.data);
         setLoadingTR(false);
       } catch (err) {
@@ -88,7 +92,8 @@ const Home = () => {
     const fetchBestSelling = async () =>{
       try {
         // by-default limit is 8 to change sent limit as request param
-        const response = await Axios.get('api/v1/book/best-selling');
+        let url = config.api.book.bestSelling;
+        let response = await callAPI.get(url);
         setBestSelling(response.data);
         setLoadingBS(false);
       } catch (err) {

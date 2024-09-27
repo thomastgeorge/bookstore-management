@@ -119,14 +119,15 @@ public class OrderService implements OrderServiceInterface {
 	}
 
 	@Override
-	public double getTodaysRevenue() {
+	public Double getTodaysRevenue() {
 		return orderDao.getTodaysRevenue();
 	}
-	 public List<OrdersDto> searchOrders(Long orderId, String param) {
-	        List<Orders> listOrders = orderDao.searchOrders(orderId, param);
-	        return listOrders.stream()
-	                .map(ordersMapper::mapToOrdersDto)
-	                .collect(Collectors.toList());
-	    }
+
+	public List<OrdersDto> searchOrders(Long orderId, String param) {
+		List<Orders> listOrders = orderDao.searchOrders(orderId, param);
+		return listOrders.stream()
+						.map(ordersMapper::mapToOrdersDto)
+						.collect(Collectors.toList());
+	}
 
 }

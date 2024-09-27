@@ -34,8 +34,8 @@ public class CartServices implements CartServicesInterface {
 	@Override
 	public List<CartDto> getByCustomer(){
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserPrincipal userPrincipal = (UserPrincipal) userDetails;
-        Long userId = userPrincipal.getUserId();
+    UserPrincipal userPrincipal = (UserPrincipal) userDetails;
+    Long userId = userPrincipal.getUserId();
 		List<Cart> cartList = cartDao.getByCustomerId(userId);
 		return cartList.stream()
 				 .map(cartMapper::mapToCartDto)

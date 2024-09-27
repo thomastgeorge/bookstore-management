@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App.js'
 import { Navbar, Nav, Button, Form } from 'react-bootstrap';
 import { FaSearch, FaShoppingCart, FaRegUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import config from '../../Util/config.js';
+import callAPI from '../../Util/callApi.js';
 
 const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const nav = useNavigate();
   const { user, setUser } = useContext(UserContext)
-  console.log(user);
+  const [ recommendation, setRecommendation] = useState([])
+  //console.log(user);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -28,13 +31,48 @@ const NavBar = () => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();  // Prevent form submission
+      setRecommendation([]);
       handleSearch();
     }
   };
 
+  useEffect(() =>{
+    let timer = setTimeout(() => {
+      const fetchSuggestions = async () => {
+      if (searchQuery.length >= 3) {       
+          try {
+            let url = config.api.book.search
+              .replace("{{role}}", "USER");
+            let params= { query:searchQuery };
+            let response = await callAPI.get(url, params)
+            
+            setRecommendation(response.data);
+          } catch (error) {
+          console.error('Error fetching recommendation:', error);
+          }
+      } else {
+          setRecommendation([]);
+      }
+      };
+  
+      fetchSuggestions();
+  }, 800);
+
+  return () => clearTimeout(timer);
+  }, [searchQuery])
+
+  const handleClick = (bookId) => {
+    setRecommendation([]);
+    nav(`/book/${bookId}`);
+  };
+
+  const handleNavbarClick = () => {
+    setRecommendation([]);
+  };
+
   return (
     <div>
-      <Navbar bg="light" expand="md" className="py-2"  >
+      <Navbar bg="light" expand="md" className="py-2" onClick={handleNavbarClick}>
         <div className="container-fluid mx-3">
           {/* Logo */}
           <Navbar.Brand
@@ -56,37 +94,46 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
           {/* Collapsible Content */}
-          <Navbar.Collapse id="basic-navbar-nav" className="w-100">
-            <div className="d-flex flex-column flex-md-row align-items-center justify-content-between w-100">
+          <Navbar.Collapse id="basic-navbar-nav" >
+            <div className="d-flex flex-md-row align-items-center justify-content-between w-100">
               {/* Centered Search Bar */}
-
-              <div className="d-flex flex-grow-1 justify-content-center align-items-center">
-                <div className="d-flex align-items-center" style={{ maxWidth: '100%' }}>
-                {  user === null || user.role !== "ADMIN" ? (
-                  <Form
-                    className="d-flex align-items-center flex-grow-1"
-                    style={{ maxWidth: '500px', width: '100%' }}
-                    onKeyDown={handleKeyDown}  // Add keydown event listener
-                  >
-                    <Form.Control
-                      type="text"
-                      placeholder="Search"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="rounded-0 me-2"
-                    />
-                    <Button
-                      variant="outline-secondary"
-                      className="rounded-0"
-                      onClick={handleSearch}
-                      aria-label="Search"
-                      style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}
+              <div className="flex-grow-1 d-flex justify-content-center align-items-center">
+                <div className="d-flex align-items-center w-100" style={{ maxWidth: '400px' }}>
+                  {user === null || user.role !== "ADMIN" ? (
+                    <Form
+                      className="d-flex align-items-center w-100"
+                      onKeyDown={handleKeyDown}
                     >
-                      <FaSearch />
-                    </Button>
-                  </Form>
-                ) : null
-              }
+                      <Form.Control
+                        type="text"
+                        placeholder="Search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="rounded-0 me-2"
+                      />
+                       <ul id="autocompleteList" className="list-group position-absolute top-100 w-100 shadow-sm overflow-auto" style={{ zIndex: 999 }}>
+                                {recommendation && recommendation.map((recommend) => (
+                                <li
+                                    key={recommend.bookId}
+                                    className="list-group-item w-80"
+                                    onClick={(e) => handleClick(recommend.bookId)}
+                                    style={{ fontSize: '13px', cursor: 'pointer'}}
+                                >
+                                    {recommend.title}
+                                </li>
+                                ))}
+                            </ul>
+                      <Button
+                        variant="outline-secondary"
+                        className="rounded-0"
+                        onClick={handleSearch}
+                        aria-label="Search"
+                        style={{ borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }}
+                      >
+                        <FaSearch />
+                      </Button>
+                    </Form>
+                  ) : null}
                 </div>
               </div>
               {/* Right side (User Icons and Login Button) */}

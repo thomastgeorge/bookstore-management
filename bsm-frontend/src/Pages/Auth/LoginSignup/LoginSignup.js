@@ -66,7 +66,7 @@ const LoginSignup = () => {
         const response = await Axios.post('/api/v1/auth/login', { email, password });
         localStorage.setItem('token', response.data.token);
         if (response.data.user.role === "USER") {
-          const userResponse = await Axios.get(`api/v1/customer/userId/${response.data.user.userId}`);
+          const userResponse = await Axios.get(`/api/v1/customer/userId/${response.data.user.userId}`);
           const modifiedData = {
             ...userResponse.data,
             role: response.data.user.role

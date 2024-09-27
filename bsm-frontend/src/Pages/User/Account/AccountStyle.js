@@ -20,7 +20,6 @@ export const AvatarWrapper = styled.div`
 export const AllCardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   justify-content: center;
   margin-top: 5px;
   max-width: 800px;
@@ -32,8 +31,7 @@ export const AllCardWrapper = styled.div`
 
 export const CardWrapper = styled.div`
   margin-bottom: 1rem;
-  flex: 1
-  max-width: 30%;
+  width: 30%;
   min-width: 230px;
   display: flex;
 `;

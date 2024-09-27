@@ -41,7 +41,7 @@ public class OrderDao {
                 .sum();
 	}
 
-	public double getTodaysRevenue() {
+	public Double getTodaysRevenue() {
 		return ordersRepository.findTodaysRevenue(new Date(System.currentTimeMillis()));
 	}
 

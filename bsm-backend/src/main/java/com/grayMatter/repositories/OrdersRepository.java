@@ -14,7 +14,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 	List<Orders> findByCustomerCustomerId(long customerId);
 
 	@Query("SELECT SUM(o.totalTotal) FROM Orders o WHERE o.orderDate = ?1")
-	double findTodaysRevenue(Date date);
+	Double findTodaysRevenue(Date date);
 
 	@Query("SELECT COUNT(o.id) FROM Orders o WHERE o.orderDate = ?1")
 	long countTodaysOrders(Date date);

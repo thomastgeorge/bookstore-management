@@ -18,6 +18,6 @@ public interface OrderServiceInterface {
     
     double getTotalRevenue();
     
-    double getTodaysRevenue();
+    Double getTodaysRevenue();
     
 }

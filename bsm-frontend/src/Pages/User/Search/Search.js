@@ -5,6 +5,8 @@ import Spinner from 'react-bootstrap/Spinner';
 import ProductCard from '../../../Components/Books/ProductCard';
 import { Col, Container, Row } from 'react-bootstrap';
 import { UserContext } from '../../../App';
+import config from '../../../Util/config';
+import callAPI from '../../../Util/callApi';
 
 const Search = () => {
   const currentPageUrl = window.location.href;
@@ -22,22 +24,26 @@ const Search = () => {
   const minPrice = queryParams.get('minPrice') || null;
   const maxPrice = queryParams.get('maxPrice') || null;
 
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
+  useEffect (() => {
+    const searchBook = async() => {
+      try{
+        setLoading(true);
+        setError(null);
 
-    Axios.get(`/api/v1/book/USER/search`, {
-      params: { query, category, minPrice, maxPrice }
-    })
-    .then(response => {
-      setSearchResults(Array.isArray(response.data) ? response.data : []);
-      setLoading(false);
-    })
-    .catch(err => {
-      setError('Error fetching search results. Please try again later.');
-      setLoading(false);
-    });
-  }, [location.search]);
+        let url = config.api.book.search
+          .replace("{{role}}", "USER");
+        let params= { query, category, minPrice, maxPrice};
+        let response = await callAPI.get(url, params);
+        
+        setSearchResults(Array.isArray(response.data) ? response.data : []);
+        setLoading(false);
+      } catch{
+        setError('Error fetching search results. Please try again later.');
+        setLoading(false);
+      }
+    }
+    searchBook();
+  }, [location.search])
 
   return (
     <div className="container mt-4" >

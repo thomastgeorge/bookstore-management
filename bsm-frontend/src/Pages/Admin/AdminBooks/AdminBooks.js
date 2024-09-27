@@ -3,6 +3,8 @@ import axios from '../../../Service/Axios';
 import { UserContext } from '../../../App.js'
 import Button from '../../../Components/Atoms/Button.js'
 import Text from '../../../Components/Atoms/Text.js'
+import config from '../../../Util/config.js';
+import callAPI from '../../../Util/callApi.js';
 
 const BookManagement = () => {
   const { user } = useContext(UserContext)
@@ -130,17 +132,19 @@ const BookManagement = () => {
       return;
     }
 
-    const method = isEditMode ? 'put' : 'post';
-    const url = isEditMode ? `/api/v1/book/update/${editBook.bookId}/${form.category}` : `/api/v1/book/create/${form.category}`;
-    
-    try {
-      const updatedForm = { ...form, category: null };
-      await axios({
-        method,
-        url,
-        headers: { 'Content-Type': 'application/json' },
-        data: updatedForm,
-      });
+    try { 
+      if(isEditMode){
+        let url = config.api.book.update
+          .replace("{{bookId}}", editBook.bookId)
+          .replace("{{category}}", form.category);
+        const body = { ...form, category: null };
+        await callAPI.put(url, body);
+      } else {
+        let url = config.api.book.create
+          .replace("{{category}}", form.category);
+        const body = { ...form, category: null };
+        await callAPI.post(url, body);
+      }
       fetchBooks();
       resetForm();
     } catch (error) {
@@ -168,7 +172,10 @@ const BookManagement = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/v1/book/delete/${id}`);
+      let url = config.api.book.delete
+        .replace("{{bookId}}", id);
+      await callAPI.delete(url);
+      // await axios.delete(`/api/v1/book/delete/${id}`);
       fetchBooks();
     } catch (error) {
       console.error('Error deleting book:', error);

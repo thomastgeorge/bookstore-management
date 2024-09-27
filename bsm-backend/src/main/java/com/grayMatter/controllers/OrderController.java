@@ -67,13 +67,13 @@ public class OrderController {
 
     @GetMapping("/total/revenue")
     public ResponseEntity<Double> getTotalRevenue() throws NoContentFoundException {
-        double totalRevenue = orderService.getTotalRevenue();
+        Double totalRevenue = orderService.getTotalRevenue();
         return new ResponseEntity<>(totalRevenue, HttpStatus.OK);
     }
 
     @GetMapping("/todays/revenue")
     public ResponseEntity<Double> getTodaysRevenue() throws NoContentFoundException {
-        double todaysRevenue = orderService.getTodaysRevenue();
+        Double todaysRevenue = orderService.getTodaysRevenue();
         return new ResponseEntity<>(todaysRevenue, HttpStatus.OK);
     }
     @GetMapping("/search")

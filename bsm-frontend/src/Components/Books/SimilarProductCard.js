@@ -15,7 +15,7 @@ const ProductCard = ({ book }) => {
       const handleAddToCart = async (event) => {
         event.stopPropagation();
         try {
-          const cartDto = { quantity: 1 }; // Example data
+          const cartDto = { quantity: 1 };
           await Axios.post(`/api/v1/cart/create/${book.bookId}`, cartDto);
           toast.success('Book added to cart!');
         } catch (error) {

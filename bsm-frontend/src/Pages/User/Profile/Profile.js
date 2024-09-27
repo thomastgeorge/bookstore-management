@@ -4,6 +4,8 @@ import { Button, Form, Container, Alert, Modal } from 'react-bootstrap';
 import Axios from '../../../Service/Axios';
 import './Profile.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
+import config from '../../../Util/config';
+import callAPI from '../../../Util/callApi';
 
 const Profile = () => {
   const { user, setUser } = useContext(UserContext);
@@ -72,10 +74,9 @@ const Profile = () => {
 
   const handleUpdateProfile = async () => {
     try {
-      await Axios.patch(`api/v1/customer/${user.customerId}`, {
-        name: formData.name,
-        mobile: formData.mobile
-      });
+      let url = config.api.customer.update
+        .replace("{{customerId}}", user.customerId);
+      await callAPI.patch(url, {name: formData.name, mobile: formData.mobile})
 
       setSuccessMessage('Profile updated successfully');
       setTimeout(() => setSuccessMessage(''), 5000);
@@ -103,10 +104,14 @@ const Profile = () => {
     setPasswordError('');
 
     try {
-      await Axios.patch(`api/v1/user/updatePassword/${user.user.userId}`, {
-        currentPassword: passwordData.currentPassword,
-        newPassword: passwordData.newPassword
-      });
+      let url = config.api.user.updatePassword
+        .replace("{{userrId}}", user.user.userId);
+      await callAPI.patch(url, 
+        {
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword
+        });
+      
       setSuccessMessage('Password updated successfully');
       setEditingField('');
       setUpdateError('');

@@ -183,11 +183,11 @@ const Cart = () => {
         };
     
         fetchAddresses();
-      }, [user.customerId]);
+    }, [user.customerId]);
     
-      const handlePaymentMethodChange = (e) => {
+    const handlePaymentMethodChange = (e) => {
         setSelectedPaymentMethod(e.target.value);
-      };
+    };
       
       useEffect(() => {
         const calculateTotalAndBookIds = () => {
